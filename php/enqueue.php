@@ -3,8 +3,8 @@ namespace SIM\LOCATIONS;
 use SIM;
 
 add_action( 'wp_enqueue_scripts', function(){
-    wp_register_style('sim_locations_style', plugins_url('css/locations.min.css', __DIR__), array(), MODULE_VERSION);
-    wp_register_style('sim_employee_style', plugins_url('css/employee.min.css', __DIR__), array(), MODULE_VERSION);
+    wp_register_style('sim_locations_style', SIM\pathToUrl(MODULE_PATH.'css/locations.min.css'), array(), MODULE_VERSION);
+    wp_register_style('sim_employee_style', SIM\pathToUrl(MODULE_PATH.'css/employee.min.css'), array(), MODULE_VERSION);
 
     // frontend content of profile page
 	$pages   = SIM\getModuleOption('frontendposting', 'front_end_post_pages');

@@ -12,7 +12,7 @@ add_action('sim-before-print-content', function($post, $pdf){
     //Address
     $location   = get_post_meta(get_the_ID(), 'location', true);
     if(is_array($location) && !empty($location['address'])){
-        $url = plugins_url('pictures/location.png', __DIR__);
+        $url = SIM\pathToUrl(MODULE_PATH.'pictures/location.png');
         $pdf->printImage($url, 10, -1, 10, 10);
         $pdf->write(10, $location['address']);
     }
@@ -21,13 +21,13 @@ add_action('sim-before-print-content', function($post, $pdf){
 
     if(!empty($tel)){
         // tel
-        $url = plugins_url('pictures/tel.png', __DIR__);
+        $url = SIM\pathToUrl(MODULE_PATH.'pictures/tel.png');
         $pdf->printImage($url, 100, -1, 10, 10);
         $pdf->write(10, $tel);
     }
     
     //Url
-    $imageUrl = plugins_url('pictures/url.png', __DIR__);
+    $imageUrl = SIM\pathToUrl(MODULE_PATH.'pictures/url.png');
     $y      = $pdf->getY()+12;
     $url    = get_post_meta(get_the_ID(), 'url', true);
     if(!empty($url)){

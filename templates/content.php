@@ -133,7 +133,7 @@ if(is_tax() || is_archive()){
 					);
 					
 					if(!empty($categories)){
-						$url	= plugins_url('pictures/category.png', __DIR__);
+						$url	= SIM\pathToUrl(MODULE_PATH.'pictures/category.png');
 						echo "<img src='$url' alt='category' loading='lazy' class='location_icon'>";
 						
 						//First loop over the cat to see if any parent cat needs to be removed
@@ -170,7 +170,7 @@ if(is_tax() || is_archive()){
 					<?php
 					$tel		= get_post_meta(get_the_ID(),'tel',true);
 					if(!empty($tel)){
-						$imageUrl = plugins_url('pictures/tel.png', __DIR__);
+						$imageUrl = SIM\pathToUrl(MODULE_PATH.'pictures/tel.png');
 						$icon = "<img src='$imageUrl' alt='telephone' loading='lazy' class='location_icon'>";
 						echo "<a href='tel:$tel'>$icon Call them  »</a>";
 					}
@@ -181,7 +181,7 @@ if(is_tax() || is_archive()){
 					<?php
 					$url		= get_post_meta(get_the_ID(), 'url', true);
 					if(!empty($url) && filter_var($url, FILTER_VALIDATE_URL) && $url != "https://www."){
-						$imageUrl 	= plugins_url('pictures/url.png', __DIR__);
+						$imageUrl 	= SIM\pathToUrl(MODULE_PATH.'pictures/url.png');
 						$icon 		= "<img src='$imageUrl' alt='location' loading='lazy' class='location_icon'>";
 						echo "<a href='$url'>$icon Visit website  »</a>";
 					}
@@ -191,7 +191,7 @@ if(is_tax() || is_archive()){
 				<?php
 				$location	= json_decode(get_post_meta(get_the_ID(), 'location', true));
 				if (!empty($location->latitude) && !empty($location->longitude)){
-					$url	= plugins_url('pictures/location.png', __DIR__);
+					$url	= SIM\pathToUrl(MODULE_PATH.'pictures/location.png');
 					echo "<a onclick='Main.getRoute(this, {$location->latitude},$location->longitude)' style='cursor: pointer;'>
 						<img src='$url' alt='category' loading='lazy' class='location_icon'> Get directions
 					</a>";

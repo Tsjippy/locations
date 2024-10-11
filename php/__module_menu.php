@@ -3,6 +3,9 @@ namespace SIM\LOCATIONS;
 use SIM;
 
 const MODULE_VERSION		= '8.0.0';
+
+DEFINE(__NAMESPACE__.'\MODULE_PATH', plugin_dir_path(__DIR__));
+
 //module slug is the same as grandparent folder name
 DEFINE(__NAMESPACE__.'\MODULE_SLUG', strtolower(basename(dirname(__DIR__))));
 
@@ -50,8 +53,8 @@ add_filter('sim_submenu_options', function($optionsHtml, $moduleSlug, $settings)
 	}
 
 	ob_start();
-	wp_enqueue_style('sim_locations_admin_style', plugins_url('css/admin.min.css', __DIR__), array(), MODULE_VERSION);
-	wp_enqueue_script('sim_locations_admin_script', plugins_url('js/locations_admin.min.js', __DIR__), array(), MODULE_VERSION, true);
+	wp_enqueue_style('sim_locations_admin_style', SIM\pathToUrl(MODULE_PATH.'css/admin.min.css'), array(), MODULE_VERSION);
+	wp_enqueue_script('sim_locations_admin_script', SIM\pathToUrl(MODULE_PATH.'js/locations_admin.min.js'), array(), MODULE_VERSION, true);
 
 	if(empty($settings['page-gallery-background-color'])){
 		$settings['page-gallery-background-color']	= '#FFFFFF';
