@@ -117,7 +117,7 @@ add_filter('sim_submenu_options', function($optionsHtml, $moduleSlug, $settings)
 					$url		= $icons[$settings[$iconName]]->path;
 
 					if(!str_contains($url, '://' )){
-						$url = plugins_url("ultimate-maps-by-supsystic/modules/icons/icons_files/def_icons/$url");
+						$url = SIM\pathToUrl(MODULE_PATH."ultimate-maps-by-supsystic/modules/icons/icons_files/def_icons/$url");
 					}
 					$img		= "<img src='$url' class='icon' data-id='{$settings[$iconName]}' loading='lazy'>";
 					$buttonText	= "Change";
