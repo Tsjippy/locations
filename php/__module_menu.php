@@ -50,8 +50,8 @@ add_filter('sim_submenu_options', function($optionsHtml, $moduleSlug, $settings)
 	}
 
 	ob_start();
-	wp_enqueue_style('sim_locations_admin_style', plugins_url('css/admin.min.css', __DIR__), array(), MODULE_VERSION);
-	wp_enqueue_script('sim_locations_admin_script', plugins_url('js/locations_admin.min.js', __DIR__), array(), MODULE_VERSION, true);
+	wp_enqueue_style('sim_locations_admin_style', SIM\pathToUrl(MODULE_PATH.'css/admin.min.css'), array(), MODULE_VERSION);
+	wp_enqueue_script('sim_locations_admin_script', SIM\pathToUrl(MODULE_PATH.'js/locations_admin.min.js'), array(), MODULE_VERSION, true);
 
 	if(empty($settings['page-gallery-background-color'])){
 		$settings['page-gallery-background-color']	= '#FFFFFF';
@@ -114,7 +114,7 @@ add_filter('sim_submenu_options', function($optionsHtml, $moduleSlug, $settings)
 					$url		= $icons[$settings[$iconName]]->path;
 
 					if(!str_contains($url, '://' )){
-						$url = plugins_url("ultimate-maps-by-supsystic/modules/icons/icons_files/def_icons/$url");
+						$url = SIM\pathToUrl(MODULE_PATH."ultimate-maps-by-supsystic/modules/icons/icons_files/def_icons/$url");
 					}
 					$img		= "<img src='$url' class='icon' data-id='{$settings[$iconName]}' loading='lazy'>";
 					$buttonText	= "Change";
