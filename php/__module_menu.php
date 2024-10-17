@@ -20,20 +20,12 @@ add_filter('sim_submenu_description', function($description, $moduleSlug){
 
 	?>
 	<p>
-		This module adds a custom post type 'locations'.<br>
-		Locations can be used to share shops, hotels ministries etc.<br>
-		They will bevisible on a map.<br>
-		<br>
-		It adds one shortcode:<br>
-		<code>[ministry_description name=SOMENAME]</code>
-	</p>
-	<p>
 		<strong>Auto created page:</strong><br>
 		<a href='<?php echo home_url('/locations');?>'>Locations</a><br>
 	</p>
 	<?php
 
-	return ob_get_clean();
+	return $description.ob_get_clean();
 }, 10, 2);
 
 add_filter('sim_submenu_options', function($optionsHtml, $moduleSlug, $settings){
