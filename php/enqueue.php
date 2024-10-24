@@ -8,7 +8,7 @@ add_action( 'wp_enqueue_scripts', function(){
 
     // frontend content of profile page
 	$pages   = SIM\getModuleOption('frontendposting', 'front_end_post_pages');
-    if(in_array('location', SIM\getModuleOption('usermanagement', 'enabled-forms'))){
+    if(in_array('location', (array)SIM\getModuleOption('usermanagement', 'enabled-forms'))){
         $pages   = array_merge($pages, SIM\getModuleOption('usermanagement', 'account_page'));
     }
 
