@@ -6,9 +6,14 @@
 ### Changed
 
 ### Fixed
-- bug in enqueing
 
 ### Updated
+
+## [8.0.4] - 2024-10-24
+
+
+### Fixed
+- bug in enqueing
 
 ## [8.0.3] - 2024-10-17
 
