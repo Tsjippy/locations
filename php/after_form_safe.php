@@ -3,7 +3,8 @@ namespace SIM\LOCATIONS;
 use SIM;
 
 // Update marker icon when family picture is updated
-add_action('sim_update_family_picture', function($userId, $attachmentId){
+add_action('sim_update_family_picture', __NAMESPACE__.'\familiPicture', 10, 2);
+function familiPicture($userId, $attachmentId){
     $maps       = new Maps();
     $markerId 	= get_user_meta($userId, "marker_id", true);
     $url        = wp_get_attachment_url($attachmentId);
@@ -18,10 +19,11 @@ add_action('sim_update_family_picture', function($userId, $attachmentId){
     }
 
 	SIM\updateFamilyMeta( $userId, "marker_id", $markerId);
-}, 10, 2);
+}
 
 // Update marker title whenever there are changes to the family
-add_action('sim_family_safe', function($userId){
+add_action('sim_family_safe', __NAMESPACE__.'\onFamilySave');
+function onFamilySave($userId){
     $maps       = new Maps();
 
 	//Update the marker title
@@ -30,10 +32,11 @@ add_action('sim_family_safe', function($userId){
     $title      = SIM\getFamilyName($userId);
     
 	$maps->updateMarkerTitle($markerId, $title);
-});
+}
 
 //Update marker whenever the location changes
-add_action('sim_location_update', function($userId, $location){
+add_action('sim_location_update', __NAMESPACE__.'\locationUpdate', 10, 2);
+function locationUpdate($userId, $location){
     global $wpdb;
 
     //Get any existing marker id from the db
@@ -58,61 +61,54 @@ add_action('sim_location_update', function($userId, $location){
     }else{
         $maps->updateMarkerLocation($markerId, $location);
     }
-}, 10, 2);
+}
 
 // Remove marker when location is removed
-add_action('sim_location_removal', function($userId){
+add_action('sim_location_removal', __NAMESPACE__.'\locationRemoval');
+function locationRemoval($userId){
 	//Delete the marker as well
     $maps   = new Maps();
 	$maps->removePersonalMarker($userId);
     delete_user_meta( $userId, 'marker_id');
-});
+}
 
 
 // Update marker icon when family picture is changed
-add_filter('sim_before_saving_formdata', function($formResults, $object){
-	if($object->formData->name != 'profile_picture'){
-        return $formResults;
-    }
-	
-	$privacyPreference = (array)get_user_meta( $object->userId, 'privacy_preference', true );
-	$family				= (array)get_user_meta($object->userId, 'family', true);
-    $maps               = new Maps();
-	
-	//update a marker icon only if privacy allows and no family picture is set
-	if (empty($privacyPreference['hide_profile_picture']) && !is_numeric($family['picture'][0])){
-		$markerId = get_user_meta($object->userId, "marker_id", true);
-		
-		//New profile picture is set, update the marker icon
-		if(is_numeric(get_user_meta($object->userId, 'profile_picture', true))){
-			$iconUrl = SIM\USERMANAGEMENT\getProfilePictureUrl($object->userId);
-			
-			//Save profile picture as icon
-			$maps->createIcon($markerId, get_userdata($object->userId)->user_login, $iconUrl, 1);
-		}else{
-			//remove the icon
-			$maps->removeIcon($markerId);
-		}
-	}
-
-	return $formResults;
-},10,3);
-
-
-// Update marker when privacy options are changed
-add_filter('sim_before_saving_formdata', function($formResults, $object){
-	if($object->formData->name != 'user_generics'){
-        return $formResults;
+add_filter('sim_before_saving_formdata', __NAMESPACE__.'\beforeSavingFormData', 10, 3);
+function beforeSavingFormData($formResults, $object){
+	if($object->formData->name == 'profile_picture'){
+        $privacyPreference = (array)get_user_meta( $object->userId, 'privacy_preference', true );
+        $family				= (array)get_user_meta($object->userId, 'family', true);
+        $maps               = new Maps();
+        
+        //update a marker icon only if privacy allows and no family picture is set
+        if (empty($privacyPreference['hide_profile_picture']) && !is_numeric($family['picture'][0])){
+            $markerId = get_user_meta($object->userId, "marker_id", true);
+            
+            //New profile picture is set, update the marker icon
+            if(is_numeric(get_user_meta($object->userId, 'profile_picture', true))){
+                $iconUrl = SIM\USERMANAGEMENT\getProfilePictureUrl($object->userId);
+                
+                //Save profile picture as icon
+                $maps->createIcon($markerId, get_userdata($object->userId)->user_login, $iconUrl, 1);
+            }else{
+                //remove the icon
+                $maps->removeIcon($markerId);
+            }
+        }
     }
 
-    if(is_array($formResults['privacy_preference']) && in_array("hide_location", $formResults['privacy_preference'])){
-        $markerId = get_user_meta($object->userId, "marker_id", true);
+    // Update marker when privacy options are changed
+	if($object->formData->name == 'user_generics'){
+        if(is_array($formResults['privacy_preference']) && in_array("hide_location", $formResults['privacy_preference'])){
+            $markerId = get_user_meta($object->userId, "marker_id", true);
 
-        if(is_numeric($markerId)){
-            $maps = new Maps();
-            $maps->removeMarker($markerId);
+            if(is_numeric($markerId)){
+                $maps = new Maps();
+                $maps->removeMarker($markerId);
+            }
         }
     }
 
 	return $formResults;
-}, 10, 2);
+}

@@ -8,7 +8,8 @@ add_action('init', function(){
 }, 999);
 
 //Add a map when a location category is added
-add_action('sim_after_category_add', function($postType, $name, $result){
+add_action('sim_after_category_add', __NAMESPACE__.'\afterCategoryAdd', 10, 3);
+function afterCategoryAdd($postType, $name, $result){
 	if($postType != 'location'){
 		return;
 	}
@@ -23,45 +24,46 @@ add_action('sim_after_category_add', function($postType, $name, $result){
 	$Modules[MODULE_SLUG][$name.'_map']	= $mapId;
 	
 	update_option('sim_modules', $Modules);
-}, 10, 3);
+}
 
-add_filter(
-	'widget_categories_args',
-	function ( $catArgs ) {
-		//if we are on a locations page, change to display the location types
-		if(is_tax('locations') || is_page('location') || get_post_type()=='location'){
-			$catArgs['taxonomy'] 		= 'locations';
-			$catArgs['hierarchical']	= true;
-			$catArgs['hide_empty'] 		= false;
-		}
-		
-		return $catArgs;
+add_filter(	'widget_categories_args', __NAMESPACE__.'\widgetCats');
+function widgetCats( $catArgs ) {
+	//if we are on a locations page, change to display the location types
+	if(is_tax('locations') || is_page('location') || get_post_type()=='location'){
+		$catArgs['taxonomy'] 		= 'locations';
+		$catArgs['hierarchical']	= true;
+		$catArgs['hide_empty'] 		= false;
 	}
-);
+	
+	return $catArgs;
+}
 
-add_filter('widget_title', function ($title, $widgetId=null){
+add_filter('widget_title', __NAMESPACE__.'\widgetTitle', 999, 2);
+function widgetTitle($title, $widgetId=null){
 	//Change the title of the location category widget if not logged in
 	if(is_tax('locations') && $widgetId == 'categories' && !is_user_logged_in()){
 		$url = SITEURL.'/locations/ministry/';
 		return "<a href='$url'>Ministries</a>";
 	}
     return $title;
-}, 999, 2);
+}
 
 //Remove marker when post is sent to trash
-add_action('wp_trash_post', function($postId){
+add_action('wp_trash_post', __NAMESPACE__.'\trashPost');
+function trashPost($postId){
 	$maps	= new Maps();
 	$maps->removePostMarkers($postId);
-});
+}
 
-add_filter('sim-template-filter', function($templateFile){
+add_filter('sim-template-filter', __NAMESPACE__.'\templateFilter');
+function templateFilter($templateFile){
 	global $post;
 
 	if(in_array('locations', get_post_taxonomies()) && in_array('ministry', wp_get_post_terms($post->ID, 'locations', ['fields'=>'slugs']))){
 		return str_replace('single-location', 'single-ministry', $templateFile);
 	}
     return $templateFile;
-});
+}
 
 /**
  * Get the people that work at a certain location

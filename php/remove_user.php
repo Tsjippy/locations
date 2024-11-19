@@ -2,7 +2,8 @@
 namespace SIM\LOCATIONS;
 use SIM;
 
-add_action('delete_user', function ($userId){
+add_action('delete_user', __NAMESPACE__.'\deleteUser');
+function deleteUser($userId){
 	$maps	= new Maps();
 	$family = SIM\familyFlatArray($userId);
 	//Only remove if there is no family
@@ -20,4 +21,4 @@ add_action('delete_user', function ($userId){
         $markerId = get_user_meta($userId, "marker_id", true);
 		$maps->updateMarkerTitle($markerId, $title);
     }
-});
+}

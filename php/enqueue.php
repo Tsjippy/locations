@@ -2,7 +2,8 @@
 namespace SIM\LOCATIONS;
 use SIM;
 
-add_action( 'wp_enqueue_scripts', function(){
+add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\loadAssets', 99);
+function loadAssets(){
     wp_register_style('sim_locations_style', SIM\pathToUrl(MODULE_PATH.'css/locations.min.css'), array(), MODULE_VERSION);
     wp_register_style('sim_employee_style', SIM\pathToUrl(MODULE_PATH.'css/employee.min.css'), array(), MODULE_VERSION);
 
@@ -17,9 +18,10 @@ add_action( 'wp_enqueue_scripts', function(){
         
         addGoogleMapsApiKey();
     }
-}, 99);
+}
 
-add_filter('sim-forms-before-showing-form', function($html, $object){
+add_filter('sim-forms-before-showing-form', __NAMESPACE__.'\beforeShowingForm', 10, 2);
+function beforeShowingForm($html, $object){
     if(in_array($object->formData->id, (array) SIM\getModuleOption(MODULE_SLUG, 'google_maps_api_forms' ))){
         $html   .= "<script>
             function initMap(){
@@ -33,7 +35,7 @@ add_filter('sim-forms-before-showing-form', function($html, $object){
     }
 
     return $html;
-}, 10, 2);
+}
 
 function addGoogleMapsApiKey(){
     $apiKey = SIM\getModuleOption(MODULE_SLUG, 'google-maps-api-key');

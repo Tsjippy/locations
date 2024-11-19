@@ -2,7 +2,8 @@
 namespace SIM\LOCATIONS;
 use SIM;
 
-add_action('sim-forms-extra-form-settings', function($object){
+add_action('sim-forms-extra-form-settings', __NAMESPACE__.'\extraFormSettings');
+function extraFormSettings($object){
     $checked    = '';
     if($object->formData->googlemapsapi){
         $checked = 'checked';
@@ -12,9 +13,10 @@ add_action('sim-forms-extra-form-settings', function($object){
     <h4>Google Maps Api</h4>
     <input type='checkbox' name='google_maps_api' value='1' <?php echo $checked;?>> Use Google Maps Api on this form
     <?php
-});
+}
 
-add_filter('sim-forms-before-saving-settings', function($newSettings, $object, $formId){
+add_filter('sim-forms-before-saving-settings', __NAMESPACE__.'\beforeSavingSettings', 10, 3);
+function beforeSavingSettings($newSettings, $object, $formId){
     global $Modules;
 
     $mapsApi                        = isset($_POST['google_maps_api'])   ? true : false;
@@ -30,4 +32,4 @@ add_filter('sim-forms-before-saving-settings', function($newSettings, $object, $
     }
 
     return $newSettings;
-}, 10, 3);
+}

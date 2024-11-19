@@ -10,7 +10,8 @@ DEFINE(__NAMESPACE__.'\MODULE_PATH', plugin_dir_path(__DIR__));
 DEFINE(__NAMESPACE__.'\MODULE_SLUG', strtolower(basename(dirname(__DIR__))));
 
 // check for dependicies
-add_filter('sim_submenu_description', function($description, $moduleSlug){
+add_filter('sim_submenu_description', __NAMESPACE__.'\moduleDescription', 10, 2);
+function moduleDescription($description, $moduleSlug){
 	//module slug should be the same as the constant
 	if($moduleSlug != MODULE_SLUG)	{
 		return $description;
@@ -26,9 +27,10 @@ add_filter('sim_submenu_description', function($description, $moduleSlug){
 	<?php
 
 	return $description.ob_get_clean();
-}, 10, 2);
+}
 
-add_filter('sim_submenu_options', function($optionsHtml, $moduleSlug, $settings){
+add_filter('sim_submenu_options', __NAMESPACE__.'\moduleOptions', 10, 3);
+function moduleOptions($optionsHtml, $moduleSlug, $settings){
 	global $wpdb;
 
 	//module slug should be the same as grandparent folder name
@@ -145,7 +147,7 @@ add_filter('sim_submenu_options', function($optionsHtml, $moduleSlug, $settings)
 
 	<?php
 	return ob_get_clean();
-}, 10, 3);
+}
 
 /**
  * Location maps
@@ -167,7 +169,8 @@ function getMaps($optionValue){
 }
 
 //run on module activation
-add_filter('sim_module_updated', function($options, $moduleSlug){
+add_filter('sim_module_updated', __NAMESPACE__.'\moduleUpdated', 10, 2);
+function moduleUpdated($options, $moduleSlug){
 	//module slug should be the same as grandparent folder name
 	if($moduleSlug != MODULE_SLUG){
 		return $options;
@@ -205,10 +208,11 @@ add_filter('sim_module_updated', function($options, $moduleSlug){
 	}
 
 	return $options;
-}, 10, 2);
+}
 
 //run on module activation
-add_action('sim_module_activated', function($moduleSlug, $options){
+add_action('sim_module_activated', __NAMESPACE__.'\moduleActivated', 10, 2);
+function moduleActivated($moduleSlug, $options){
 	//module slug should be the same as grandparent folder name
 	if($moduleSlug != MODULE_SLUG)	{
 		return;
@@ -221,4 +225,4 @@ add_action('sim_module_activated', function($moduleSlug, $options){
 	$forms	= new SIM\FORMS\SimForms();
 
 	maybe_add_column($forms->tableName, 'google_maps_api', "ALTER TABLE $forms->tableName ADD COLUMN `google_maps_api` bool");
-}, 10, 2);
+}

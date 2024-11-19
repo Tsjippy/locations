@@ -2,7 +2,8 @@
 namespace SIM\FORMS;
 use SIM;
 
-add_action('sim_plugin_update', function($oldVersion){
+add_action('sim_plugin_update', __NAMESPACE__.'\afterUpdate');
+function afterUpdate($oldVersion){
     require_once ABSPATH . 'wp-admin/includes/upgrade.php';
     require_once ABSPATH . 'wp-admin/install-helper.php';
 
@@ -24,4 +25,4 @@ add_action('sim_plugin_update', function($oldVersion){
             }
         }
     }
-});
+}

@@ -4,7 +4,8 @@ use SIM;
 
 /* HELPER FUNCTIONS */
 //add special js to the dynamic form js
-add_filter('sim_form_extra_js', function($js, $formName, $minimized){
+add_filter('sim_form_extra_js', __NAMESPACE__.'\addJs', 10, 3);
+function addJs($js, $formName, $minimized){
 	if($formName != 'user_location' ){
 		return $js;
 	}
@@ -19,4 +20,4 @@ add_filter('sim_form_extra_js', function($js, $formName, $minimized){
 	}
 
 	return $js;
-}, 10, 3);
+}

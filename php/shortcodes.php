@@ -2,7 +2,8 @@
 namespace SIM\LOCATIONS;
 use SIM;
 
-add_shortcode("markerdescription", 	function ($atts){
+add_shortcode("markerdescription", __NAMESPACE__.'\markerDescription');
+function markerDescription($atts){
     $a = shortcode_atts( array(
         'userid' => '',
     ), $atts );
@@ -25,9 +26,10 @@ add_shortcode("markerdescription", 	function ($atts){
         
         return $description;
     }
-} );
+}
 
-add_shortcode('ministry_description', function($atts){
+add_shortcode('ministry_description', __NAMESPACE__.'\ministryDescription');
+function ministryDescription($atts){
     // check double posting
     $posts = get_posts(
         array(
@@ -47,9 +49,10 @@ add_shortcode('ministry_description', function($atts){
     }
 
     return getLocationEmployees($posts[0]);
-});
+}
 
-add_shortcode("location_description", function($atts){
+add_shortcode("location_description", __NAMESPACE__.'\locationDescription');
+function locationDescription($atts){
     $postId     = $atts['id'];
     if(!is_numeric($postId)){
         return '';
@@ -82,4 +85,4 @@ add_shortcode("location_description", function($atts){
     $description    .= "<p><a class='button' onclick='getRoute(this, $latitude, $longitude)'>Get directions</a></p>";;
     
     return $description;
-});
+}
