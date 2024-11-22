@@ -2,10 +2,11 @@
 namespace SIM\LOCATIONS;
 use SIM;
 
-add_filter('sim_frontend_posting_modals', function($types){
+add_filter('sim_frontend_posting_modals', __NAMESPACE__.'\postingModals');
+function postingModals($types){
     $types[]	= 'location';
     return $types;
-});
+}
 
 add_action('sim_frontend_post_before_content', __NAMESPACE__.'\beforeContent');
 function beforeContent($frontEndContent){
