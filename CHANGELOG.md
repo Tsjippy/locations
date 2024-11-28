@@ -6,6 +6,7 @@
 ### Changed
 
 ### Fixed
+- duplicate function name
 
 ### Updated
 
