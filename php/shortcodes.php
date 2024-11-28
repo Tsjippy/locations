@@ -28,8 +28,8 @@ function markerDescription($atts){
     }
 }
 
-add_shortcode('ministry_description', __NAMESPACE__.'\ministryDescription');
-function ministryDescription($atts){
+add_shortcode('ministry_description', __NAMESPACE__.'\ministryDescriptionShortcode');
+function ministryDescriptionShortcode($atts){
     // check double posting
     $posts = get_posts(
         array(
