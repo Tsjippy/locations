@@ -5,6 +5,7 @@
 
 ### Changed
 - after update hook
+- extra js hook
 
 ### Fixed
 
