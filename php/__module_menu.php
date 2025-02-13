@@ -10,13 +10,8 @@ DEFINE(__NAMESPACE__.'\MODULE_PATH', plugin_dir_path(__DIR__));
 DEFINE(__NAMESPACE__.'\MODULE_SLUG', strtolower(basename(dirname(__DIR__))));
 
 // check for dependicies
-add_filter('sim_submenu_description', __NAMESPACE__.'\moduleDescription', 10, 2);
-function moduleDescription($description, $moduleSlug){
-	//module slug should be the same as the constant
-	if($moduleSlug != MODULE_SLUG)	{
-		return $description;
-	}
-
+add_filter('sim_submenu_locations_description', __NAMESPACE__.'\moduleDescription');
+function moduleDescription($description){
 	ob_start();
 
 	?>
@@ -29,14 +24,9 @@ function moduleDescription($description, $moduleSlug){
 	return $description.ob_get_clean();
 }
 
-add_filter('sim_submenu_options', __NAMESPACE__.'\moduleOptions', 10, 3);
-function moduleOptions($optionsHtml, $moduleSlug, $settings){
+add_filter('sim_submenu_locations_options', __NAMESPACE__.'\moduleOptions', 10, 2);
+function moduleOptions($optionsHtml, $settings){
 	global $wpdb;
-
-	//module slug should be the same as grandparent folder name
-	if($moduleSlug != MODULE_SLUG){
-		return $optionsHtml;
-	}
 	
 	$query 		= 'SELECT * FROM `'.$wpdb->prefix .'ums_icons` WHERE 1';
 	$results 	= $wpdb->get_results($query);
@@ -146,7 +136,7 @@ function moduleOptions($optionsHtml, $moduleSlug, $settings){
 	?>
 
 	<?php
-	return ob_get_clean();
+	return $optionsHtml.ob_get_clean();
 }
 
 /**
@@ -206,13 +196,8 @@ function moduleUpdated($options){
 }
 
 //run on module activation
-add_action('sim_module_activated', __NAMESPACE__.'\moduleActivated', 10, 2);
-function moduleActivated($moduleSlug, $options){
-	//module slug should be the same as grandparent folder name
-	if($moduleSlug != MODULE_SLUG)	{
-		return;
-	}
-
+add_action('sim_module_locations_activated', __NAMESPACE__.'\moduleActivated');
+function moduleActivated($options){
 	// add an extra form setting column in db
 	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
     require_once ABSPATH . 'wp-admin/install-helper.php';
