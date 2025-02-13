@@ -5,6 +5,7 @@
 
 ### Changed
 - sim_module_updated filter to new format
+- module hooks now include module slug
 
 ### Fixed
 
