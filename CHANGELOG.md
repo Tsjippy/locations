@@ -4,12 +4,17 @@
 ### Added
 
 ### Changed
-- sim_module_updated filter to new format
-- module hooks now include module slug
 
 ### Fixed
 
 ### Updated
+
+## [8.0.9] - 2025-02-13
+
+
+### Changed
+- sim_module_updated filter to new format
+- module hooks now include module slug
 
 ## [8.0.8] - 2025-01-31
 
