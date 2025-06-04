@@ -156,7 +156,7 @@ if(is_tax() || is_archive()){
 							//Only show the category if all of its subcats are not there
 							$url = get_term_link($id);
 							$category = ucfirst($category);
-							echo "<a href='$url'>$category</a>";
+							echo "<a href='$url' target='_blank'>$category</a>";
 							
 							if($id != $lastKey){
 								echo ', ';
@@ -172,7 +172,7 @@ if(is_tax() || is_archive()){
 					if(!empty($tel)){
 						$imageUrl = SIM\pathToUrl(MODULE_PATH.'pictures/tel.png');
 						$icon = "<img src='$imageUrl' alt='telephone' loading='lazy' class='location_icon'>";
-						echo "<a href='tel:$tel'>$icon Call them  »</a>";
+						echo "<a href='tel:$tel' target='_blank'>$icon Call them  »</a>";
 					}
 					?>
 				</div>
@@ -183,7 +183,7 @@ if(is_tax() || is_archive()){
 					if(!empty($url) && filter_var($url, FILTER_VALIDATE_URL) && $url != "https://www."){
 						$imageUrl 	= SIM\pathToUrl(MODULE_PATH.'pictures/url.png');
 						$icon 		= "<img src='$imageUrl' alt='location' loading='lazy' class='location_icon'>";
-						echo "<a href='$url'>$icon Visit website  »</a>";
+						echo "<a href='$url' target='_blank'>$icon Visit website  »</a>";
 					}
 					?>
 				</div>
