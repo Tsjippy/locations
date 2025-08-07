@@ -137,3 +137,12 @@ function getLocationEmployees($post){
 	
 	return $html;
 }
+
+add_filter('sim-theme-archive-page-title', __NAMESPACE__.'\changeArchiveTitle', 10, 2);
+function changeArchiveTitle($title, $category){
+	if(is_post_type_archive('location')){
+		$title = 'Locations';
+	}
+	
+	return $title;
+}
