@@ -2,13 +2,18 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
-- 'sim-theme-archive-page-title' filter
 
 ### Changed
 
 ### Fixed
 
 ### Updated
+
+## [8.1.0] - 2025-08-07
+
+
+### Added
+- 'sim-theme-archive-page-title' filter
 
 ## [8.0.9] - 2025-02-13
 
