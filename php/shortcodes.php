@@ -22,7 +22,7 @@ function markerDescription($atts){
         
         //Add the post link to the marker content
         $url			 = SIM\maybeGetUserPageUrl($userId);
-        $description	.= "<a href='$url' style='display:block;' class='page_link'>More info</a><br>";
+        $description	.= "<a href='$url' style='display:block;' class='page-link'>More info</a><br>";
         
         return $description;
     }
@@ -79,7 +79,7 @@ function locationDescription($atts){
     $url            = get_permalink($postId);
 
     if(get_the_ID() != $postId){
-        $description    .= "<a href='$url' style='display:block;' class='page_link'>Show full descripion</a><br>";
+        $description    .= "<a href='$url' style='display:block;' class='page-link'>Show full descripion</a><br>";
     }
 
     $description    .= "<p><a class='button' onclick='getRoute(this, $latitude, $longitude)'>Get directions</a></p>";;
