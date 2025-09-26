@@ -2,14 +2,21 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
-- minified user_location js
 
 ### Changed
-- classnames replace _ with -
 
 ### Fixed
 
 ### Updated
+
+## [8.1.1] - 2025-09-26
+
+
+### Added
+- minified user_location js
+
+### Changed
+- classnames replace _ with -
 
 ## [8.1.0] - 2025-08-07
 
