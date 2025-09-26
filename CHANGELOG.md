@@ -5,6 +5,7 @@
 - minified user_location js
 
 ### Changed
+- classnames replace _ with -
 
 ### Fixed
 
