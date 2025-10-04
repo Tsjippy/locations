@@ -33,3 +33,10 @@ function beforeSavingSettings($newSettings, $object, $formId){
 
     return $newSettings;
 }
+
+add_filter('forms-form-table-formats', __NAMESPACE__.'\addFormFormat', 10, 2);
+function addFormFormat($formats, $object){
+    $formats['google_maps_api']  = '%d';
+
+    return $formats;
+}
