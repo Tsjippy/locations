@@ -28,7 +28,7 @@ function contentTitle($postType){
         $class .= ' hidden';
     }
 
-    echo "<h4 class='$class' name='location_content_label'>";
+    echo "<h4 class='$class' name='location-content-label'>";
         echo 'Please describe the location';
     echo "</h4>";
 }
@@ -382,21 +382,21 @@ function afterPostContent($frontendcontend){
         }
     </style>
     <div id="location-attributes" class="property location<?php if($postName != 'location'){echo ' hidden';} ?>">
-        <div id="parentpage" class="frontendform">
+        <div id="parentpage" class="frontend-form">
             <h4>Select a parent location</h4>
             <?php
             echo SIM\pageSelect('parent_location', $frontendcontend->postParent, '', ['location'], false);
             ?>
         </div>
-        <div class="frontendform">
+        <div class="frontend-form">
             <h4>Update warnings</h4>
             <label>
-                <input type='checkbox' name='static_content' value='static_content' <?php if(get_post_meta($postId, 'static_content', true)){echo 'checked';}?>>
+                <input type='checkbox' name='static-content' value='static-content' <?php if(get_post_meta($postId, 'static_content', true)){echo 'checked';}?>>
                 Do not send update warnings for this location
             </label>
         </div>
 
-        <fieldset id="location" class="frontendform">
+        <fieldset id="location" class="frontend-form">
             <legend>
                 <h4>Location details</h4>
             </legend>

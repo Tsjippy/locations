@@ -114,7 +114,7 @@ function getLocationEmployees($post){
 						$html .= SIM\displayProfilePicture($user->ID);
 					}
 					
-					$pageUrl = "<a class='user_link' href='$userPageUrl'>$user->display_name</a>";
+					$pageUrl = "<a class='user-link' href='$userPageUrl'>$user->display_name</a>";
 					foreach($intersect as $postId){
 						$job	= ucfirst($userLocations[$postId]);
 						$html .= "   <div class='$class'>$pageUrl <br>($job)</div>";

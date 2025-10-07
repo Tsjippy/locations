@@ -1,7 +1,7 @@
 @use '../../../plugins/sim-plugin/includes/css/scss/global' as *;
 
 .dropbtn {
-    background-color: $primary_color;
+    background-color: $primaryColor;
     color: white;
     padding: 6px;
     font-size: 16px;
@@ -40,7 +40,7 @@
 }
 
 .dropdown:hover .dropbtn {
-    background-color: $secundary_color;
+    background-color: $secundaryColor;
 }
 
 .icon:hover{

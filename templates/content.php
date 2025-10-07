@@ -27,12 +27,12 @@ if(is_tax() || is_archive()){
 		margin-right: 10px;
 	}
 
-	.cat_card{
+	.cat-card{
 		padding: 10px;
 	}
 </style>
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<div class="cat_card<?php if($archive){echo ' inside-article';}?>">
+	<div class="cat-card<?php if($archive){echo ' inside-article';}?>">
 		
 		<?php
 		if($archive){
@@ -67,7 +67,7 @@ if(is_tax() || is_archive()){
 				$customMapId = get_post_meta(get_the_ID(), 'map_id', true);
 				if(is_numeric($customMapId)){
 					?>
-					<div class='location_map' style='margin-top:15px;margin-bottom:25px;'>
+					<div class='location-map' style='margin-top:15px;margin-bottom:25px;'>
 						<h4>Location</h4>
 						<?php
 						$markers	= get_post_meta(get_the_ID(), 'marker_ids', true);
@@ -81,7 +81,7 @@ if(is_tax() || is_archive()){
 
 					<script>
 						document.addEventListener('DOMContentLoaded', () => {
-							let map	= document.querySelector(".location_map");
+							let map	= document.querySelector(".location-map");
 							document.querySelector('.widget-area.sidebar').prepend(map);
 						});
 					</script>
@@ -134,7 +134,7 @@ if(is_tax() || is_archive()){
 					
 					if(!empty($categories)){
 						$url	= SIM\pathToUrl(MODULE_PATH.'pictures/category.png');
-						echo "<img src='$url' alt='category' loading='lazy' class='location_icon'>";
+						echo "<img src='$url' alt='category' loading='lazy' class='book-icon'>";
 						
 						//First loop over the cat to see if any parent cat needs to be removed
 						foreach($categories as $id=>$category){
@@ -171,7 +171,7 @@ if(is_tax() || is_archive()){
 					$tel		= get_post_meta(get_the_ID(),'tel',true);
 					if(!empty($tel)){
 						$imageUrl = SIM\pathToUrl(MODULE_PATH.'pictures/tel.png');
-						$icon = "<img src='$imageUrl' alt='telephone' loading='lazy' class='location_icon'>";
+						$icon = "<img src='$imageUrl' alt='telephone' loading='lazy' class='book-icon'>";
 						echo "<a href='tel:$tel' target='_blank'>$icon Call them  »</a>";
 					}
 					?>
@@ -182,7 +182,7 @@ if(is_tax() || is_archive()){
 					$url		= get_post_meta(get_the_ID(), 'url', true);
 					if(!empty($url) && filter_var($url, FILTER_VALIDATE_URL) && $url != "https://www."){
 						$imageUrl 	= SIM\pathToUrl(MODULE_PATH.'pictures/url.png');
-						$icon 		= "<img src='$imageUrl' alt='location' loading='lazy' class='location_icon'>";
+						$icon 		= "<img src='$imageUrl' alt='location' loading='lazy' class='book-icon'>";
 						echo "<a href='$url' target='_blank'>$icon Visit website  »</a>";
 					}
 					?>
@@ -193,7 +193,7 @@ if(is_tax() || is_archive()){
 				if (!empty($location->latitude) && !empty($location->longitude)){
 					$url	= SIM\pathToUrl(MODULE_PATH.'pictures/location.png');
 					echo "<a onclick='Main.getRoute(this, {$location->latitude},$location->longitude)' style='cursor: pointer;'>
-						<img src='$url' alt='category' loading='lazy' class='location_icon'> Get directions
+						<img src='$url' alt='category' loading='lazy' class='book-icon'> Get directions
 					</a>";
 				}
 

@@ -92,8 +92,8 @@ function moduleOptions($optionsHtml, $settings){
 		</select>
 		
 		<label>Icon on the map used for <?php echo $name;?></label>
-		<div class='icon_select_wrapper'>
-			<input type='hidden' class='icon_id' name='<?php echo $iconName;?>' value='<?php echo $settings[$iconName];?>'>
+		<div class='icon-select-wrapper'>
+			<input type='hidden' class='icon-id' name='<?php echo $iconName;?>' value='<?php echo $settings[$iconName];?>'>
 			<br>
 			<div class="dropdown">
 				<?php
@@ -110,7 +110,7 @@ function moduleOptions($optionsHtml, $settings){
 					$buttonText	= "Select";
 				}
 				?>
-				<div class="icon_preview">
+				<div class="icon-preview">
 					<?php echo $img;?>
 				</div>
 

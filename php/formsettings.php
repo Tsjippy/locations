@@ -11,7 +11,7 @@ function extraFormSettings($object){
     ?>
     <br>
     <h4>Google Maps Api</h4>
-    <input type='checkbox' name='google_maps_api' value='1' <?php echo $checked;?>> Use Google Maps Api on this form
+    <input type='checkbox' name='google-maps-api' value='1' <?php echo $checked;?>> Use Google Maps Api on this form
     <?php
 }
 
@@ -19,7 +19,7 @@ add_filter('sim-forms-before-saving-settings', __NAMESPACE__.'\beforeSavingSetti
 function beforeSavingSettings($newSettings, $object, $formId){
     global $Modules;
 
-    $mapsApi                        = isset($_POST['google_maps_api'])   ? true : false;
+    $mapsApi                        = isset($_POST['google-maps-api'])   ? true : false;
     $newSettings['google_maps_api']	= $mapsApi;
 
     if($mapsApi){
