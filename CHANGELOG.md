@@ -5,6 +5,7 @@
 - form settings format
 
 ### Changed
+- classnames
 
 ### Fixed
 
