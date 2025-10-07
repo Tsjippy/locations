@@ -43,11 +43,11 @@ function afterPostSave($post, $frontEndPost){
     $frontEndPost->storeCustomCategories($post, 'locations');
 
     //parent
-    if(isset($_POST['parent_location'])){
-        if(empty($_POST['parent_location'])){
+    if(isset($_POST['parent-location'])){
+        if(empty($_POST['parent-location'])){
             $parent = 0;
         }else{
-            $parent = $_POST['parent_location'];
+            $parent = $_POST['parent-location'];
         }
 
         wp_update_post(
@@ -385,7 +385,7 @@ function afterPostContent($frontendcontend){
         <div id="parentpage" class="frontend-form">
             <h4>Select a parent location</h4>
             <?php
-            echo SIM\pageSelect('parent_location', $frontendcontend->postParent, '', ['location'], false);
+            echo SIM\pageSelect('parent-location', $frontendcontend->postParent, '', ['location'], false);
             ?>
         </div>
         <div class="frontend-form">
