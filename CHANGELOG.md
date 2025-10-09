@@ -8,6 +8,7 @@
 - classnames
 
 ### Fixed
+- bugs
 
 ### Updated
 
