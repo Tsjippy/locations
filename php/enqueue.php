@@ -8,7 +8,7 @@ function loadAssets(){
     wp_register_style('sim_employee_style', SIM\pathToUrl(MODULE_PATH.'css/employee.min.css'), array(), MODULE_VERSION);
 
     // frontend content of profile page
-	$pages   = SIM\getModuleOption('frontendposting', 'front_end_post_pages');
+	$pages   = SIM\getModuleOption('frontendposting', 'front-end-post-pages');
     if(in_array('location', (array)SIM\getModuleOption('usermanagement', 'enabled-forms'))){
         $pages   = array_merge($pages, SIM\getModuleOption('usermanagement', 'account_page'));
     }
