@@ -23,12 +23,11 @@ function beforeSavingSettings($newSettings, $object, $formId){
     $newSettings['google_maps_api']	= $mapsApi;
 
     if($mapsApi){
-        if(!isset($Modules[MODULE_SLUG]['google_maps_api_forms'])){
-            $Modules[MODULE_SLUG]['google_maps_api_forms']   = [];
-        }
+        $forms  = SIM\getModuleOption(MODULE_SLUG, 'google-maps-api-forms', false);
 
-        $Modules[MODULE_SLUG]['google_maps_api_forms'][] = $formId;
-        update_option('sim_modules', $Modules);
+        $forms[]  = $formId;
+
+        SIM\updateModuleOptions(MODULE_SLUG, $forms, 'google-maps-api-forms');
     }
 
     return $newSettings;

@@ -21,7 +21,7 @@ function afterCategoryAdd($postType, $name, $result){
 	//Attach the map id to the term
 	update_term_meta($result['term_id'], 'map_id', $mapId);
 
-	$Modules[MODULE_SLUG][$name.'_map']	= $mapId;
+	$Modules[MODULE_SLUG][$name.'-map']	= $mapId;
 	
 	update_option('sim_modules', $Modules);
 }
