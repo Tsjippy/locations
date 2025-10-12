@@ -16,11 +16,9 @@ function extraFormSettings($object){
 }
 
 add_filter('sim-forms-before-saving-settings', __NAMESPACE__.'\beforeSavingSettings', 10, 3);
-function beforeSavingSettings($newSettings, $object, $formId){
-    global $Modules;
-
+function beforeSavingSettings($settings, $object, $formId){
     $mapsApi                        = isset($_POST['google-maps-api'])   ? true : false;
-    $newSettings['google_maps_api']	= $mapsApi;
+    $settings['google_maps_api']	= $mapsApi;
 
     if($mapsApi){
         $forms  = SIM\getModuleOption(MODULE_SLUG, 'google-maps-api-forms', false);
@@ -30,7 +28,7 @@ function beforeSavingSettings($newSettings, $object, $formId){
         SIM\updateModuleOptions(MODULE_SLUG, $forms, 'google-maps-api-forms');
     }
 
-    return $newSettings;
+    return $settings;
 }
 
 add_filter('forms-form-table-formats', __NAMESPACE__.'\addFormFormat', 10, 2);

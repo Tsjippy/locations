@@ -128,7 +128,7 @@ function getLocationEmployees($post){
 	if(empty($html)){
 		$html  .= "No workers are currently affiliated with this ministry.<br>";
 		$url	= SIM\ADMIN\getDefaultPageLink('usermanagement', 'account_page');
-		$html  .= "If you work here indicate so on the <a href='$url/?main_tab=generic-info#ministries'>Generic Info page</a>";
+		$html  .= "If you work here indicate so on the <a href='$url/?main-tab=generic-info#ministries'>Generic Info page</a>";
 	}else{
 		$html	= "<div class='employee-gallery'>$html</div>";
 	}
