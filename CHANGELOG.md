@@ -2,6 +2,17 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
+
+### Changed
+
+### Fixed
+
+### Updated
+
+## [8.1.2] - 2025-10-13
+
+
+### Added
 - form settings format
 
 ### Changed
@@ -11,8 +22,6 @@
 
 ### Fixed
 - bugs
-
-### Updated
 
 ## [8.1.1] - 2025-09-26
 
