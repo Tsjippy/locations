@@ -93,7 +93,7 @@ function moduleOptions($optionsHtml, $settings){
 		
 		<label>Icon on the map used for <?php echo $name;?></label>
 		<div class='icon-select-wrapper'>
-			<input type='hidden' class='icon-id' name='<?php echo $iconName;?>' value='<?php echo $settings[$iconName];?>'>
+			<input type='hidden' class='no-reset' class='icon-id' name='<?php echo $iconName;?>' value='<?php echo $settings[$iconName];?>'>
 			<br>
 			<div class="dropdown">
 				<?php

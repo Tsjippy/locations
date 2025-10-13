@@ -22,7 +22,7 @@ function loadAssets(){
 
 add_filter('sim-forms-before-showing-form', __NAMESPACE__.'\beforeShowingForm', 10, 2);
 function beforeShowingForm($html, $object){
-    if(in_array($object->formData->id, (array) SIM\getModuleOption(MODULE_SLUG, 'google_maps_api_forms' ))){
+    if(in_array($object->formData->id, (array) SIM\getModuleOption(MODULE_SLUG, 'google-maps-api-forms' ))){
         $html   .= "<script>
             function initMap(){
 	            console.log('Google Maps loaded');
