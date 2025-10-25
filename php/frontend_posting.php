@@ -2,17 +2,6 @@
 namespace SIM\LOCATIONS;
 use SIM;
 
-add_filter('sim_frontend_posting_modals', __NAMESPACE__.'\postingModals');
-function postingModals($types){
-    $types[]	= 'location';
-    return $types;
-}
-
-add_action('sim_frontend_post_before_content', __NAMESPACE__.'\beforeContent');
-function beforeContent($frontEndContent){
-    $frontEndContent->showCategories('location', 'locations');
-}
-
 add_action('sim_frontend_post_content_title', __NAMESPACE__.'\contentTitle');
 function contentTitle($postType){
     //Location content title
@@ -30,25 +19,6 @@ add_action('sim_after_post_save', __NAMESPACE__.'\afterPostSave', 10, 2);
 function afterPostSave($post, $frontEndPost){
     if($post->post_type != 'location'){
         return;
-    }
-
-    //store categories
-    $frontEndPost->storeCustomCategories($post, 'locations');
-
-    //parent
-    if(isset($_POST['parent-location'])){
-        if(empty($_POST['parent-location'])){
-            $parent = 0;
-        }else{
-            $parent = $_POST['parent-location'];
-        }
-
-        wp_update_post(
-            array(
-                'ID'            => $post->ID,
-                'post_parent'   => $parent
-            )
-        );
     }
 
     //tel
