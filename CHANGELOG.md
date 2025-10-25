@@ -4,11 +4,16 @@
 ### Added
 
 ### Changed
-- code cleanup
 
 ### Fixed
 
 ### Updated
+
+## [8.1.3] - 2025-10-25
+
+
+### Changed
+- code cleanup
 
 ## [8.1.2] - 2025-10-13
 
