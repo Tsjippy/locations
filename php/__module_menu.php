@@ -200,7 +200,6 @@ add_action('sim_module_locations_activated', __NAMESPACE__.'\moduleActivated');
 function moduleActivated($options){
 	// add an extra form setting column in db
 	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-    require_once ABSPATH . 'wp-admin/install-helper.php';
 
 	$forms	= new SIM\FORMS\SimForms();
 

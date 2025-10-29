@@ -216,7 +216,7 @@ class Maps{
 			//Add the marker id to the user database
 			update_user_meta($userId, "marker_id", $markerId);
 
-			if (count($family)>0){
+			if (count($family) > 0){
 				foreach($family as $relative){
 					//Update the marker for the relative as well
 					update_user_meta($relative, "marker_id", $markerId);

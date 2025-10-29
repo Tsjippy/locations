@@ -5,7 +5,6 @@ use SIM;
 add_action('sim_forms_module_update', __NAMESPACE__.'\afterUpdate');
 function afterUpdate($oldVersion){
     require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-    require_once ABSPATH . 'wp-admin/install-helper.php';
 
     $simForms = new SIM\FORMS\SimForms();
 

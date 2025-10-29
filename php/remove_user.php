@@ -6,6 +6,7 @@ add_action('delete_user', __NAMESPACE__.'\deleteUser');
 function deleteUser($userId){
 	$maps	= new Maps();
 	$family = SIM\familyFlatArray($userId);
+	
 	//Only remove if there is no family
 	if (empty($family)){
 		//Check if a personal marker exists for this user
