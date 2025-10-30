@@ -4,13 +4,18 @@
 ### Added
 
 ### Changed
-- new format for frontendcontent
-- use upgrade.php not install-helper.php
-- use new family class
 
 ### Fixed
 
 ### Updated
+
+## [8.1.4] - 2025-10-30
+
+
+### Changed
+- new format for frontendcontent
+- use upgrade.php not install-helper.php
+- use new family class
 
 ## [8.1.3] - 2025-10-25
 
