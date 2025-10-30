@@ -7,6 +7,13 @@ add_action('init', function(){
 	SIM\registerPostTypeAndTax('location', 'locations');
 }, 999);
 
+// add the marker id to the family meta keys
+add_filter('sim-family-meta-keys', function($metaKeys){
+	$metaKeys[]	= 'marker_id';
+
+	return $metaKeys;
+});
+
 //Add a map when a location category is added
 add_action('sim_after_category_add', __NAMESPACE__.'\afterCategoryAdd', 10, 3);
 function afterCategoryAdd($postType, $name, $result){

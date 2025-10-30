@@ -168,61 +168,57 @@ class Maps{
 	public function createUserMarker($userId, $location){
 		global $wpdb;
 
-		if(!empty($location['latitude']) && !empty($location['longitude'])){
-			$check	= $this->checkCoordinates($location['latitude'], $location['longitude']);
-			if(is_wp_error($check)){
-				return $check;
-			}
-
-			$userdata = get_userdata($userId);
-
-			$privacyPreference = (array)get_user_meta( $userId, 'privacy_preference', true );
-
-			//Do not continue if privacy dictates so
-			if($privacyPreference == "show_none"){
-				return;
-			}
-
-			$family = SIM\familyFlatArray($userId);
-			$title	= SIM\getFamilyName($userdata);
-
-			//Add the profile picture to the marker description if it is set, and allowed by privacy
-			if (empty($privacyPreference['hide_profile_picture'])){
-				$loginName = $userdata->user_login;
-				if ( is_numeric(get_user_meta($userId,'profile_picture',true)) && function_exists('SIM\USERMANAGEMENT\getProfilePictureUrl')) {
-					$iconUrl = SIM\USERMANAGEMENT\getProfilePictureUrl($userId, 'thumbnail');
-				}else{
-					$iconUrl = "";
-				}
-
-				//Save picture as icon and get the icon id
-				$iconId = $this->createIcon('', $loginName, $iconUrl, 1);
-			}else{
-				$iconId = 1;
-			}
-
-			//Insert it all in the database
-			$wpdb->insert($this->markerTable, array(
-				'title'			=> $title,
-				'description'	=> "[markerdescription userid='$userId']",
-				'coord_x'		=> $location['latitude'],
-				'coord_y'		=> $location['longitude'],
-				'icon'			=> $iconId,
-				'map_id'		=> SIM\getModuleOption(MODULE_SLUG, 'users_map_id')
-			));
-
-			//Get the marker id
-			$markerId = $wpdb->insert_id;
-			//Add the marker id to the user database
-			update_user_meta($userId, "marker_id", $markerId);
-
-			if (count($family) > 0){
-				foreach($family as $relative){
-					//Update the marker for the relative as well
-					update_user_meta($relative, "marker_id", $markerId);
-				}
-			}
+		if(empty($location['latitude']) || empty($location['longitude'])){
+			return false;
 		}
+
+		$family	= new SIM\FAMILY\Family();
+
+		$check	= $this->checkCoordinates($location['latitude'], $location['longitude']);
+		if(is_wp_error($check)){
+			return $check;
+		}
+
+		$userdata = get_userdata($userId);
+
+		$privacyPreference = (array)get_user_meta( $userId, 'privacy_preference', true );
+
+		//Do not continue if privacy dictates so
+		if($privacyPreference == "show_none"){
+			return;
+		}
+		$title	= $family->getFamilyName($userdata);
+
+		//Add the profile picture to the marker description if it is set, and allowed by privacy
+		if (empty($privacyPreference['hide_profile_picture'])){
+			$loginName = $userdata->user_login;
+			if ( is_numeric(get_user_meta($userId,'profile_picture',true)) && function_exists('SIM\USERMANAGEMENT\getProfilePictureUrl')) {
+				$iconUrl = SIM\USERMANAGEMENT\getProfilePictureUrl($userId, 'thumbnail');
+			}else{
+				$iconUrl = "";
+			}
+
+			//Save picture as icon and get the icon id
+			$iconId = $this->createIcon('', $loginName, $iconUrl, 1);
+		}else{
+			$iconId = 1;
+		}
+
+		//Insert it all in the database
+		$wpdb->insert($this->markerTable, array(
+			'title'			=> $title,
+			'description'	=> "[markerdescription userid='$userId']",
+			'coord_x'		=> $location['latitude'],
+			'coord_y'		=> $location['longitude'],
+			'icon'			=> $iconId,
+			'map_id'		=> SIM\getModuleOption(MODULE_SLUG, 'users_map_id')
+		));
+
+		//Get the marker id
+		$markerId = $wpdb->insert_id;
+
+		//Add the marker id to the user database
+		update_user_meta($userId, "marker_id", $markerId);
 	}
 
 	/**

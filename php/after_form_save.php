@@ -5,31 +5,25 @@ use SIM;
 // Update marker icon when family picture is updated
 add_action('sim_update_family_picture', __NAMESPACE__.'\familiPicture', 10, 2);
 function familiPicture($userId, $attachmentId){
+	$family	    = new SIM\FAMILY\Family();
     $maps       = new Maps();
     $markerId 	= get_user_meta($userId, "marker_id", true);
     $url        = wp_get_attachment_url($attachmentId);
-    $iconTitle	= SIM\getFamilyName($userId);
+    $iconTitle	= $family->getFamilyName($userId);
     
     $maps->createIcon($markerId, $iconTitle, $url, 1);
-
-    //Save the marker id for all family members
-    $partnerId    = SIM\hasPartner($userId);
-	if(empty($markerId) && $partnerId){
-        $markerId = get_user_meta($partnerId ,"marker_id", true);
-    }
-
-	SIM\updateFamilyMeta( $userId, "marker_id", $markerId);
 }
 
 // Update marker title whenever there are changes to the family
 add_action('sim_family_safe', __NAMESPACE__.'\onFamilySave');
 function onFamilySave($userId){
+	$family	    = new SIM\FAMILY\Family();
     $maps       = new Maps();
 
 	//Update the marker title
 	$markerId   = get_user_meta($userId, "marker_id", true);
 
-    $title      = SIM\getFamilyName($userId);
+    $title      = $family->getFamilyName($userId);
     
 	$maps->updateMarkerTitle($markerId, $title);
 }
@@ -77,12 +71,13 @@ function locationRemoval($userId){
 add_filter('sim_before_saving_formdata', __NAMESPACE__.'\beforeSavingFormData', 10, 3);
 function beforeSavingFormData($formResults, $object){
 	if($object->formData->name == 'profile_picture'){
-        $privacyPreference = (array)get_user_meta( $object->userId, 'privacy_preference', true );
-        $family				= (array)get_user_meta($object->userId, 'family', true);
+        $privacyPreference  = (array)get_user_meta( $object->userId, 'privacy_preference', true );
+        $family	            = new SIM\FAMILY\Family();
+        $picture            = $family->getFamilyMeta($object->userId, 'picture');
         $maps               = new Maps();
         
         //update a marker icon only if privacy allows and no family picture is set
-        if (empty($privacyPreference['hide_profile_picture']) && !is_numeric($family['picture'][0])){
+        if (empty($privacyPreference['hide_profile_picture']) && !is_numeric($picture)){
             $markerId = get_user_meta($object->userId, "marker_id", true);
             
             //New profile picture is set, update the marker icon
