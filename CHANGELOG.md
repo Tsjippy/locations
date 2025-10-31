@@ -6,14 +6,9 @@
 ### Changed
 
 ### Fixed
+- getting family picture
 
 ### Updated
-
-## [8.1.5] - 2025-10-31
-
-
-### Fixed
-- getting family picture
 
 ## [8.1.4] - 2025-10-30
 
