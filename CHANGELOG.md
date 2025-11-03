@@ -4,12 +4,19 @@
 ### Added
 
 ### Changed
+
+### Fixed
+
+### Updated
+
+## [8.1.6] - 2025-11-03
+
+
+### Changed
 - stop listening to events if we have a match
 
 ### Fixed
 - getting family picture
-
-### Updated
 
 ## [8.1.4] - 2025-10-30
 
