@@ -2,6 +2,7 @@ console.log("Location.js loaded");
 
 
 function fillLocationFields(event){
+	event.stopImmediatePropagation();
 	var target	= event.target;
 	var form	= target.closest('form');
 	
