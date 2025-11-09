@@ -1,4 +1,4 @@
-document.addEventListener('click',function(event) {
+document.addEventListener('click', function(event) {
 	let target = event.target;
     if(target.classList.contains('icon')){
         let parent  = target.closest('.icon-select-wrapper');
