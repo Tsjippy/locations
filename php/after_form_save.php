@@ -69,7 +69,7 @@ function locationRemoval($userId){
 
 // Update marker icon when family picture is changed
 add_filter('sim_before_saving_formdata', __NAMESPACE__.'\beforeSavingFormData', 10, 3);
-function beforeSavingFormData($formResults, $object){
+function beforeSavingFormData($submission, $object){
 	if($object->formData->name == 'profile_picture'){
         $privacyPreference  = (array)get_user_meta( $object->userId, 'privacy_preference', true );
         $family	            = new SIM\FAMILY\Family();
@@ -95,7 +95,7 @@ function beforeSavingFormData($formResults, $object){
 
     // Update marker when privacy options are changed
 	if($object->formData->name == 'user_generics'){
-        if(is_array($formResults['privacy_preference']) && in_array("hide_location", $formResults['privacy_preference'])){
+        if(is_array($submission->privacy_preference) && in_array("hide_location", $submission->privacy_preference)){
             $markerId = get_user_meta($object->userId, "marker_id", true);
 
             if(is_numeric($markerId)){
@@ -105,5 +105,5 @@ function beforeSavingFormData($formResults, $object){
         }
     }
 
-	return $formResults;
+	return $submission;
 }
