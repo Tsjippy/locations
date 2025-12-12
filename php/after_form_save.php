@@ -68,7 +68,7 @@ function locationRemoval($userId){
 
 
 // Update marker icon when family picture is changed
-add_filter('sim_before_saving_formdata', __NAMESPACE__.'\beforeSavingFormData', 10, 3);
+add_filter('sim_before_inserting_formdata', __NAMESPACE__.'\beforeSavingFormData', 10, 2);
 function beforeSavingFormData($submission, $object){
 	if($object->formData->name == 'profile_picture'){
         $privacyPreference  = (array)get_user_meta( $object->userId, 'privacy_preference', true );
