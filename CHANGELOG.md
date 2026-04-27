@@ -8,6 +8,7 @@
 - module to plugin
 
 ### Fixed
+- settings var in AdminMenu
 
 ### Updated
 
