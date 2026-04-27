@@ -1,5 +1,6 @@
 <?php
 namespace TSJIPPY\LOCATIONS;
+use TSJIPPY;
 
 use function TSJIPPY\addRawHtml;
 
@@ -28,33 +29,33 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
         wp_enqueue_style('tsjippy_locations_admin_style', TSJIPPY\pathToUrl(PLUGINPATH.'css/admin.min.css'), array(), PLUGINVERSION);
         wp_enqueue_script('tsjippy_locations_admin_script', TSJIPPY\pathToUrl(PLUGINPATH.'js/locations_admin.min.js'), array(), PLUGINVERSION, true);
 
-        if(empty($settings['page-gallery-background-color'])){
-            $settings['page-gallery-background-color']	= '#FFFFFF';
+        if(empty($this->settings['page-gallery-background-color'])){
+            $this->settings['page-gallery-background-color']	= '#FFFFFF';
         }
-        if(empty($settings['media-gallery-background-color'])){
-            $settings['media-gallery-background-color']	= '#FFFFFF';
+        if(empty($this->settings['media-gallery-background-color'])){
+            $this->settings['media-gallery-background-color']	= '#FFFFFF';
         }
         ?>
         <label>
             Give Google API key for location lookup. See <a href='https://developers.google.com/maps/documentation/javascript/get-api-key'>here</a><br>
-            <input type='text' name='google-maps-api-key' value='<?php echo $settings['google-maps-api-key'];?>' style='width:400px;'>
+            <input type='text' name='google-maps-api-key' value='<?php echo $this->settings['google-maps-api-key'] ?? '';?>' style='width:400px;'>
         </label>
         <br>
         <br>
         <label>
             Select a background color for any page galleries on location pages<br>
-            <input type='color' name='page-gallery-background-color' value='<?php echo $settings['page-gallery-background-color'];?>'>
+            <input type='color' name='page-gallery-background-color' value='<?php echo $this->settings['page-gallery-background-color'] ?? '';?>'>
         </label>
         <br>
         <br>
         <label>
             Select a background color for any media galleries on location pages<br>
-            <input type='color' name='media-gallery-background-color' value='<?php echo $settings['media-gallery-background-color'];?>'>
+            <input type='color' name='media-gallery-background-color' value='<?php echo $this->settings['media-gallery-background-color'] ?? '';?>'>
         </label>
         <br>
         <br>
         <label>
-            <input type='checkbox' name='gallery-background-color-gradient' value='1' <?php if(!empty($settings['gallery-background-color-gradient'])){echo 'checked';}?>>
+            <input type='checkbox' name='gallery-background-color-gradient' value='1' <?php if(!empty($this->settings['gallery-background-color-gradient'] ?? '')){echo 'checked';}?>>
             Smooth the edges of the gallery background colors
         </label>
         <br>
@@ -76,22 +77,22 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
             <label for="<?php echo $mapName;?>">Map showing <?php echo strtolower($name);?></label>
             <select name="<?php echo $mapName;?>" id="<?php echo $mapName;?>">
                 <option value="">---</option>
-                <?php echo $this->getMaps($settings[$mapName]); ?>
+                <?php echo $this->getMaps($this->settings[$mapName] ?? ''); ?>
             </select>
             
             <label>Icon on the map used for <?php echo $name;?></label>
             <div class='icon-select-wrapper'>
-                <input type='hidden' class='no-reset' class='icon-id' name='<?php echo $iconName;?>' value='<?php echo $settings[$iconName];?>'>
+                <input type='hidden' class='no-reset' class='icon-id' name='<?php echo $iconName;?>' value='<?php echo $this->settings[$iconName] ?? '';?>'>
                 <br>
                 <div class="dropdown">
                     <?php
-                    if(is_numeric($settings[$iconName])){
-                        $url		= $icons[$settings[$iconName]]->path;
+                    if(is_numeric($this->settings[$iconName])){
+                        $url		= $icons[$this->settings[$iconName] ?? '']->path;
 
                         if(!str_contains($url, '://' )){
                             $url = TSJIPPY\pathToUrl(WP_PLUGIN_DIR."ultimate-maps-by-supsystic/modules/icons/icons_files/def_icons/$url");
                         }
-                        $img		= "<img src='$url' class='icon' data-id='{$settings[$iconName]}' loading='lazy'>";
+                        $img		= "<img src='$url' class='icon' data-id='{$this->settings[$iconName]}' loading='lazy'>";
                         $buttonText	= "Change";
                     }else{
                         $img	= "";
