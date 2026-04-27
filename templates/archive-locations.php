@@ -1,9 +1,9 @@
 <?php
-namespace SIM\LOCATIONS;
-use SIM;
+namespace TSJIPPY\LOCATIONS;
+use TSJIPPY;
 
 /**
- * The layout specific for the page with the slug 'locations' i.e. sim.org/locations.
+ * The layout specific for the page with the slug 'locations' i.e. org/locations.
  * Displays all the post of the location type
  *
  */
@@ -17,7 +17,7 @@ if($wp_query->is_embed){
 	$skipWrapper	= true;
 }
 
-wp_enqueue_style('sim_taxonomy_style');
+wp_enqueue_style('tsjippy_taxonomy_style');
 
 if($skipWrapper){
 	displayLocationArchive();
@@ -59,10 +59,10 @@ function displayLocationArchive(){
 	);
 	
 	if ( $locationsQuery->have_posts() ){
-		do_action('sim_before_archive', 'location');
+		do_action('tsjippy_before_archive', 'location');
 
 		if(is_user_logged_in()){
-			$mapId = SIM\getModuleOption(MODULE_SLUG, 'directions_map_id');
+			$mapId = SETTINGS['directions_map_id'] ?? '';
 			echo do_shortcode("[ultimate_maps id='$mapId']");
 		}
 		
@@ -93,7 +93,7 @@ function displayLocationArchive(){
 		<div class="no-results not-found">
 			<div class="inside-article">
 				<div class="entry-content">
-					<?php echo apply_filters('sim-empty-taxonomy', 'There are no locations submitted yet.', 'location'); ?>
+					<?php echo apply_filters('tsjippy-empty-taxonomy', 'There are no locations submitted yet.', 'location'); ?>
 				</div>
 			</div>
 		</div>

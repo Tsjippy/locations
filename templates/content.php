@@ -1,6 +1,6 @@
 <?php
-namespace SIM\LOCATIONS;
-use SIM;
+namespace TSJIPPY\LOCATIONS;
+use TSJIPPY;
 
 /**
  * The content of a location shared between a single post, archive or the recipes page.
@@ -39,7 +39,7 @@ if(is_tax() || is_archive()){
 			$url = get_permalink(get_the_ID());
 			echo the_title( "<h3 class='archivetitle'><a href='$url'>", '</a></h3>' );
 		}else{
-			do_action( 'sim_before_content');
+			do_action( 'tsjippy_before_content');
 		}
 		?>
 		<div class='entry-content<?php if($archive){echo ' archive';}?>'>
@@ -47,7 +47,7 @@ if(is_tax() || is_archive()){
 			if(is_user_logged_in()){
 			?>
 				<div class='author'>
-					Shared by: <a href='<?php echo SIM\maybeGetUserPageUrl(get_the_author_meta('ID')) ?>'><?php the_author(); ?></a>
+					Shared by: <a href='<?php echo TSJIPPY\maybeGetUserPageUrl(get_the_author_meta('ID')) ?>'><?php the_author(); ?></a>
 				</div>
 				<?php
 				if($archive){
@@ -104,7 +104,7 @@ if(is_tax() || is_archive()){
 				//Show everything including category specific content
 				}else{
 					if(empty($post->post_content)){
-						echo apply_filters('sim_empty_description', 'No content found...', $post);
+						echo apply_filters('tsjippy_empty_description', 'No content found...', $post);
 					}
 
 					the_content();
@@ -133,7 +133,7 @@ if(is_tax() || is_archive()){
 					);
 					
 					if(!empty($categories)){
-						$url	= SIM\pathToUrl(MODULE_PATH.'pictures/category.png');
+						$url	= TSJIPPY\pathToUrl(PLUGINPATH.'pictures/category.png');
 						echo "<img src='$url' alt='category' loading='lazy' class='book-icon'>";
 						
 						//First loop over the cat to see if any parent cat needs to be removed
@@ -170,7 +170,7 @@ if(is_tax() || is_archive()){
 					<?php
 					$tel		= get_post_meta(get_the_ID(),'tel',true);
 					if(!empty($tel)){
-						$imageUrl = SIM\pathToUrl(MODULE_PATH.'pictures/tel.png');
+						$imageUrl = TSJIPPY\pathToUrl(PLUGINPATH.'pictures/tel.png');
 						$icon = "<img src='$imageUrl' alt='telephone' loading='lazy' class='book-icon'>";
 						echo "<a href='tel:$tel' target='_blank'>$icon Call them  »</a>";
 					}
@@ -181,7 +181,7 @@ if(is_tax() || is_archive()){
 					<?php
 					$url		= get_post_meta(get_the_ID(), 'url', true);
 					if(!empty($url) && filter_var($url, FILTER_VALIDATE_URL) && $url != "https://www."){
-						$imageUrl 	= SIM\pathToUrl(MODULE_PATH.'pictures/url.png');
+						$imageUrl 	= TSJIPPY\pathToUrl(PLUGINPATH.'pictures/url.png');
 						$icon 		= "<img src='$imageUrl' alt='location' loading='lazy' class='book-icon'>";
 						echo "<a href='$url' target='_blank'>$icon Visit website  »</a>";
 					}
@@ -191,13 +191,13 @@ if(is_tax() || is_archive()){
 				<?php
 				$location	= json_decode(get_post_meta(get_the_ID(), 'location', true));
 				if (!empty($location->latitude) && !empty($location->longitude)){
-					$url	= SIM\pathToUrl(MODULE_PATH.'pictures/location.png');
+					$url	= TSJIPPY\pathToUrl(PLUGINPATH.'pictures/location.png');
 					echo "<a onclick='Main.getRoute(this, {$location->latitude},$location->longitude)' style='cursor: pointer;'>
 						<img src='$url' alt='category' loading='lazy' class='book-icon'> Get directions
 					</a>";
 				}
 
-				do_action('sim_inside_location_metas');
+				do_action('tsjippy_inside_location_metas');
 				?>
 			</div>
 		</div>

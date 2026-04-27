@@ -1,8 +1,12 @@
 <?php
-namespace SIM\LOCATIONS;
-use SIM;
+namespace TSJIPPY\LOCATIONS;
+use TSJIPPY;
 
-add_action('sim-forms-extra-form-settings', __NAMESPACE__.'\extraFormSettings');
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+add_action('tsjippy-forms-extra-form-settings', __NAMESPACE__.'\extraFormSettings');
 function extraFormSettings($object){
     $checked    = '';
     if($object->formData->googlemapsapi){
@@ -15,17 +19,20 @@ function extraFormSettings($object){
     <?php
 }
 
-add_filter('sim-forms-before-saving-settings', __NAMESPACE__.'\beforeSavingSettings', 10, 3);
+add_filter('tsjippy-forms-before-saving-settings', __NAMESPACE__.'\beforeSavingSettings', 10, 3);
 function beforeSavingSettings($settings, $object, $formId){
     $mapsApi                        = isset($_POST['google-maps-api'])   ? true : false;
     $settings['google_maps_api']	= $mapsApi;
 
     if($mapsApi){
-        $forms  = SIM\getModuleOption(MODULE_SLUG, 'google-maps-api-forms', false);
+        $forms  = SETTINGS['google-maps-api-forms'] ?? false;
 
         $forms[]  = $formId;
+        
+        $settings   = SETTINGS;
+        $settings['google-maps-api-forms'] = $forms;
 
-        SIM\updateModuleOptions(MODULE_SLUG, $forms, 'google-maps-api-forms');
+        update_option('tsjippy_locations_settings', $settings);
     }
 
     return $settings;

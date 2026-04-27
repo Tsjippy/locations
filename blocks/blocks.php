@@ -1,6 +1,6 @@
 <?php
-namespace SIM\LOCATIONS;
-use SIM;
+namespace TSJIPPY\LOCATIONS;
+use TSJIPPY;
 
 add_action('init',__NAMESPACE__.'\blockInit' );
 function blockInit() {

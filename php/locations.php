@@ -1,21 +1,25 @@
 <?php
-namespace SIM\LOCATIONS;
-use SIM;
+namespace TSJIPPY\LOCATIONS;
+use TSJIPPY;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 // Create the location custom post type
 add_action('init', function(){
-	SIM\registerPostTypeAndTax('location', 'locations');
+	TSJIPPY\registerPostTypeAndTax('location', 'locations');
 }, 999);
 
 // add the marker id to the family meta keys
-add_filter('sim-family-meta-keys', function($metaKeys){
+add_filter('tsjippy-family-meta-keys', function($metaKeys){
 	$metaKeys[]	= 'marker_id';
 
 	return $metaKeys;
 });
 
 //Add a map when a location category is added
-add_action('sim_after_category_add', __NAMESPACE__.'\afterCategoryAdd', 10, 3);
+add_action('tsjippy_after_category_add', __NAMESPACE__.'\afterCategoryAdd', 10, 3);
 function afterCategoryAdd($postType, $name, $result){
 	if($postType != 'location'){
 		return;
@@ -28,9 +32,9 @@ function afterCategoryAdd($postType, $name, $result){
 	//Attach the map id to the term
 	update_term_meta($result['term_id'], 'map_id', $mapId);
 
-	$Modules[MODULE_SLUG][$name.'-map']	= $mapId;
+	$Modules[PLUGINSLUG][$name.'-map']	= $mapId;
 	
-	update_option('sim_modules', $Modules);
+	update_option('tsjippy_modules', $Modules);
 }
 
 add_filter(	'widget_categories_args', __NAMESPACE__.'\widgetCats');
@@ -62,7 +66,7 @@ function trashPost($postId){
 	$maps->removePostMarkers($postId);
 }
 
-add_filter('sim-template-filter', __NAMESPACE__.'\templateFilter');
+add_filter('tsjippy-template-filter', __NAMESPACE__.'\templateFilter');
 function templateFilter($templateFile){
 	global $post;
 
@@ -79,7 +83,7 @@ function templateFilter($templateFile){
  */
 function getLocationEmployees($post){
 
-	wp_enqueue_style('sim_employee_style');
+	wp_enqueue_style('tsjippy_employee_style');
 
 	if (!is_user_logged_in()){
 		return '';
@@ -108,7 +112,7 @@ function getLocationEmployees($post){
 	
 		//If a user works for this ministry, echo its name and position
 		if ($intersect){
-			$userPageUrl		= SIM\maybeGetUserPageUrl($user->ID);
+			$userPageUrl		= TSJIPPY\maybeGetUserPageUrl($user->ID);
 			$privacyPreference	= (array)get_user_meta( $user->ID, 'privacy_preference', true );
 			$class				= 'description';
 			if(isset($privacyPreference['hide_profile_picture'])){
@@ -118,7 +122,7 @@ function getLocationEmployees($post){
 			if(!isset($privacyPreference['hide_ministry'])){
 				$html .=	"<div class='person-wrapper'>";
 					if(!isset($privacyPreference['hide_profile_picture'])){
-						$html .= SIM\displayProfilePicture($user->ID);
+						$html .= TSJIPPY\displayProfilePicture($user->ID);
 					}
 					
 					$pageUrl = "<a class='user-link' href='$userPageUrl'>$user->display_name</a>";
@@ -134,7 +138,7 @@ function getLocationEmployees($post){
 
 	if(empty($html)){
 		$html  .= "No workers are currently affiliated with this ministry.<br>";
-		$url	= SIM\ADMIN\getDefaultPageLink('usermanagement', 'account_page');
+		$url	= TSJIPPY\ADMIN\getDefaultPageLink('usermanagement', 'account_page');
 		$html  .= "If you work here indicate so on the <a href='$url/?main-tab=generic-info#ministries'>Generic Info page</a>";
 	}else{
 		$html	= "<div class='employee-gallery'>$html</div>";
@@ -145,7 +149,7 @@ function getLocationEmployees($post){
 	return $html;
 }
 
-add_filter('sim-theme-archive-page-title', __NAMESPACE__.'\changeArchiveTitle', 10, 2);
+add_filter('tsjippy-theme-archive-page-title', __NAMESPACE__.'\changeArchiveTitle', 10, 2);
 function changeArchiveTitle($title, $category){
 	if(is_post_type_archive('location')){
 		$title = 'Locations';

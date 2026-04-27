@@ -1,0 +1,47 @@
+<?php
+namespace TSJIPPY\LOCATIONS;
+
+/**
+ * Plugin Name:  		Tsjippy Locations
+ * Description:  		This plugin adds a custom post type 'locations'.Locations can be used to share shops, hotels ministries etc. They will bevisible on a map. It adds one shortcode: <code>[ministry_description name=SOMENAME]</code>
+ * Version:      		1.0.0
+ * Author:       		Ewald Harmsen
+ * AuthorURI:			harmseninnigeria.nl
+ * Requires at least:	6.3
+ * Requires PHP: 		8.3
+ * Tested up to: 		6.9
+ * Plugin URI:			https://github.com/Tsjippy/
+ * Tested:				6.9
+ * TextDomain:			tsjippy
+ * Requires Plugins:	tsjippy-shared-functionality, ultimate-maps-by-supsystic
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ *
+ * @author Ewald Harmsen
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+$pluginData = get_plugin_data(__FILE__, false, false);
+
+// Define constants
+define(__NAMESPACE__ .'\PLUGIN', plugin_basename(__FILE__));
+define(__NAMESPACE__ .'\PLUGINPATH', __DIR__.'/');
+define(__NAMESPACE__ .'\PLUGINVERSION', $pluginData['Version']);
+define(__NAMESPACE__ .'\PLUGINSLUG', basename(__FILE__, '.php'));
+define(__NAMESPACE__ .'\SETTINGS', get_option('tsjippy_locations_settings', []));
+
+// run on activation
+register_activation_hook( __FILE__, function(){
+	// add an extra form setting column in db
+	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+	$forms	= new \TSJIPPY\FORMS\Forms();
+
+	maybe_add_column($forms->tableName, 'google_maps_api', "ALTER TABLE $forms->tableName ADD COLUMN `google_maps_api` bool");
+} );
+
+// run on deactivation
+register_deactivation_hook( __FILE__, function(){
+} );

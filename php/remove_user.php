@@ -1,11 +1,15 @@
 <?php
-namespace SIM\LOCATIONS;
-use SIM;
+namespace TSJIPPY\LOCATIONS;
+use TSJIPPY;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 add_action('delete_user', __NAMESPACE__.'\deleteUser');
 function deleteUser($userId){
 	$maps			= new Maps();
-	$family 		= new SIM\FAMILY\Family();
+	$family 		= new TSJIPPY\FAMILY\Family();
 	$familyMembers	= $family->getFamily($userId, true);
 	$count			= count($familyMembers);
 	

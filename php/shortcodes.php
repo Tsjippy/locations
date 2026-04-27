@@ -1,6 +1,10 @@
 <?php
-namespace SIM\LOCATIONS;
-use SIM;
+namespace TSJIPPY\LOCATIONS;
+use TSJIPPY;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 add_shortcode("markerdescription", __NAMESPACE__.'\markerDescription');
 function markerDescription($atts){
@@ -11,17 +15,17 @@ function markerDescription($atts){
     $userId = $a['userid'];
     
     if(is_numeric($userId)){
-        wp_enqueue_style('sim_locations_style');
+        wp_enqueue_style('tsjippy_locations_style');
         
         $privacyPreference = (array)get_user_meta( $userId, 'privacy_preference', true );
 
         $description = "";
         if (empty($privacyPreference['hide_profile_picture'])){
-            $description .= SIM\displayProfilePicture($userId, [80,80], true, true);
+            $description .= TSJIPPY\displayProfilePicture($userId, [80,80], true, true);
         }
         
         //Add the post link to the marker content
-        $url			 = SIM\maybeGetUserPageUrl($userId);
+        $url			 = TSJIPPY\maybeGetUserPageUrl($userId);
         $description	.= "<a href='$url' style='display:block;' class='page-link'>More info</a><br>";
         
         return $description;

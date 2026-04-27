@@ -1,10 +1,14 @@
 <?php
-namespace SIM\LOCATIONS;
-use SIM;
+namespace TSJIPPY\LOCATIONS;
+use TSJIPPY;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /* HELPER FUNCTIONS */
 //add special js to the dynamic form js
-add_filter('sim_form_extra_js', __NAMESPACE__.'\addJs', 10, 3);
+add_filter('tsjippy_form_extra_js', __NAMESPACE__.'\addJs', 10, 3);
 function addJs($js, $object, $minimized){
 	if($object->formName != 'user_location' ){
 		return $js;

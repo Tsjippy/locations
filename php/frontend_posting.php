@@ -1,8 +1,12 @@
 <?php
-namespace SIM\LOCATIONS;
-use SIM;
+namespace TSJIPPY\LOCATIONS;
+use TSJIPPY;
 
-add_action('sim_frontend_post_content_title', __NAMESPACE__.'\contentTitle');
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+add_action('tsjippy_frontend_post_content_title', __NAMESPACE__.'\contentTitle');
 function contentTitle($postType){
     //Location content title
     $class = 'property location';
@@ -15,7 +19,7 @@ function contentTitle($postType){
     echo "</h4>";
 }
 
-add_action('sim_after_post_save', __NAMESPACE__.'\afterPostSave', 10, 2);
+add_action('tsjippy_after_post_save', __NAMESPACE__.'\afterPostSave', 10, 2);
 function afterPostSave($post, $frontEndPost){
     if($post->post_type != 'location'){
         return;
@@ -44,7 +48,7 @@ function afterPostSave($post, $frontEndPost){
     setLocationAddress($post->ID);
 }
 
-add_action('sim_ministry_added', __NAMESPACE__.'\setLocationAddress', 10, 2);
+add_action('tsjippy_ministry_added', __NAMESPACE__.'\setLocationAddress', 10, 2);
 
 /**
  * Store location details in meta
@@ -124,8 +128,8 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location){
     $name           = get_term( $categories[0], 'locations' )->slug."_icon";
 
     //If there is a location category set and an custom icon for this category is set
-    if(!empty($categories) && !empty(SIM\getModuleOption(MODULE_SLUG, $name))){
-        $iconId = SIM\getModuleOption(MODULE_SLUG, $name);
+    if(!empty($categories) && SETTINGS[$name] ?? false){
+        $iconId = SETTINGS[$name];
     }else{
         $iconId = 1;
     }
@@ -147,7 +151,7 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location){
         );
     //Marker does not exist, create it
     }else{
-        $mapId	=  SIM\getModuleOption(MODULE_SLUG, 'directions_map_id');
+        $mapId	=  SETTINGS['directions_map_id'] ?? false;
 
         //First create the marker on the generic map
         $wpdb->insert($wpdb->prefix . 'ums_markers', array(
@@ -225,9 +229,9 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location){
     foreach($categories as $category){
         $name 				= $category->slug;
         $mapName			= $name."_map";
-        $mapId				= SIM\getModuleOption(MODULE_SLUG, $mapName);
+        $mapId				= SETTINGS[$mapName] ?? '';
         $iconName			= $name."_icon";
-        $iconId			    = SIM\getModuleOption(MODULE_SLUG, $iconName);
+        $iconId			    = SETTINGS[$iconName] ?? 1;
 
         //Update existing
         if(is_numeric($markerIds[$name]) && $maps->markerExists($markerIds[$name])){
@@ -263,7 +267,7 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location){
             //Get the marker id
             $markerIds[$name] = $wpdb->insert_id;
 
-            SIM\printArray("Created marker with id {$wpdb->insert_id} and title $title on map with id $mapId");
+            TSJIPPY\printArray("Created marker with id {$wpdb->insert_id} and title $title on map with id $mapId");
         }
     }
 
@@ -296,7 +300,7 @@ function postMetaDelete($metaIds, $postId, $metaKey, $metaValue ){
 }
 
 //add meta data fields
-add_action('sim_frontend_post_after_content', __NAMESPACE__.'\afterPostContent', 10, 2);
+add_action('tsjippy_frontend_post_after_content', __NAMESPACE__.'\afterPostContent', 10, 2);
 function afterPostContent($frontendcontend){
 
     if(!empty($frontendcontend->post) && $frontendcontend->post->post_type != 'location'){
@@ -304,7 +308,7 @@ function afterPostContent($frontendcontend){
     }
 
     //Load js
-    wp_enqueue_script('sim_location_script');
+    wp_enqueue_script('tsjippy_location_script');
 
     $postId     = $frontendcontend->postId;
     $postName   = $frontendcontend->postName;
@@ -348,7 +352,7 @@ function afterPostContent($frontendcontend){
         <div id="parentpage" class="frontend-form">
             <h4>Select a parent location</h4>
             <?php
-            echo SIM\pageSelect('parent-location', $frontendcontend->postParent, '', ['location'], false);
+            echo TSJIPPY\pageSelect('parent-location', $frontendcontend->postParent, '', ['location'], false);
             ?>
         </div>
         <div class="frontend-form">

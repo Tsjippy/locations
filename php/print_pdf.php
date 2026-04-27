@@ -1,8 +1,12 @@
 <?php
-namespace SIM\LOCATIONS;
-use SIM;
+namespace TSJIPPY\LOCATIONS;
+use TSJIPPY;
 
-add_action('sim-before-print-content', __NAMESPACE__.'\beforePrint', 10, 2);
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+add_action('tsjippy-before-print-content', __NAMESPACE__.'\beforePrint', 10, 2);
 function beforePrint($post, $pdf){
     if($post->post_type != 'location'){
         return;
@@ -13,7 +17,7 @@ function beforePrint($post, $pdf){
     //Address
     $location   = get_post_meta(get_the_ID(), 'location', true);
     if(is_array($location) && !empty($location['address'])){
-        $url = SIM\pathToUrl(MODULE_PATH.'pictures/location.png');
+        $url = TSJIPPY\pathToUrl(PLUGINPATH.'pictures/location.png');
         $pdf->printImage($url, 10, -1, 10, 10);
         $pdf->write(10, $location['address']);
     }
@@ -22,13 +26,13 @@ function beforePrint($post, $pdf){
 
     if(!empty($tel)){
         // tel
-        $url = SIM\pathToUrl(MODULE_PATH.'pictures/tel.png');
+        $url = TSJIPPY\pathToUrl(PLUGINPATH.'pictures/tel.png');
         $pdf->printImage($url, 100, -1, 10, 10);
         $pdf->write(10, $tel);
     }
     
     //Url
-    $imageUrl = SIM\pathToUrl(MODULE_PATH.'pictures/url.png');
+    $imageUrl = TSJIPPY\pathToUrl(PLUGINPATH.'pictures/url.png');
     $y      = $pdf->getY()+12;
     $url    = get_post_meta(get_the_ID(), 'url', true);
     if(!empty($url)){

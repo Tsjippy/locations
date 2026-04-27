@@ -1,6 +1,6 @@
 <?php
-namespace SIM\LOCATIONS;
-use SIM;
+namespace TSJIPPY\LOCATIONS;
+use TSJIPPY;
 
 /**
  * The Template for displaying all single locations
@@ -39,11 +39,11 @@ if(!isset($skipHeader) || !$skipHeader){
 				showRelevantPages();
 			endwhile;
 			
-			echo apply_filters('sim-single-template-bottom', '', 'location');
+			echo apply_filters('tsjippy-single-template-bottom', '', 'location');
 			?>
 		</main>
 		
-		<?php SIM\showComments(); ?>
+		<?php TSJIPPY\showComments(); ?>
 	</div>
 
 	<?php
@@ -126,7 +126,7 @@ function projectList(){
 
 function showMedia(){
 	// Show relevant media
-	$gradient		= SIM\getModuleOption(MODULE_SLUG, 'gallery-background-color-gradient');
+	$gradient		= SETTINGS['gallery-background-color-gradient'] ?? false;
 
 	$cats			= [];
 	$categories		= get_the_terms(get_the_ID(), 'locations');
@@ -138,8 +138,8 @@ function showMedia(){
 		$cats[]	= $cat->slug;
 	}
 
-	$color			= SIM\getModuleOption(MODULE_SLUG, 'media-gallery-background-color');
-	$mediaGallery   = new SIM\MEDIAGALLERY\MediaGallery(['image'], 6, $cats, true, 1, '', $color, $gradient);
+	$color			= SETTINGS['media-gallery-background-color'] ?? false;
+	$mediaGallery   = new TSJIPPY\MEDIAGALLERY\MediaGallery(['image'], 6, $cats, true, 1, '', $color, $gradient);
 
 	if(isset($_POST['switch-gallery']) && $_POST['switch-gallery'] == 'filter'){
 		echo $mediaGallery->filterableMediaGallery();
@@ -173,9 +173,9 @@ function showRelevantPages(){
 		}
 
 		
-		$gradient		= SIM\getModuleOption(MODULE_SLUG, 'gallery-background-color-gradient');
+		$gradient		= SETTINGS['gallery-background-color-gradient'] ?? false;
 
-		echo SIM\PAGEGALLERY\pageGallery('Related Ministries', [get_post_type()], 3, $cats, 60, true, SIM\getModuleOption(MODULE_SLUG, 'page-gallery-background-color'), $gradient);
+		echo TSJIPPY\PAGEGALLERY\pageGallery('Related Ministries', [get_post_type()], 3, $cats, 60, true, SETTINGS['page-gallery-background-color'] ?? false, $gradient);
 	}
 }
 

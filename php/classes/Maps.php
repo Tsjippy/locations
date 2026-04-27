@@ -1,6 +1,10 @@
 <?php
-namespace SIM\LOCATIONS;
-use SIM;
+namespace TSJIPPY\LOCATIONS;
+use TSJIPPY;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class Maps{
 	public $mapTable;
@@ -172,7 +176,7 @@ class Maps{
 			return false;
 		}
 
-		$family	= new SIM\FAMILY\Family();
+		$family	= new TSJIPPY\FAMILY\Family();
 
 		$check	= $this->checkCoordinates($location['latitude'], $location['longitude']);
 		if(is_wp_error($check)){
@@ -192,8 +196,8 @@ class Maps{
 		//Add the profile picture to the marker description if it is set, and allowed by privacy
 		if (empty($privacyPreference['hide_profile_picture'])){
 			$loginName = $userdata->user_login;
-			if ( is_numeric(get_user_meta($userId,'profile_picture',true)) && function_exists('SIM\USERMANAGEMENT\getProfilePictureUrl')) {
-				$iconUrl = SIM\USERMANAGEMENT\getProfilePictureUrl($userId, 'thumbnail');
+			if ( is_numeric(get_user_meta($userId,'profile_picture',true)) && function_exists('TSJIPPY\USERMANAGEMENT\getProfilePictureUrl')) {
+				$iconUrl = TSJIPPY\USERMANAGEMENT\getProfilePictureUrl($userId, 'thumbnail');
 			}else{
 				$iconUrl = "";
 			}
@@ -211,7 +215,7 @@ class Maps{
 			'coord_x'		=> $location['latitude'],
 			'coord_y'		=> $location['longitude'],
 			'icon'			=> $iconId,
-			'map_id'		=> SIM\getModuleOption(MODULE_SLUG, 'users_map_id')
+			'map_id'		=> SETTINGS['users_map_id'] ?? '',
 		));
 
 		//Get the marker id
@@ -280,7 +284,7 @@ class Maps{
 
 		$result = $wpdb->delete( $this->markerTable, array( 'id' => $markerId ) );
 		if($result){
-			SIM\printArray("Removed the marker with id $markerId");
+			TSJIPPY\printArray("Removed the marker with id $markerId");
 		}
 	}
 
@@ -327,7 +331,7 @@ class Maps{
 		global $wpdb;
 
 		if(!is_numeric($markerId)){
-			SIM\printArray("No marker to remove");
+			TSJIPPY\printArray("No marker to remove");
 			return;
 		}
 
@@ -336,7 +340,7 @@ class Maps{
 
 		if(!is_numeric($markerIconId)){
 			if(!empty($markerIconId)){
-				SIM\printArray("Marker id is $markerId but this marker is not found in the db, marker_icon_id is $markerIconId");
+				TSJIPPY\printArray("Marker id is $markerId but this marker is not found in the db, marker_icon_id is $markerIconId");
 			}
 
 			return;
@@ -353,7 +357,7 @@ class Maps{
 				array( 'id' => $markerId),
 			);
 		}else{
-			SIM\printArray("Icon is already the default");
+			TSJIPPY\printArray("Icon is already the default");
 		}
 	}
 

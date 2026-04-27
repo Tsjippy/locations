@@ -1,28 +1,32 @@
 <?php
-namespace SIM\LOCATIONS;
-use SIM;
+namespace TSJIPPY\LOCATIONS;
+use TSJIPPY;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\loadAssets', 99);
 function loadAssets(){
-    wp_register_style('sim_locations_style', SIM\pathToUrl(MODULE_PATH.'css/locations.min.css'), array(), MODULE_VERSION);
-    wp_register_style('sim_employee_style', SIM\pathToUrl(MODULE_PATH.'css/employee.min.css'), array(), MODULE_VERSION);
+    wp_register_style('tsjippy_locations_style', TSJIPPY\pathToUrl(PLUGINPATH.'css/locations.min.css'), array(), PLUGINVERSION);
+    wp_register_style('tsjippy_employee_style', TSJIPPY\pathToUrl(PLUGINPATH.'css/employee.min.css'), array(), PLUGINVERSION);
 
     // frontend content of profile page
-	$pages   = SIM\getModuleOption('frontendposting', 'front-end-post-pages');
-    if(in_array('location', (array)SIM\getModuleOption('usermanagement', 'enabled-forms'))){
-        $pages   = array_merge($pages, SIM\getModuleOption('usermanagement', 'account_page'));
+	$pages   = TSJIPPY\FRONTENDPOSTING\SETTINGS['front-end-post-pages'] ?? [];
+    if(in_array('location', TSJIPPY\USERMANAGEMENT\SETTINGS['enabled-forms'] ?? [])){
+        $pages   = array_merge($pages, TSJIPPY\USERMANAGEMENT\SETTINGS['account_page'] ?? []);
     }
 
     if(is_numeric(get_the_ID()) && in_array(get_the_ID(), $pages)){
-        wp_enqueue_style('sim_locations_style');
+        wp_enqueue_style('tsjippy_locations_style');
         
         addGoogleMapsApiKey();
     }
 }
 
-add_filter('sim-forms-before-showing-form', __NAMESPACE__.'\beforeShowingForm', 10, 2);
+add_filter('tsjippy-forms-before-showing-form', __NAMESPACE__.'\beforeShowingForm', 10, 2);
 function beforeShowingForm($html, $object){
-    if(in_array($object->formData->id, (array) SIM\getModuleOption(MODULE_SLUG, 'google-maps-api-forms' ))){
+    if(in_array($object->formData->id, SETTINGS['google-maps-api-forms'] ?? [])){
         $html   .= "<script>
             function initMap(){
 	            console.log('Google Maps loaded');
@@ -38,7 +42,7 @@ function beforeShowingForm($html, $object){
 }
 
 function addGoogleMapsApiKey(){
-    $apiKey = SIM\getModuleOption(MODULE_SLUG, 'google-maps-api-key');
+    $apiKey = SETTINGS['google-maps-api-key'] ?? '';
 
     if($apiKey){
         //Get current users location
@@ -49,9 +53,9 @@ function addGoogleMapsApiKey(){
             $address = "";
         }
 
-        $locations	= apply_filters('sim-locations-array', []);
+        $locations	= apply_filters('tsjippy-locations-array', []);
 
-        wp_localize_script( 'sim_script',
+        wp_localize_script( 'tsjippy_script',
             'locations',
             array(
                 'address' 		=> $address,
@@ -67,7 +71,7 @@ function addGoogleMapsApiKey(){
         </script>
         <?php
         
-        wp_localize_script( 'sim_script',
+        wp_localize_script( 'tsjippy_script',
             'mapsApi',
             ['key'=>$apiKey]
         );

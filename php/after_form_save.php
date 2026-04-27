@@ -1,11 +1,15 @@
 <?php
-namespace SIM\LOCATIONS;
-use SIM;
+namespace TSJIPPY\LOCATIONS;
+use TSJIPPY;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 // Update marker icon when family picture is updated
-add_action('sim_update_family_picture', __NAMESPACE__.'\familiPicture', 10, 2);
+add_action('tsjippy_update_family_picture', __NAMESPACE__.'\familiPicture', 10, 2);
 function familiPicture($userId, $attachmentId){
-	$family	    = new SIM\FAMILY\Family();
+	$family	    = new TSJIPPY\FAMILY\Family();
     $maps       = new Maps();
     $markerId 	= get_user_meta($userId, "marker_id", true);
     $url        = wp_get_attachment_url($attachmentId);
@@ -15,9 +19,9 @@ function familiPicture($userId, $attachmentId){
 }
 
 // Update marker title whenever there are changes to the family
-add_action('sim_family_safe', __NAMESPACE__.'\onFamilySave');
+add_action('tsjippy_family_safe', __NAMESPACE__.'\onFamilySave');
 function onFamilySave($userId){
-	$family	    = new SIM\FAMILY\Family();
+	$family	    = new TSJIPPY\FAMILY\Family();
     $maps       = new Maps();
 
 	//Update the marker title
@@ -29,7 +33,7 @@ function onFamilySave($userId){
 }
 
 //Update marker whenever the location changes
-add_action('sim_location_update', __NAMESPACE__.'\locationUpdate', 10, 2);
+add_action('tsjippy_location_update', __NAMESPACE__.'\locationUpdate', 10, 2);
 function locationUpdate($userId, $location){
     global $wpdb;
 
@@ -58,7 +62,7 @@ function locationUpdate($userId, $location){
 }
 
 // Remove marker when location is removed
-add_action('sim_location_removal', __NAMESPACE__.'\locationRemoval');
+add_action('tsjippy_location_removal', __NAMESPACE__.'\locationRemoval');
 function locationRemoval($userId){
 	//Delete the marker as well
     $maps   = new Maps();
@@ -68,11 +72,11 @@ function locationRemoval($userId){
 
 
 // Update marker icon when family picture is changed
-add_filter('sim_before_inserting_formdata', __NAMESPACE__.'\beforeSavingFormData', 10, 2);
+add_filter('tsjippy_before_inserting_formdata', __NAMESPACE__.'\beforeSavingFormData', 10, 2);
 function beforeSavingFormData($submission, $object){
 	if($object->formData->name == 'profile_picture'){
         $privacyPreference  = (array)get_user_meta( $object->userId, 'privacy_preference', true );
-        $family	            = new SIM\FAMILY\Family();
+        $family	            = new TSJIPPY\FAMILY\Family();
         $picture            = $family->getFamilyMeta($object->userId, 'family_picture');
         $maps               = new Maps();
         
@@ -82,7 +86,7 @@ function beforeSavingFormData($submission, $object){
             
             //New profile picture is set, update the marker icon
             if(is_numeric(get_user_meta($object->userId, 'profile_picture', true))){
-                $iconUrl = SIM\USERMANAGEMENT\getProfilePictureUrl($object->userId);
+                $iconUrl = TSJIPPY\USERMANAGEMENT\getProfilePictureUrl($object->userId);
                 
                 //Save profile picture as icon
                 $maps->createIcon($markerId, get_userdata($object->userId)->user_login, $iconUrl, 1);
