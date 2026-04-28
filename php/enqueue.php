@@ -13,7 +13,7 @@ function loadAssets(){
 
     // frontend content of profile page
 	$pages   = TSJIPPY\FRONTENDPOSTING\SETTINGS['front-end-post-pages'] ?? [];
-    if(in_array('location', TSJIPPY\USERMANAGEMENT\SETTINGS['enabled-forms'] ?? [])){
+    if(defined('TSJIPPY\USERMANAGEMENT\SETTINGS') && in_array('location', TSJIPPY\USERMANAGEMENT\SETTINGS['enabled-forms'] ?? [])){
         $pages   = array_merge($pages, TSJIPPY\USERMANAGEMENT\SETTINGS['account_page'] ?? []);
     }
 
