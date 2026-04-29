@@ -7,6 +7,7 @@
 - main plugin name from sim-base to tsjippy-shared-functionality
 - module to plugin
 - PLUGINCONSTANT value
+- lib updates
 
 ### Fixed
 - settings var in AdminMenu
