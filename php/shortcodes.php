@@ -9,10 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 add_shortcode("markerdescription", __NAMESPACE__.'\markerDescription');
 function markerDescription($atts){
     $a = shortcode_atts( array(
-        'userid' => '',
+        'user_id' => '',
     ), $atts );
     
-    $userId = $a['userid'];
+    $userId = $a['user_id'];
     
     if(is_numeric($userId)){
         wp_enqueue_style('tsjippy_locations_style');
