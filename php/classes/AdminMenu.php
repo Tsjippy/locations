@@ -156,6 +156,8 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
     public function postSettingsSave(){
         $maps		= new Maps();
 
+        $message    = '';
+
         foreach(['Directions', 'Users'] as $title){
             $mapKey	= strtolower($title).'_map_id';
 
@@ -173,6 +175,8 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
 
             // create the map
             $this->settings[$mapKey]	= $maps->addMap($title, '9.910260', '8.889170', '', '400', 6);
+
+            $message    .= "Map created: '$title'<br>";
         }
 
         if(!get_term_by('slug', 'ministry', 'locations')){
@@ -181,6 +185,7 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
 
         update_option("tsjippy_locations_settings", $this->settings);
     
+        return $message;
     }
 
     /**
