@@ -10,6 +10,7 @@
 - PLUGINCONSTANT value
 - lib updates
 - exclude .vscode from releases
+- updated github workflow versions
 
 ### Fixed
 - settings var in AdminMenu
