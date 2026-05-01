@@ -9,6 +9,7 @@
 - module to plugin
 - PLUGINCONSTANT value
 - lib updates
+- exclude .vscode from releases
 
 ### Fixed
 - settings var in AdminMenu
