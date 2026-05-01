@@ -32,7 +32,7 @@ define(__NAMESPACE__ .'\PLUGINVERSION', $pluginData['Version']);
 define(__NAMESPACE__ .'\PLUGINSLUG', str_replace('tsjippy-', '', basename(__FILE__, '.php')));
 define(__NAMESPACE__ .'\SETTINGS', get_option('tsjippy_locations_settings', []));
 
-// run on activation
+// run right before activation
 register_activation_hook( __FILE__, function(){
 	// add an extra form setting column in db
 	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -42,9 +42,3 @@ register_activation_hook( __FILE__, function(){
 	maybe_add_column($forms->tableName, 'google_maps_api', "ALTER TABLE $forms->tableName ADD COLUMN `google_maps_api` bool");
 } );
 
-add_action( 'activated_plugin', function($plugin){
-	// Redirect to settings page after plugin activation
-    if($plugin == PLUGIN && wp_safe_redirect( esc_url(admin_url('admin.php?page=tsjippy-'.PLUGINSLUG) )  ) ){
-		exit();
-	}
-});
