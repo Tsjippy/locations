@@ -2,6 +2,17 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
+
+### Changed
+
+### Fixed
+
+### Updated
+
+## [10.0.0] - 2026-05-01
+
+
+### Added
 - redirection to settings page on plugin activation
 
 ### Changed
@@ -14,8 +25,6 @@
 
 ### Fixed
 - settings var in AdminMenu
-
-### Updated
 
 ## [8.1.8] - 2025-12-12
 
