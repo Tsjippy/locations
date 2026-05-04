@@ -24,7 +24,6 @@ function afterCategoryAdd($postType, $name, $result){
 	if($postType != 'location'){
 		return;
 	}
-	global $Modules;
 
 	$Maps		= new Maps();
 	$mapId		= $Maps->addMap($name);
@@ -32,9 +31,11 @@ function afterCategoryAdd($postType, $name, $result){
 	//Attach the map id to the term
 	update_term_meta($result['term_id'], 'map_id', $mapId);
 
-	$Modules[PLUGINSLUG][$name.'-map']	= $mapId;
+	$settings	= SETTINGS;
+
+	$settings[$name.'-map']	= $mapId;
 	
-	update_option('tsjippy_modules', $Modules);
+	update_option('tsjippy_locations_settings', $settings);
 }
 
 add_filter(	'widget_categories_args', __NAMESPACE__.'\widgetCats');
