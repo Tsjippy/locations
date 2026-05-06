@@ -4,12 +4,19 @@
 ### Added
 
 ### Changed
+
+### Fixed
+
+### Updated
+
+## [10.0.3] - 2026-05-06
+
+
+### Changed
 - use formData->slug
 
 ### Fixed
 - textdomain
-
-### Updated
 
 ## [10.0.1] - 2026-05-03
 
