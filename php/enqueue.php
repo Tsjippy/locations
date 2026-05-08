@@ -12,15 +12,18 @@ function loadAssets(){
     wp_register_style('tsjippy_employee_style', TSJIPPY\pathToUrl(PLUGINPATH.'css/employee.min.css'), array(), PLUGINVERSION);
 
     // frontend content of profile page
-	$pages   = TSJIPPY\FRONTENDPOSTING\SETTINGS['front-end-post-pages'] ?? [];
-    if(defined('TSJIPPY\USERMANAGEMENT\SETTINGS') && in_array('location', TSJIPPY\USERMANAGEMENT\SETTINGS['enabled-forms'] ?? [])){
-        $pages   = array_merge($pages, TSJIPPY\USERMANAGEMENT\SETTINGS['account_page'] ?? []);
-    }
-
-    if(is_numeric(get_the_ID()) && in_array(get_the_ID(), $pages)){
-        wp_enqueue_style('tsjippy_locations_style');
+    if(defined('TSJIPPY\FRONTENDPOSTING\SETTINGS')){
+        $frontEndPage   = TSJIPPY\FRONTENDPOSTING\SETTINGS['front-end-post-page'] ?? '';
         
-        addGoogleMapsApiKey();
+        if(defined('TSJIPPY\USERMANAGEMENT\SETTINGS') && in_array('location', TSJIPPY\USERMANAGEMENT\SETTINGS['enabled-forms'] ?? [])){
+            $accountPage = TSJIPPY\USERMANAGEMENT\SETTINGS['account_page'] ?? '';
+        }
+
+        if(is_numeric(get_the_ID()) && in_array(get_the_ID(), [$frontEndPage, $accountPage])){
+            wp_enqueue_style('tsjippy_locations_style');
+            
+            addGoogleMapsApiKey();
+        }
     }
 }
 

@@ -139,7 +139,15 @@ function getLocationEmployees($post){
 
 	if(empty($html)){
 		$html  .= "No workers are currently affiliated with this ministry.<br>";
-		$url	= TSJIPPY\ADMIN\getDefaultPageLink('usermanagement', 'account_page');
+		
+		$url			= '';
+		if(defined('TSJIPPY\USERMANAGEMENT\SETTINGS') && !empty(TSJIPPY\USERMANAGEMENT\SETTINGS['account_page'])){
+			$url			= get_permalink(TSJIPPY\USERMANAGEMENT\SETTINGS['account_page']);
+
+			if(!$url){
+				$url	= '';
+			}
+		}
 		$html  .= "If you work here indicate so on the <a href='$url/?main-tab=generic-info#ministries'>Generic Info page</a>";
 	}else{
 		$html	= "<div class='employee-gallery'>$html</div>";
