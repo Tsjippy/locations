@@ -86,7 +86,7 @@ function locationDescription($atts){
         $description    .= "<a href='$url' style='display:block;' class='page-link'>Show full descripion</a><br>";
     }
 
-    $description    .= "<p><a class='button' onclick='getRoute(this, $latitude, $longitude)'>Get directions</a></p>";;
+    $description    .= "<p><a class='button' onclick='Locations.getRoute(this, $latitude, $longitude)'>Get directions</a></p>";;
     
     return $description;
 }

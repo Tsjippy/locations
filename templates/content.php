@@ -10,6 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+global $post;
+
 $archive	= false;
 if(is_tax() || is_archive()){
 	$archive	= true;
@@ -192,7 +194,7 @@ if(is_tax() || is_archive()){
 				$location	= json_decode(get_post_meta(get_the_ID(), 'location', true));
 				if (!empty($location->latitude) && !empty($location->longitude)){
 					$url	= TSJIPPY\pathToUrl(PLUGINPATH.'pictures/location.png');
-					echo "<a onclick='Main.getRoute(this, {$location->latitude},$location->longitude)' style='cursor: pointer;'>
+					echo "<a onclick='Locations.getRoute(this, {$location->latitude},$location->longitude)' style='cursor: pointer;'>
 						<img src='$url' alt='category' loading='lazy' class='book-icon'> Get directions
 					</a>";
 				}

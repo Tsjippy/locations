@@ -11,6 +11,8 @@ function loadAssets(){
     wp_register_style('tsjippy_locations_style', TSJIPPY\pathToUrl(PLUGINPATH.'css/locations.min.css'), array(), PLUGINVERSION);
     wp_register_style('tsjippy_employee_style', TSJIPPY\pathToUrl(PLUGINPATH.'css/employee.min.css'), array(), PLUGINVERSION);
 
+    wp_enqueue_script('tsjippy_locations_script', plugins_url('js/locations.min.js', __DIR__), [], PLUGINVERSION, true);
+
     // frontend content of profile page
     if(defined('TSJIPPY\FRONTENDPOSTING\SETTINGS')){
         $frontEndPage   = TSJIPPY\FRONTENDPOSTING\SETTINGS['front-end-post-page'] ?? '';
@@ -58,7 +60,7 @@ function addGoogleMapsApiKey(){
 
         $locations	= apply_filters('tsjippy-locations-array', []);
 
-        wp_localize_script( 'tsjippy_script',
+        wp_localize_script( 'tsjippy_locations_script',
             'locations',
             array(
                 'address' 		=> $address,
@@ -74,9 +76,9 @@ function addGoogleMapsApiKey(){
         </script>
         <?php
         
-        wp_localize_script( 'tsjippy_script',
+        wp_localize_script( 'tsjippy_locations_script',
             'mapsApi',
-            ['key'=>$apiKey]
+            ['key' => $apiKey]
         );
     }
 }
