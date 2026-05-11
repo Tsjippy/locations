@@ -2,11 +2,18 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
-- locations.js to get route
 
 ### Changed
 
 ### Fixed
+
+### Updated
+
+## [10.0.5] - 2026-05-11
+
+
+### Added
+- locations.js to get route
 
 ### Updated
 - readme
