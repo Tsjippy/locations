@@ -9,6 +9,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* HELPER FUNCTIONS */
 //add special js to the dynamic form js
 add_filter('tsjippy_form_extra_js', __NAMESPACE__.'\addJs', 10, 3);
+
+/**
+ * Add extra JavaScript for the user location form
+ * @param string $js			The existing JavaScript code for the form
+ * @param object $object		The form object containing the form data
+ * @param bool $minimized	Whether to load the minimized version of the JavaScript file
+ * @return string				The updated JavaScript code with the extra code added
+ */
 function addJs($js, $object, $minimized){
 	if($object->formData->slug != 'user_location' ){
 		return $js;
