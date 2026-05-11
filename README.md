@@ -4,3 +4,7 @@ They will bevisible on a map.<br>
 <br>
 It adds one shortcode:<br>
 <code>[ministry_description name=SOMENAME]</code>
+
+== External services ==
+
+This plugin connects to an the Google Services to use Google Maps to get a route
