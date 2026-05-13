@@ -103,7 +103,7 @@ class Maps{
 				'title'			=> $name,
 				'params'		=> serialize($params),
 				'html_options'	=> serialize($htmlOptions),
-				'create_date'	=> date("Y-m-d G:i:s")
+				'create_date'	=> gmdate("Y-m-d G:i:s")
 			)
 		);
 
