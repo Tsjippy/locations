@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $wp_query;
 
+$skipWrapper	= false;
 if($wp_query->is_embed){
 	$skipWrapper	= true;
 }

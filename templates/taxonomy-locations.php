@@ -16,6 +16,7 @@ wp_enqueue_style('tsjippy_taxonomy_style');
 global $post;
 global $wp_query;
 
+$skipWrapper	= false;
 if($wp_query->is_embed){
 	$skipWrapper	= true;
 }
