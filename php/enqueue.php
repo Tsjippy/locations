@@ -16,6 +16,7 @@ function loadAssets(){
     // frontend content of profile page
     if(defined('TSJIPPY\FRONTENDPOSTING\SETTINGS')){
         $frontEndPage   = TSJIPPY\FRONTENDPOSTING\SETTINGS['front-end-post-page'] ?? '';
+        $accountPage    = '';
         
         if(defined('TSJIPPY\USERMANAGEMENT\SETTINGS') && in_array('location', TSJIPPY\USERMANAGEMENT\SETTINGS['enabled-forms'] ?? [])){
             $accountPage = TSJIPPY\USERMANAGEMENT\SETTINGS['account_page'] ?? '';
