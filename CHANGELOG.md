@@ -6,6 +6,7 @@
 ### Changed
 
 ### Fixed
+- empty property bug
 
 ### Updated
 
