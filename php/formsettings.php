@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 add_action('tsjippy-forms-extra-form-settings', __NAMESPACE__.'\extraFormSettings');
 function extraFormSettings($object){
     $checked    = '';
-    if($object->formData->googlemapsapi){
+    if(!empty($object->formData->googlemapsapi)){
         $checked = 'checked';
     }
     ?>
