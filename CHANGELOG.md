@@ -6,6 +6,7 @@
 ### Changed
 
 ### Fixed
+- bug without account page set
 
 ### Updated
 
