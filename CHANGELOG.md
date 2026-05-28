@@ -6,9 +6,14 @@
 ### Changed
 
 ### Fixed
-- bug without account page set
 
 ### Updated
+
+## [10.1.0] - 2026-05-28
+
+
+### Fixed
+- bug without account page set
 
 ## [10.0.9] - 2026-05-28
 
