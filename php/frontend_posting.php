@@ -88,9 +88,9 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location){
         $location   = json_decode($location, true);
     }
 
-    $address	= $location["address"]		= sanitize_text_field($location["address"]);
-    $latitude	= $location["latitude"]	    = sanitize_text_field($location["latitude"]);
-    $longitude	= $location["longitude"]	= sanitize_text_field($location["longitude"]);
+    $address	= $location["address"]		= sanitize_text_field( wp_unslash( $location["address"]));
+    $latitude	= $location["latitude"]	    = sanitize_text_field( wp_unslash( $location["latitude"]));
+    $longitude	= $location["longitude"]	= sanitize_text_field( wp_unslash( $location["longitude"]));
 
     //Only update if needed
     if(empty($latitude) || empty($longitude)){
