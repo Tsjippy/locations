@@ -25,8 +25,12 @@ class Maps{
 	public function getMaps($where=1){
 		global $wpdb;
 
-		$query = "SELECT  `id`,`title` FROM `$this->mapTable` WHERE $where ORDER BY `title` ASC";
-		return $wpdb->get_results($query);
+		return $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT  `id`,`title` FROM %i WHERE $where ORDER BY `title` ASC",
+				$this->mapTable
+			)
+		);
 	}
 
 	/**
@@ -125,8 +129,14 @@ class Maps{
 		$wpdb->delete( $this->mapTable, array( 'id' => $mapId ) );
 
 		//Remove all markers on this map
-		$query 		= $wpdb->prepare("SELECT id FROM {$this->markerTable} WHERE map_id = %d ", $mapId);
-		$markers 	= $wpdb->get_results($query);
+		$query 		= 
+		$markers 	= $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT id FROM %i WHERE map_id = %d ", 
+				$this->markerTable,
+				$mapId
+			)
+		);
 
 		foreach($markers as $marker){
 			//Delete the marker

@@ -23,8 +23,13 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
     public function settings($parent){
         global $wpdb;
 	
-        $query 		= 'SELECT * FROM `'.$wpdb->prefix .'ums_icons` WHERE 1';
-        $results 	= $wpdb->get_results($query);
+        $query 		= ;
+        $results 	= $wpdb->get_results(
+                $wpdb->prepare(
+                    'SELECT * FROM %i WHERE 1',
+                    $wpdb->prefix .'ums_icons'
+                )
+        );
         $icons		= [];
 
         foreach($results as $icon){
