@@ -378,13 +378,13 @@ function afterPostContent($frontendcontend){
                 <tr>
                     <th><label for="url">Website</label></th>
                     <td>
-                        <input type='url' class='formbuilder' name='url' value='<?php echo $url; ?>'>
+                        <input type='url' class='formbuilder' name='url' value='<?php echo esc_url($url); ?>'>
                     </td>
                 </tr>
                 <tr>
                     <th><label for="address">Address</label></th>
                     <td>
-                        <input type="text" class='formbuilder address' name="location[address]" value="<?php echo $address; ?>">
+                        <input type="text" class='formbuilder address' name="location[address]" value="<?php echo esc_attr($address); ?>">
                     </td>
                 </tr>
 
@@ -398,13 +398,13 @@ function afterPostContent($frontendcontend){
                 <tr>
                     <th><label for="latitude">Latitude</label></th>
                     <td>
-                        <input type="text" class='formbuilder latitude' name="location[latitude]" value="<?php echo $latitude; ?>">
+                        <input type="text" class='formbuilder latitude' name="location[latitude]" value="<?php echo esc_attr($latitude); ?>">
                     </td>
                 </tr>
                 <tr>
                     <th><label for="longitude">Longitude</label></th>
                     <td>
-                        <input type="text" class='formbuilder longitude' name="location[longitude]" value="<?php echo $longitude; ?>">
+                        <input type="text" class='formbuilder longitude' name="location[longitude]" value="<?php echo esc_attr($longitude); ?>">
                     </td>
                 </tr>
             </table>

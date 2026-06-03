@@ -80,15 +80,15 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
             $mapName			= $name."_map";
             $iconName			= $name."_icon";
             ?>
-            <label for="<?php echo $mapName;?>">Map showing <?php echo strtolower($name);?></label>
-            <select name="<?php echo $mapName;?>" id="<?php echo $mapName;?>">
+            <label for="<?php echo esc_attr($mapName);?>">Map showing <?php echo strtolower($name);?></label>
+            <select name="<?php echo esc_attr($mapName);?>" id="<?php echo esc_attr($mapName);?>">
                 <option value="">---</option>
                 <?php echo $this->getMaps($this->settings[$mapName] ?? ''); ?>
             </select>
             
-            <label>Icon on the map used for <?php echo $name;?></label>
+            <label>Icon on the map used for <?php echo esc_attr($name);?></label>
             <div class='icon-select-wrapper'>
-                <input type='hidden' class='no-reset' class='icon-id' name='<?php echo $iconName;?>' value='<?php echo $this->settings[$iconName] ?? '';?>'>
+                <input type='hidden' class='no-reset' class='icon-id' name='<?php echo esc_attr($iconName);?>' value='<?php echo $this->settings[$iconName] ?? '';?>'>
                 <br>
                 <div class="dropdown">
                     <?php
