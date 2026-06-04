@@ -1,8 +1,10 @@
 <?php
+
 namespace TSJIPPY\LOCATIONS;
+
 use TSJIPPY;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
@@ -17,14 +19,15 @@ add_filter('tsjippy_form_extra_js', __NAMESPACE__ . '\addJs', 10, 3);
  * @param bool $minimized    Whether to load the minimized version of the JavaScript file
  * @return string                The updated JavaScript code with the extra code added
  */
-function addJs($js, $object, $minimized) {
+function addJs($js, $object, $minimized)
+{
     if ($object->formData->slug != 'user_location') {
         return $js;
     }
 
-    $path    = plugin_dir_path(__DIR__). "js/{$object->formData->slug}.min.js";
+    $path    = plugin_dir_path(__DIR__) . "js/{$object->formData->slug}.min.js";
     if (!$minimized || !file_exists($path)) {
-        $path    = plugin_dir_path(__DIR__). "js/{$object->formData->slug}.js";
+        $path    = plugin_dir_path(__DIR__) . "js/{$object->formData->slug}.js";
     }
 
     if (file_exists($path)) {

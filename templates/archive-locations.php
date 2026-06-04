@@ -1,5 +1,7 @@
 <?php
+
 namespace TSJIPPY\LOCATIONS;
+
 use TSJIPPY;
 
 /**
@@ -7,7 +9,7 @@ use TSJIPPY;
  * Displays all the post of the location type
  *
  */
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
@@ -22,12 +24,12 @@ wp_enqueue_style('tsjippy_taxonomy_style');
 
 if ($skipWrapper) {
     displayLocationArchive();
-}else{
+} else {
     if (!isset($skipHeader) || !$skipHeader) {
         get_header();
     }
 
-    ?>
+?>
     <div id="primary">
         <style>
             @media (min-width: 991px) {
@@ -37,7 +39,7 @@ if ($skipWrapper) {
             }
         </style>
         <main id="main" class='inside-article'>
-            <?php displayLocationArchive();?>
+            <?php displayLocationArchive(); ?>
         </main>
     </div>
     <?php
@@ -48,18 +50,21 @@ if ($skipWrapper) {
     }
 }
 
-function displayLocationArchive() {
+function displayLocationArchive()
+{
     //Variable containing the current locations page we are on
     $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 
-    $locationsQuery = new \WP_Query(array(
-        'post_type'            =>'location',
-        'post_status'        =>'publish',
-        'paged'               => $paged,
-        'posts_per_page'      => 10)
-   );
+    $locationsQuery = new \WP_Query(
+        array(
+            'post_type'            => 'location',
+            'post_status'        => 'publish',
+            'paged'               => $paged,
+            'posts_per_page'      => 10
+        )
+    );
 
-    if ( $locationsQuery->have_posts()) {
+    if ($locationsQuery->have_posts()) {
         do_action('tsjippy_before_archive', 'location');
 
         if (is_user_logged_in()) {
@@ -67,7 +72,7 @@ function displayLocationArchive() {
             echo do_shortcode("[ultimate_maps id='$mapId']");
         }
 
-        while ( $locationsQuery->have_posts()) :
+        while ($locationsQuery->have_posts()) :
             $locationsQuery->the_post();
             include(__DIR__ . '/content.php');
         endwhile;
@@ -85,20 +90,20 @@ function displayLocationArchive() {
                 'total'     => $totalPages,
                 'prev_text' => __('« prev', 'tsjippy'),
                 'next_text' => __('next »', 'tsjippy'),
-           ));
+            ));
         }
-    }else{
+    } else {
         //No locations to show yet
-        ?>
+    ?>
         <article id="post-<?php the_ID(); ?>" <?php post_class(); ?> <?php generate_do_microdata('article'); ?>>
-        <div class="no-results not-found">
-            <div class="inside-article">
-                <div class="entry-content">
-                    <?php echo apply_filters('tsjippy-empty-taxonomy', 'There are no locations submitted yet. ', 'location'); ?>
+            <div class="no-results not-found">
+                <div class="inside-article">
+                    <div class="entry-content">
+                        <?php echo apply_filters('tsjippy-empty-taxonomy', 'There are no locations submitted yet. ', 'location'); ?>
+                    </div>
                 </div>
             </div>
-        </div>
         </article>
-        <?php
+<?php
     }
 }

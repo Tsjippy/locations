@@ -1,9 +1,12 @@
 <?php
+
 namespace TSJIPPY\LOCATIONS;
+
 use TSJIPPY;
 
-add_action('init',__NAMESPACE__ . '\blockInit');
-function blockInit() {
+add_action('init', __NAMESPACE__ . '\blockInit');
+function blockInit()
+{
     register_block_type(
         __DIR__ . '/metadata/build',
         array(
@@ -28,8 +31,8 @@ function blockInit() {
                     'default'    => '{"address":""}'
                 ],
             ]
-       )
-   );
+        )
+    );
 
     // register custom meta tag field
     register_post_meta('location', 'tel', array(
@@ -37,26 +40,27 @@ function blockInit() {
         'single'             => true,
         'type'                 => 'string',
         'sanitize_callback' => 'sanitize_text_field'
-   ));
+    ));
 
     register_post_meta('location', 'url', array(
         'show_in_rest'         => true,
         'single'             => true,
         'type'                 => 'string',
         'sanitize_callback' => 'sanitize_text_field'
-   ));
+    ));
 
     register_post_meta('location', 'location', array(
         'show_in_rest'         => true,
         'single'             => true,
         'type'                 => 'string',
         'sanitize_callback' => 'sanitize_text_field'
-   ));
+    ));
 }
 
 add_action('enqueue_block_assets', __NAMESPACE__ . '\loadBlockAssets');
-function loadBlockAssets($tes) {
-    if ( is_admin()) {
+function loadBlockAssets($tes)
+{
+    if (is_admin()) {
         addGoogleMapsApiKey();
     }
 }

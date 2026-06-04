@@ -1,12 +1,14 @@
 <?php
+
 namespace TSJIPPY\LOCATIONS;
+
 use TSJIPPY;
 
 /**
  * The Template for displaying all single locations
  */
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
@@ -14,50 +16,51 @@ if (!isset($skipHeader) || !$skipHeader) {
     get_header();
 }
 ?>
-    <div id="primary">
-        <style>
-            @media (min-width: 991px) {
-                #primary:not(:only-child) {
-                    width: 70%;
-                }
+<div id="primary">
+    <style>
+        @media (min-width: 991px) {
+            #primary:not(:only-child) {
+                width: 70%;
             }
-        </style>
-        <main id="main">
-            <?php
-            while ( have_posts()) :
-                the_post();
-                include(__DIR__ . '/content.php');
+        }
+    </style>
+    <main id="main">
+        <?php
+        while (have_posts()) :
+            the_post();
+            include(__DIR__ . '/content.php');
 
-                //showMedia();
+            //showMedia();
 
-                // Show any projects linked to this
-                projectList();
+            // Show any projects linked to this
+            projectList();
 
-                // Show the people working here
-                echo ministryDescription();
+            // Show the people working here
+            echo ministryDescription();
 
-                showRelevantPages();
-            endwhile;
+            showRelevantPages();
+        endwhile;
 
-            echo apply_filters('tsjippy-single-template-bottom', '', 'location');
-            ?>
-        </main>
+        echo apply_filters('tsjippy-single-template-bottom', '', 'location');
+        ?>
+    </main>
 
-        <?php TSJIPPY\showComments(); ?>
-    </div>
+    <?php TSJIPPY\showComments(); ?>
+</div>
 
-    <?php
+<?php
 
-    get_sidebar();
+get_sidebar();
 
-    if (!isset($skipFooter) || !$skipFooter) {
-        get_footer();
-    }
+if (!isset($skipFooter) || !$skipFooter) {
+    get_footer();
+}
 
- /**
+/**
  * Default content for ministry pages
  */
-function ministryDescription() {
+function ministryDescription()
+{
     $postId     = get_the_ID();
     $html        = "";
 
@@ -68,7 +71,7 @@ function ministryDescription() {
         'post_type'   => 'page',
         'post_status' => 'publish',
         'order'       => 'ASC',
-   );
+    );
     $childPages         = get_children($args, ARRAY_A);
     $childPageHtml     = "";
     if ($childPages) {
@@ -80,7 +83,7 @@ function ministryDescription() {
     }
 
     if (!empty($childPageHtml)) {
-        $html = $childPageHtml. "<br><br>" .$html;
+        $html = $childPageHtml . "<br><br>" . $html;
     }
 
     $html       .= getLocationEmployees($postId);
@@ -88,7 +91,8 @@ function ministryDescription() {
     return $html;
 }
 
-function projectList() {
+function projectList()
+{
     $projects = get_posts([
         'post_type'            => 'project',
         'posts_per_page'    => -1,
@@ -100,15 +104,15 @@ function projectList() {
                 'key'        => 'ministry',
                 'value'     => get_the_ID(),
                 'compare'   => '='
-           )
-       )
+            )
+        )
     ]);
 
     if (empty($projects)) {
         return '';
     }
 
-    ?>
+?>
     <div class='projects-wrapper'>
         <h4>Projects linked to this ministry are:</h4>
         <ul>
@@ -121,10 +125,11 @@ function projectList() {
         </ul>
     </div>
     <br>
-    <?php
+<?php
 }
 
-function showMedia() {
+function showMedia()
+{
     // Show relevant media
     $gradient        = SETTINGS['gallery-background-color-gradient'] ?? false;
 
@@ -145,7 +150,7 @@ function showMedia() {
         echo $mediaGallery->filterableMediaGallery();
         $value    = 'gallery';
         $text    = 'View less';
-    }else{
+    } else {
         echo $mediaGallery->mediaGallery('', 60, false);
         $value    = 'filter';
         $text    = 'View more media';
@@ -153,14 +158,15 @@ function showMedia() {
 
     if ($mediaGallery->total > 3) {
         echo "<form method='post' style='text-align: center; padding-bottom:10px; $mediaGallery->style'>";
-            echo "<button class='small button' name='switch-gallery' value='$value'>$text</button>";
+        echo "<button class='small button' name='switch-gallery' value='$value'>$text</button>";
         echo "</form>";
     }
 }
 
-function showRelevantPages() {
-    if (!empty(get_children(['post_parent' =>get_the_ID()]))) {
-        $cats['location']    = ['locations'=>[]];
+function showRelevantPages()
+{
+    if (!empty(get_children(['post_parent' => get_the_ID()]))) {
+        $cats['location']    = ['locations' => []];
 
         $categories    = get_the_terms(get_the_ID(), 'locations');
 

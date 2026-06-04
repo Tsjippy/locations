@@ -1,15 +1,18 @@
 <?php
+
 namespace TSJIPPY\LOCATIONS;
+
 use TSJIPPY;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\loadAssets', 99);
-function loadAssets() {
-    wp_register_style('tsjippy_locations_style', TSJIPPY\pathToUrl(PLUGINPATH. 'css/locations.min.css'), array(), PLUGINVERSION);
-    wp_register_style('tsjippy_employee_style', TSJIPPY\pathToUrl(PLUGINPATH. 'css/employee.min.css'), array(), PLUGINVERSION);
+function loadAssets()
+{
+    wp_register_style('tsjippy_locations_style', TSJIPPY\pathToUrl(PLUGINPATH . 'css/locations.min.css'), array(), PLUGINVERSION);
+    wp_register_style('tsjippy_employee_style', TSJIPPY\pathToUrl(PLUGINPATH . 'css/employee.min.css'), array(), PLUGINVERSION);
 
     wp_enqueue_script('tsjippy_locations_script', plugins_url('js/locations.min.js', __DIR__), [], PLUGINVERSION, true);
 
@@ -31,7 +34,8 @@ function loadAssets() {
 }
 
 add_filter('tsjippy-forms-before-showing-form', __NAMESPACE__ . '\beforeShowingForm', 10, 2);
-function beforeShowingForm($html, $object) {
+function beforeShowingForm($html, $object)
+{
     if (in_array($object->formData->id, SETTINGS['google-maps-api-forms'] ?? [])) {
         $html   .= "<script>
             function initMap() {
@@ -47,7 +51,8 @@ function beforeShowingForm($html, $object) {
     return $html;
 }
 
-function addGoogleMapsApiKey() {
+function addGoogleMapsApiKey()
+{
     $apiKey = SETTINGS['google-maps-api-key'] ?? '';
 
     if ($apiKey) {
@@ -55,31 +60,33 @@ function addGoogleMapsApiKey() {
         $location = get_user_meta(wp_get_current_user()->ID, 'location', true);
         if (isset($location['address'])) {
             $address = $location['address'];
-        }else{
+        } else {
             $address = "";
         }
 
         $locations    = apply_filters('tsjippy-locations-array', []);
 
-        wp_localize_script('tsjippy_locations_script',
+        wp_localize_script(
+            'tsjippy_locations_script',
             'locations',
             array(
                 'address'         => $address,
                 'locations'        => $locations,
-           )
-       );
+            )
+        );
 
-        ?>
+?>
         <script>
             function initMap() {
                 console.log('Google Maps loaded');
             }
         </script>
-        <?php
+<?php
 
-        wp_localize_script('tsjippy_locations_script',
+        wp_localize_script(
+            'tsjippy_locations_script',
             'mapsApi',
             ['key' => $apiKey]
-       );
+        );
     }
 }

@@ -1,16 +1,20 @@
 <?php
+
 namespace TSJIPPY\LOCATIONS;
+
 use TSJIPPY;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
-class Maps{
+class Maps
+{
     public $mapTable;
     public $markerTable;
 
-    public function __construct() {
+    public function __construct()
+    {
         global $wpdb;
 
         $this->mapTable        = $wpdb->prefix . 'ums_maps';
@@ -22,15 +26,16 @@ class Maps{
      *
      * @return    array        array of map objects
      */
-    public function getMaps($where=1) {
+    public function getMaps($where = 1)
+    {
         global $wpdb;
 
         return $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT  `id`,`title` FROM %i WHERE $where ORDER BY `title` ASC",
                 $this->mapTable
-           )
-       );
+            )
+        );
     }
 
     /**
@@ -38,7 +43,8 @@ class Maps{
      *
      * @return    array        array of map objects
      */
-    public function getMap($mapId) {
+    public function getMap($mapId)
+    {
         return $this->getMaps("id=$mapId ");
     }
 
@@ -55,7 +61,8 @@ class Maps{
      *
      * @return    int                    The new map id
      */
-    public function addMap($name, $lattitude='9.910260', $longitude='8.889170', $address='', $height='400', $zoom=6) {
+    public function addMap($name, $lattitude = '9.910260', $longitude = '8.889170', $address = '', $height = '400', $zoom = 6)
+    {
         global $wpdb;
 
         //Add a map
@@ -68,7 +75,7 @@ class Maps{
             'address' => $address,
             'coord_x' => $lattitude,
             'coord_y' => $longitude
-       );
+        );
         $params['mouse_wheel_zoom']                    = 1;
         $params['zoom']                                = $zoom;
         $params['zoom_mobile']                        = $zoom + 2;
@@ -89,7 +96,7 @@ class Maps{
         $params['marker_infownd_bg_color']            = '#FFFFFF';
         $params['marker_clasterer']                    = 'MarkerClusterer';
         $params['marker_clasterer_grid_size']        = 10;
-        $params['marker_clasterer_background_color']= '#bd2919';
+        $params['marker_clasterer_background_color'] = '#bd2919';
         $params['marker_clasterer_border_color']    = '#bc1907';
         $params['marker_clasterer_text_color']        = 'white';
         $params['marker_hover']                        = 0;
@@ -108,8 +115,8 @@ class Maps{
                 'params'        => serialize($params),
                 'html_options'    => serialize($htmlOptions),
                 'create_date'    => gmdate("Y-m-d G:i:s")
-           )
-       );
+            )
+        );
 
         //return the new map ID
         return $wpdb->insert_id;
@@ -122,7 +129,8 @@ class Maps{
      * @param    int    $mapId        The id of the map to be removed
      *
      */
-    public function removeMap($mapId) {
+    public function removeMap($mapId)
+    {
         global $wpdb;
 
         //remove the map
@@ -130,13 +138,13 @@ class Maps{
 
         //Remove all markers on this map
         $query         =
-        $markers     = $wpdb->get_results(
-            $wpdb->prepare(
-                "SELECT id FROM %i WHERE map_id = %d ",
-                $this->markerTable,
-                $mapId
-           )
-       );
+            $markers     = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT id FROM %i WHERE map_id = %d ",
+                    $this->markerTable,
+                    $mapId
+                )
+            );
 
         foreach ($markers as $marker) {
             //Delete the marker
@@ -151,7 +159,8 @@ class Maps{
      *
      * @return    bool                True if exists false otherwise
      */
-    public function markerExists($markerId) {
+    public function markerExists($markerId)
+    {
         global $wpdb;
 
         $query    = $wpdb->prepare("SELECT id FROM {$this->markerTable} WHERE id = %d ", $markerId);
@@ -164,7 +173,8 @@ class Maps{
         return true;
     }
 
-    public function checkCoordinates($lattitude, $longitude) {
+    public function checkCoordinates($lattitude, $longitude)
+    {
         if (strlen($lattitude) < 3 || strlen($longitude) < 3 || !str_contains($lattitude, ' . ') || !str_contains($longitude, ' . ')) {
             return new \WP_Error('maps', 'Please give valid coordinates');
         }
@@ -179,7 +189,8 @@ class Maps{
      * @param    array    $location    array containing lat and lon
      *
      */
-    public function createUserMarker($userId, $location) {
+    public function createUserMarker($userId, $location)
+    {
         global $wpdb;
 
         if (empty($location['latitude']) || empty($location['longitude'])) {
@@ -206,15 +217,15 @@ class Maps{
         //Add the profile picture to the marker description if it is set, and allowed by privacy
         if (empty($privacyPreference['hide_profile_picture'])) {
             $loginName = $userdata->user_login;
-            if ( is_numeric(get_user_meta($userId,'profile_picture',true)) && function_exists('TSJIPPY\USERMANAGEMENT\getProfilePictureUrl')) {
+            if (is_numeric(get_user_meta($userId, 'profile_picture', true)) && function_exists('TSJIPPY\USERMANAGEMENT\getProfilePictureUrl')) {
                 $iconUrl = TSJIPPY\USERMANAGEMENT\getProfilePictureUrl($userId, 'thumbnail');
-            }else{
+            } else {
                 $iconUrl = "";
             }
 
             //Save picture as icon and get the icon id
             $iconId = $this->createIcon('', $loginName, $iconUrl, 1);
-        }else{
+        } else {
             $iconId = 1;
         }
 
@@ -226,7 +237,7 @@ class Maps{
             'coord_y'        => $location['longitude'],
             'icon'            => $iconId,
             'map_id'        => SETTINGS['users_map_id'] ?? '',
-       ));
+        ));
 
         //Get the marker id
         $markerId = $wpdb->insert_id;
@@ -241,7 +252,8 @@ class Maps{
      * @param     int        $markerId    the id of th emarker to update
      * @param    array    $location    array containing the lat and lon
      */
-    public function updateMarkerLocation($markerId, $location) {
+    public function updateMarkerLocation($markerId, $location)
+    {
         global $wpdb;
 
         if (is_numeric($markerId) && is_array($location) && !empty($location['latitude']) && !empty($location['longitude'])) {
@@ -251,13 +263,14 @@ class Maps{
             }
 
             //Update the marker
-            $wpdb->update($this->markerTable,
+            $wpdb->update(
+                $this->markerTable,
                 array(
                     'coord_x' => $location['latitude'],
                     'coord_y' => $location['longitude'],
-               ),
+                ),
                 array('ID' => $markerId)
-           );
+            );
         }
     }
 
@@ -267,17 +280,19 @@ class Maps{
      * @param     int        $markerId    the id of th emarker to update
      * @param    string    $title        the new marker title
      */
-    public function updateMarkerTitle($markerId, $title) {
+    public function updateMarkerTitle($markerId, $title)
+    {
         global $wpdb;
 
         if (is_numeric($markerId)) {
             //Update the marker
-            $wpdb->update($this->markerTable,
+            $wpdb->update(
+                $this->markerTable,
                 array(
                     'title' => $title,
-               ),
+                ),
                 array('ID' => $markerId),
-           );
+            );
         }
     }
 
@@ -286,7 +301,8 @@ class Maps{
      *
      * @param    int        $markerId    The marker id of the marker to be removed
      */
-    public function removeMarker($markerId) {
+    public function removeMarker($markerId)
+    {
         global $wpdb;
 
         //First delete any custom icon
@@ -303,7 +319,8 @@ class Maps{
      *
      * @param    int        $userId        the user id
      */
-    public function removePersonalMarker($userId) {
+    public function removePersonalMarker($userId)
+    {
         //Check if a previous marker exists for this user_id
         $markerId = get_user_meta($userId, "marker_id", true);
 
@@ -320,7 +337,8 @@ class Maps{
      *
      * @param    int        $postId        The id of the WP_Post
      */
-    public function removePostMarkers($postId) {
+    public function removePostMarkers($postId)
+    {
         $markerIds = get_post_meta($postId, "marker_ids", true);
 
         //Marker exist, remove it
@@ -337,7 +355,8 @@ class Maps{
      *
      * @param    int        $markerId    the id of the marker the icon belongs to
      */
-    public function removeIcon($markerId) {
+    public function removeIcon($markerId)
+    {
         global $wpdb;
 
         if (!is_numeric($markerId)) {
@@ -362,11 +381,12 @@ class Maps{
             $wpdb->delete($wpdb->prefix . 'ums_icons', array('id' => $markerIconId));
 
             //Reset the marker id to the default icon
-            $wpdb->update($this->markerTable,
+            $wpdb->update(
+                $this->markerTable,
                 array('icon' => 1,),
                 array('id' => $markerId),
-           );
-        }else{
+            );
+        } else {
             TSJIPPY\printArray("Icon is already the default");
         }
     }
@@ -381,7 +401,8 @@ class Maps{
      *
      * @return    int                    The id of the current or created marker
      */
-    public function createIcon($markerId, $title, $url, $defaultId) {
+    public function createIcon($markerId, $title, $url, $defaultId)
+    {
         global $wpdb;
 
         $currentMarkerIconId     = $defaultId;
@@ -396,7 +417,7 @@ class Maps{
             //check if marker icon id exists
             if (is_numeric($currentMarkerIconId)) {
                 $iconQuery     = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}ums_icons WHERE id = %d ", $currentMarkerIconId);
-            }else{
+            } else {
                 $currentMarkerIconId     = $defaultId;
             }
         }
@@ -417,7 +438,7 @@ class Maps{
         //Potentially the profile image of the partner is used
         if ($currentMarkerIconId == $defaultId) {
             //Create new icon if there is an icon url
-            if ( !empty($url)) {
+            if (!empty($url)) {
                 //Insert picture as icon in the database
                 $wpdb->insert($wpdb->prefix . 'ums_icons', array(
                     'title'            => $title,
@@ -426,30 +447,32 @@ class Maps{
                     'width'         => '44',
                     'height'         => '44',
                     'is_def'         => '0'
-               ));
+                ));
 
                 //Get the new icon ID
                 $iconId = $wpdb->insert_id;
 
                 //Update the marker to use the new icon
-                $wpdb->update($this->markerTable,
+                $wpdb->update(
+                    $this->markerTable,
                     array('icon'     => $iconId,),
                     array('id'     => $markerId),
-               );
-            }else{
+                );
+            } else {
                 //No icon url, use default icon
                 $iconId = $defaultId;
             }
-        //Only update if there is an icon url
-        }elseif (!empty($url)) {
+            //Only update if there is an icon url
+        } elseif (!empty($url)) {
             //Update marker icon
-            $wpdb->update($wpdb->prefix . 'ums_icons',
+            $wpdb->update(
+                $wpdb->prefix . 'ums_icons',
                 array(
                     'path'     => $url,
                     'title' => $title,
-               ),
+                ),
                 array('id' => $icon->id),
-           );
+            );
 
             //Reset the marker id to the custom icon
             if (is_numeric($markerId)) {
@@ -457,11 +480,11 @@ class Maps{
                     $this->markerTable,
                     array('icon'     => $icon->id,),
                     array('id'     => $markerId),
-               );
+                );
             }
 
             $iconId    = $icon->id;
-        }else{
+        } else {
             $iconId = $currentMarkerIconId;
         }
 

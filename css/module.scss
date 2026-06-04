@@ -1,47 +1,49 @@
-@use '../../../plugins/tsjippy-shared-functionality/includes/css/scss/global' as *;
+@use "../../../plugins/tsjippy-shared-functionality/includes/css/scss/global"
+  as *;
 
 /*Categorie checkbox on top of the map*/
 #floatingRectangle {
-    z-index: 10;
-    position: absolute;
-    background-color: whitesmoke;
-	margin: 15px 60px;
-	float: right;
+  z-index: 10;
+  position: absolute;
+  background-color: whitesmoke;
+  margin: 15px 60px;
+  float: right;
 }
 
 /*Button in marker descriptions*/
-.leaflet-popup-content .umsMarkerDesc{
-	.marker_button{
-		margin: 0px;
-		padding: 3px 15px 3px 15px ;
-	}
-	
-	/*Hyperlink color*/
-	.page-link{
-		color: $primaryColor;
-	}
+.leaflet-popup-content .umsMarkerDesc {
+  .marker_button {
+    margin: 0px;
+    padding: 3px 15px 3px 15px;
+  }
+
+  /*Hyperlink color*/
+  .page-link {
+    color: $primaryColor;
+  }
 }
 
 /*Center marker descriptions*/
-.umsMarkerDesc{
-	text-align: center;
+.umsMarkerDesc {
+  text-align: center;
 }
 
 /*Make the icon round*/
-.leaflet-marker-icon{
-	border-radius: 25px;
+.leaflet-marker-icon {
+  border-radius: 25px;
 }
 
 /*Round the corners of the marker picture*/
-.avatar, 
-.markerpicture
-{
-	border-radius: 5px;
+.avatar,
+.markerpicture {
+  border-radius: 5px;
 }
 
 /* Make location details form responsive*/
-@media (max-width: $mobilewidth){
-	.location table tr, .location table th, .location table td{
-		display: block;
-	}
+@media (max-width: $mobilewidth) {
+  .location table tr,
+  .location table th,
+  .location table td {
+    display: block;
+  }
 }

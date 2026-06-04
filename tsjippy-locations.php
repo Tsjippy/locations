@@ -1,4 +1,5 @@
 <?php
+
 namespace TSJIPPY\LOCATIONS;
 
 /**
@@ -19,7 +20,7 @@ namespace TSJIPPY\LOCATIONS;
  *
  * @author Ewald Harmsen
  */
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
@@ -41,4 +42,3 @@ register_activation_hook(__FILE__, function () {
 
     maybe_add_column($forms->tableName, 'google_maps_api', "ALTER TABLE $forms->tableName ADD COLUMN `google_maps_api` bool");
 });
-

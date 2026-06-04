@@ -1,12 +1,14 @@
 <?php
+
 namespace TSJIPPY\LOCATIONS;
+
 use TSJIPPY;
 
 /**
  * The content of a location shared between a single post, archive or the recipes page.
-**/
+ **/
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
@@ -19,32 +21,36 @@ if (is_tax() || is_archive()) {
 
 ?>
 <style>
-    .metas{
-        margin-top:10px;
+    .metas {
+        margin-top: 10px;
         display: flex;
         flex-wrap: wrap;
     }
 
-    .location.meta{
+    .location.meta {
         margin-right: 10px;
     }
 
-    .cat-card{
+    .cat-card {
         padding: 10px;
     }
 </style>
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-    <div class="cat-card<?php if ($archive) {echo ' inside-article';}?>">
+    <div class="cat-card<?php if ($archive) {
+                            echo ' inside-article';
+                        } ?>">
 
         <?php
         if ($archive) {
             $url = get_permalink(get_the_ID());
             echo the_title("<h3 class='archivetitle'><a href='$url'>", '</a></h3>');
-        }else{
+        } else {
             do_action('tsjippy_before_content');
         }
         ?>
-        <div class='entry-content<?php if ($archive) {echo ' archive';}?>'>
+        <div class='entry-content<?php if ($archive) {
+                                        echo ' archive';
+                                    } ?>'>
             <?php
             if (is_user_logged_in()) {
             ?>
@@ -53,13 +59,13 @@ if (is_tax() || is_archive()) {
                 </div>
                 <?php
                 if ($archive) {
-                    ?>
+                ?>
                     <div class='picture' style='margin-top:10px;'>
                         <?php
-                        the_post_thumbnail([250,200]);
+                        the_post_thumbnail([250, 200]);
                         ?>
                     </div>
-                    <?php
+                <?php
                 }
             }
 
@@ -68,7 +74,7 @@ if (is_tax() || is_archive()) {
                 //Show a map if one is defined
                 $customMapId = get_post_meta(get_the_ID(), 'map_id', true);
                 if (is_numeric($customMapId)) {
-                    ?>
+                ?>
                     <div class='location-map' style='margin-top:15px;margin-bottom:25px;'>
                         <h4>Location</h4>
                         <?php
@@ -83,11 +89,11 @@ if (is_tax() || is_archive()) {
 
                     <script>
                         document.addEventListener('DOMContentLoaded', () => {
-                            let map    = document.querySelector(" .location-map");
+                            let map = document.querySelector(" .location-map");
                             document.querySelector(' .widget-area.sidebar').prepend(map);
                         });
                     </script>
-                    <?php
+            <?php
                 }
             }
             ?>
@@ -100,11 +106,11 @@ if (is_tax() || is_archive()) {
                     if (empty($excerpt)) {
                         $url = get_permalink();
                         echo "<br><a href='$url'>View description »</a>";
-                    }else{
+                    } else {
                         echo $excerpt;
                     }
-                //Show everything including category specific content
-                }else{
+                    //Show everything including category specific content
+                } else {
                     if (empty($post->post_content)) {
                         echo apply_filters('tsjippy_empty_description', 'No content found... ', $post);
                     }
@@ -116,8 +122,8 @@ if (is_tax() || is_archive()) {
                     array(
                         'before' => '<div class="page-links">Pages:',
                         'after'  => '</div>',
-                   )
-               );
+                    )
+                );
                 ?>
             </div>
 
@@ -131,17 +137,17 @@ if (is_tax() || is_archive()) {
                             'orderby'   => 'name',
                             'order'     => 'ASC',
                             'fields'    => 'id=>name'
-                       )
-                   );
+                        )
+                    );
 
                     if (!empty($categories)) {
-                        $url    = TSJIPPY\pathToUrl(PLUGINPATH. 'pictures/category.png');
+                        $url    = TSJIPPY\pathToUrl(PLUGINPATH . 'pictures/category.png');
                         echo "<img src='$url' alt='category' loading='lazy' class='book-icon'>";
 
                         //First loop over the cat to see if any parent cat needs to be removed
-                        foreach ($categories as $id=>$category) {
+                        foreach ($categories as $id => $category) {
                             //Get the child categories of this category
-                            $children = get_term_children($id,'locations');
+                            $children = get_term_children($id, 'locations');
 
                             //Loop over the children to see if one of them is also in he cat array
                             foreach ($children as $child) {
@@ -154,7 +160,7 @@ if (is_tax() || is_archive()) {
 
                         //now loop over the array to print the categories
                         $lastKey     = array_key_last($categories);
-                        foreach ($categories as $id=>$category) {
+                        foreach ($categories as $id => $category) {
                             //Only show the category if all of its subcats are not there
                             $url = get_term_link($id);
                             $category = ucfirst($category);
@@ -170,9 +176,9 @@ if (is_tax() || is_archive()) {
 
                 <div class='tel location meta'>
                     <?php
-                    $tel        = get_post_meta(get_the_ID(),'tel',true);
+                    $tel        = get_post_meta(get_the_ID(), 'tel', true);
                     if (!empty($tel)) {
-                        $imageUrl = TSJIPPY\pathToUrl(PLUGINPATH. 'pictures/tel.png');
+                        $imageUrl = TSJIPPY\pathToUrl(PLUGINPATH . 'pictures/tel.png');
                         $icon = "<img src='$imageUrl' alt='telephone' loading='lazy' class='book-icon'>";
                         echo "<a href='tel:$tel' target='_blank'>$icon Call them  »</a>";
                     }
@@ -183,7 +189,7 @@ if (is_tax() || is_archive()) {
                     <?php
                     $url        = get_post_meta(get_the_ID(), 'url', true);
                     if (!empty($url) && filter_var($url, FILTER_VALIDATE_URL) && $url != "https://www. ") {
-                        $imageUrl     = TSJIPPY\pathToUrl(PLUGINPATH. 'pictures/url.png');
+                        $imageUrl     = TSJIPPY\pathToUrl(PLUGINPATH . 'pictures/url.png');
                         $icon         = "<img src='$imageUrl' alt='location' loading='lazy' class='book-icon'>";
                         echo "<a href='$url' target='_blank'>$icon Visit website  »</a>";
                     }
@@ -193,7 +199,7 @@ if (is_tax() || is_archive()) {
                 <?php
                 $location    = json_decode(get_post_meta(get_the_ID(), 'location', true));
                 if (!empty($location->latitude) && !empty($location->longitude)) {
-                    $url    = TSJIPPY\pathToUrl(PLUGINPATH. 'pictures/location.png');
+                    $url    = TSJIPPY\pathToUrl(PLUGINPATH . 'pictures/location.png');
                     echo "<a onclick='Locations.getRoute(this, {$location->latitude},$location->longitude)' style='cursor: pointer;'>
                         <img src='$url' alt='category' loading='lazy' class='book-icon'> Get directions
                     </a>";

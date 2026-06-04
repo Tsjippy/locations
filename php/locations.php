@@ -1,8 +1,10 @@
 <?php
+
 namespace TSJIPPY\LOCATIONS;
+
 use TSJIPPY;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
@@ -20,7 +22,8 @@ add_filter('tsjippy-family-meta-keys', function ($metaKeys) {
 
 //Add a map when a location category is added
 add_action('tsjippy_after_category_add', __NAMESPACE__ . '\afterCategoryAdd', 10, 3);
-function afterCategoryAdd($postType, $name, $result) {
+function afterCategoryAdd($postType, $name, $result)
+{
     if ($postType != 'location') {
         return;
     }
@@ -33,15 +36,16 @@ function afterCategoryAdd($postType, $name, $result) {
 
     $settings    = SETTINGS;
 
-    $settings[$name. '-map']    = $mapId;
+    $settings[$name . '-map']    = $mapId;
 
     update_option('tsjippy_locations_settings', $settings);
 }
 
-add_filter(   'widget_categories_args', __NAMESPACE__ . '\widgetCats');
-function widgetCats($catArgs) {
+add_filter('widget_categories_args', __NAMESPACE__ . '\widgetCats');
+function widgetCats($catArgs)
+{
     //if we are on a locations page, change to display the location types
-    if (is_tax('locations') || is_page('location') || get_post_type()=='location') {
+    if (is_tax('locations') || is_page('location') || get_post_type() == 'location') {
         $catArgs['taxonomy']         = 'locations';
         $catArgs['hierarchical']    = true;
         $catArgs['hide_empty']         = false;
@@ -51,10 +55,11 @@ function widgetCats($catArgs) {
 }
 
 add_filter('widget_title', __NAMESPACE__ . '\widgetTitle', 999, 2);
-function widgetTitle($title, $widgetId=null) {
+function widgetTitle($title, $widgetId = null)
+{
     //Change the title of the location category widget if not logged in
     if (is_tax('locations') && $widgetId == 'categories' && !is_user_logged_in()) {
-        $url = SITEURL. '/locations/ministry/';
+        $url = SITEURL . '/locations/ministry/';
         return "<a href='$url'>Ministries</a>";
     }
     return $title;
@@ -62,16 +67,18 @@ function widgetTitle($title, $widgetId=null) {
 
 //Remove marker when post is sent to trash
 add_action('wp_trash_post', __NAMESPACE__ . '\trashPost');
-function trashPost($postId) {
+function trashPost($postId)
+{
     $maps    = new Maps();
     $maps->removePostMarkers($postId);
 }
 
 add_filter('tsjippy-template-filter', __NAMESPACE__ . '\templateFilter');
-function templateFilter($templateFile) {
+function templateFilter($templateFile)
+{
     global $post;
 
-    if (in_array('locations', get_post_taxonomies()) && in_array('ministry', wp_get_post_terms($post->ID, 'locations', ['fields'=>'slugs']))) {
+    if (in_array('locations', get_post_taxonomies()) && in_array('ministry', wp_get_post_terms($post->ID, 'locations', ['fields' => 'slugs']))) {
         return str_replace('single-location', 'single-ministry', $templateFile);
     }
     return $templateFile;
@@ -82,7 +89,8 @@ function templateFilter($templateFile) {
  *
  * @param     int    $postId        The WP_Post id
  */
-function getLocationEmployees($post) {
+function getLocationEmployees($post)
+{
 
     wp_enqueue_style('tsjippy_employee_style');
 
@@ -98,7 +106,7 @@ function getLocationEmployees($post) {
         'post_parent'    => $post->ID,
         'post_type'       => 'location',
         'post_status'     => 'publish',
-   )));
+    )));
     $locations[]    = $post->ID;
 
     //Loop over all users to see if they work here
@@ -122,15 +130,15 @@ function getLocationEmployees($post) {
 
             if (!isset($privacyPreference['hide_ministry'])) {
                 $html .=    "<div class='person-wrapper'>";
-                    if (!isset($privacyPreference['hide_profile_picture'])) {
-                        $html .= TSJIPPY\displayProfilePicture($user->ID);
-                    }
+                if (!isset($privacyPreference['hide_profile_picture'])) {
+                    $html .= TSJIPPY\displayProfilePicture($user->ID);
+                }
 
-                    $pageUrl = "<a class='user-link' href='$userPageUrl'>$user->display_name</a>";
-                    foreach ($intersect as $postId) {
-                        $job    = ucfirst($userLocations[$postId]);
-                        $html .= "   <div class='$class'>$pageUrl <br>($job)</div>";
-                    }
+                $pageUrl = "<a class='user-link' href='$userPageUrl'>$user->display_name</a>";
+                foreach ($intersect as $postId) {
+                    $job    = ucfirst($userLocations[$postId]);
+                    $html .= "   <div class='$class'>$pageUrl <br>($job)</div>";
+                }
                 $html .= '</div>';
             }
         }
@@ -149,7 +157,7 @@ function getLocationEmployees($post) {
             }
         }
         $html  .= "If you work here indicate so on the <a href='$url/?main-tab=generic-info#ministries'>Generic Info page</a>";
-    }else{
+    } else {
         $html    = "<div class='employee-gallery'>$html</div>";
     }
 
@@ -159,7 +167,8 @@ function getLocationEmployees($post) {
 }
 
 add_filter('tsjippy-theme-archive-page-title', __NAMESPACE__ . '\changeArchiveTitle', 10, 2);
-function changeArchiveTitle($title, $category) {
+function changeArchiveTitle($title, $category)
+{
     if (is_post_type_archive('location')) {
         $title = 'Locations';
     }

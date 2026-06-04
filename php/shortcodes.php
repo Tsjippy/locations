@@ -1,16 +1,19 @@
 <?php
+
 namespace TSJIPPY\LOCATIONS;
+
 use TSJIPPY;
 
-if ( ! defined('ABSPATH')) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
 add_shortcode("markerdescription", __NAMESPACE__ . '\markerDescription');
-function markerDescription($atts) {
+function markerDescription($atts)
+{
     $a = shortcode_atts(array(
         'user_id' => '',
-   ), $atts);
+    ), $atts);
 
     $userId = $a['user_id'];
 
@@ -21,7 +24,7 @@ function markerDescription($atts) {
 
         $description = "";
         if (empty($privacyPreference['hide_profile_picture'])) {
-            $description .= TSJIPPY\displayProfilePicture($userId, [80,80], true, true);
+            $description .= TSJIPPY\displayProfilePicture($userId, [80, 80], true, true);
         }
 
         //Add the post link to the marker content
@@ -33,7 +36,8 @@ function markerDescription($atts) {
 }
 
 add_shortcode('ministry_description', __NAMESPACE__ . '\ministryDescriptionShortcode');
-function ministryDescriptionShortcode($atts) {
+function ministryDescriptionShortcode($atts)
+{
     // check double posting
     $posts = get_posts(
         array(
@@ -45,8 +49,8 @@ function ministryDescriptionShortcode($atts) {
             'update_post_meta_cache' => false,
             'orderby'                => 'post_date ID',
             'order'                  => 'ASC',
-       )
-   );
+        )
+    );
 
     if (empty($posts)) {
         return '';
@@ -56,7 +60,8 @@ function ministryDescriptionShortcode($atts) {
 }
 
 add_shortcode("location_description", __NAMESPACE__ . '\locationDescription');
-function locationDescription($atts) {
+function locationDescription($atts)
+{
     $postId     = $atts['id'];
     if (!is_numeric($postId)) {
         return '';
@@ -70,7 +75,7 @@ function locationDescription($atts) {
     $longitude  = $location['longitude'];
 
     //Add the profile picture to the marker content
-    $postThumbnail = get_the_post_thumbnail($postId, 'thumbnail', array('class' => 'aligncenter markerpicture' , 'style' => 'max-height:100px;',));
+    $postThumbnail = get_the_post_thumbnail($postId, 'thumbnail', array('class' => 'aligncenter markerpicture', 'style' => 'max-height:100px;',));
 
     //Add the post excerpt to the marker content
     $description    = $postThumbnail;
