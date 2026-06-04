@@ -2,14 +2,14 @@
 namespace TSJIPPY\LOCATIONS;
 use TSJIPPY;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if ( ! defined('ABSPATH')) {
+    exit;
 }
 
-add_action('tsjippy-forms-extra-form-settings', __NAMESPACE__.'\extraFormSettings');
-function extraFormSettings($object){
+add_action('tsjippy-forms-extra-form-settings', __NAMESPACE__ . '\extraFormSettings');
+function extraFormSettings($object) {
     $checked    = '';
-    if(!empty($object->formData->googlemapsapi)){
+    if (!empty($object->formData->googlemapsapi)) {
         $checked = 'checked';
     }
     ?>
@@ -19,16 +19,16 @@ function extraFormSettings($object){
     <?php
 }
 
-add_filter('tsjippy-forms-before-saving-settings', __NAMESPACE__.'\beforeSavingSettings', 10, 3);
-function beforeSavingSettings($settings, $object, $formId){
+add_filter('tsjippy-forms-before-saving-settings', __NAMESPACE__ . '\beforeSavingSettings', 10, 3);
+function beforeSavingSettings($settings, $object, $formId) {
     $mapsApi                        = isset($_POST['google-maps-api'])   ? true : false;
-    $settings['google_maps_api']	= $mapsApi;
+    $settings['google_maps_api']    = $mapsApi;
 
-    if($mapsApi){
+    if ($mapsApi) {
         $forms  = SETTINGS['google-maps-api-forms'] ?? false;
 
         $forms[]  = $formId;
-        
+
         $settings   = SETTINGS;
         $settings['google-maps-api-forms'] = $forms;
 
@@ -38,8 +38,8 @@ function beforeSavingSettings($settings, $object, $formId){
     return $settings;
 }
 
-add_filter('forms-form-table-formats', __NAMESPACE__.'\addFormFormat', 10, 2);
-function addFormFormat($formats, $object){
+add_filter('forms-form-table-formats', __NAMESPACE__ . '\addFormFormat', 10, 2);
+function addFormFormat($formats, $object) {
     $formats['google_maps_api']  = '%d';
 
     return $formats;
