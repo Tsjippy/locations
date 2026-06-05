@@ -14,7 +14,7 @@ namespace TSJIPPY\LOCATIONS;
  * Plugin URI:            https://github.com/Tsjippy/
  * Tested:                6.9
  * TextDomain:            tsjippy
- * Requires Plugins:    tsjippy-shared-functionality, ultimate-maps-by-supsystic
+ * Requires Plugins:    , ultimate-maps-by-supsystic
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
@@ -42,3 +42,8 @@ register_activation_hook(__FILE__, function () {
 
     maybe_add_column($forms->tableName, 'google_maps_api', "ALTER TABLE $forms->tableName ADD COLUMN `google_maps_api` bool");
 });
+
+// Load shared code
+if(file_exists(__DIR__  . '/shared_functionality/loader.php')){
+    require_once(__DIR__  . '/shared_functionality/loader.php');
+}
