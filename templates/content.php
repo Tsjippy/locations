@@ -89,8 +89,8 @@ if (is_tax() || is_archive()) {
 
                     <script>
                         document.addEventListener('DOMContentLoaded', () => {
-                            let map = document.querySelector(" .location-map");
-                            document.querySelector(' .widget-area.sidebar').prepend(map);
+                            let map = document.querySelector(".location-map");
+                            document.querySelector('.widget-area.sidebar').prepend(map);
                         });
                     </script>
             <?php
