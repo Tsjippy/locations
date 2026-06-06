@@ -59,7 +59,7 @@ function widgetTitle($title, $widgetId = null)
 {
     //Change the title of the location category widget if not logged in
     if (is_tax('locations') && $widgetId == 'categories' && !is_user_logged_in()) {
-        $url = SITEURL . '/locations/ministry/';
+        $url = TSJIPPY\SITEURL . '/locations/ministry/';
         return "<a href='$url'>Ministries</a>";
     }
     return $title;
