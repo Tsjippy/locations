@@ -35,7 +35,7 @@ function afterPostSave($post, $frontEndPost)
             delete_post_meta($post->ID, 'tel');
         } else {
             //Store serves
-            update_metadata('post', $post->ID, 'tel', $_POST['tel']);
+            update_metadata('post', $post->ID, 'tel', TSJIPPY\sanitize($_POST['tel']));
         }
     }
 
@@ -45,7 +45,7 @@ function afterPostSave($post, $frontEndPost)
             delete_post_meta($post->ID, 'url');
         } else {
             //Store serves
-            update_metadata('post', $post->ID, 'url', $_POST['url']);
+            update_metadata('post', $post->ID, 'url', TSJIPPY\sanitize($_POST['url'], 'url'));
         }
     }
 
@@ -66,7 +66,7 @@ function setLocationAddress($postId)
         !empty($_POST['location']['latitude'])  &&
         !empty($_POST['location']['longitude'])
     ) {
-        update_metadata('post', $postId, 'location', json_encode($_POST['location']));
+        update_metadata('post', $postId, 'location', json_encode(TSJIPPY\sanitize($_POST['location'])));
     }
 
     if (empty($_POST['location']['latitude']) && empty($_POST['location']['longitude']) && empty($_POST['location']['address'])) {
@@ -94,9 +94,9 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
         $location   = json_decode($location, true);
     }
 
-    $address    = $location["address"]        = sanitize_text_field(wp_unslash($location["address"]));
-    $latitude    = $location["latitude"]        = sanitize_text_field(wp_unslash($location["latitude"]));
-    $longitude    = $location["longitude"]    = sanitize_text_field(wp_unslash($location["longitude"]));
+    $address    = $location["address"]        = TSJIPPY\sanitize($location["address"]);
+    $latitude    = $location["latitude"]        = TSJIPPY\sanitize($location["latitude"]);
+    $longitude    = $location["longitude"]    = TSJIPPY\sanitize($location["longitude"]);
 
     //Only update if needed
     if (empty($latitude) || empty($longitude)) {

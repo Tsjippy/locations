@@ -94,14 +94,14 @@ function ministryDescription()
 function projectList()
 {
     $projects = get_posts([
-        'post_type'            => 'project',
+        'post_type'         => 'project',
         'posts_per_page'    => -1,
-        'post_status'        => 'publish',
+        'post_status'       => 'publish',
         'orderby'           => 'title',
         'order'             => 'ASC',
         'meta_query'        => array(
             array(
-                'key'        => 'ministry',
+                'key'       => 'ministry',
                 'value'     => get_the_ID(),
                 'compare'   => '='
             )
@@ -146,7 +146,7 @@ function showMedia()
     $color            = SETTINGS['media-gallery-background-color'] ?? false;
     $mediaGallery   = new TSJIPPY\MEDIAGALLERY\MediaGallery(['image'], 6, $cats, true, 1, '', $color, $gradient);
 
-    if (isset($_POST['switch-gallery']) && $_POST['switch-gallery'] == 'filter') {
+    if (($_POST['switch-gallery'] ?? '') == 'filter') {
         echo $mediaGallery->filterableMediaGallery();
         $value    = 'gallery';
         $text    = 'View less';
