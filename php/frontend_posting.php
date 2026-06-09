@@ -351,18 +351,6 @@ function afterPostContent($frontendcontend)
 
     $url = get_post_meta($postId, 'url', true);
 ?>
-    <style>
-        .form-table,
-        .form-table th,
-        .form-table,
-        td {
-            border: none;
-        }
-
-        .form-table {
-            text-align: left;
-        }
-    </style>
     <div id="location-attributes" class="property location<?php if ($postName != 'location') {
                                                                 echo ' hidden';
                                                             } ?>">
@@ -387,7 +375,7 @@ function afterPostContent($frontendcontend)
                 <h4>Location details</h4>
             </legend>
 
-            <table class="form-table">
+            <table class="form-table no-border left">
                 <tr>
                     <th><label for="tel">Phone number</label></th>
                     <td>
