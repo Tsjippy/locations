@@ -4,10 +4,11 @@
   "description": "locations",
   "main": "./admin.js",
   "scripts": {
-    "build": "webpack --entry ./admin.js --output-path . --output-filename locations_admin.min.js --progress --mode=production --devtool source-map",
+    "build": "webpack --entry ./admin.js --output-path . --output-filename admin.min.js --progress --mode=production --devtool source-map",
     "user-location": "webpack --entry ./user_location.js --output-path . --output-filename user_location.min.js --progress --mode=production",
+    "admin": "webpack --entry ./admin.js --output-path . --output-filename admin.min.js --progress --mode=production",
     "location": "webpack --config location.config.js",
-    "all": "run-p build location user-location"
+    "all": "run-p build location user-location admin"
   },
   "author": "Ewald Harmsen",
   "license": "ISC",

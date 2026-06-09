@@ -37,12 +37,6 @@ add_filter('tsjippy-forms-before-showing-form', __NAMESPACE__ . '\beforeShowingF
 function beforeShowingForm($html, $object)
 {
     if (in_array($object->formData->id, SETTINGS['google-maps-api-forms'] ?? [])) {
-        $html   .= "<script>
-            function initMap() {
-                console.log('Google Maps loaded');
-            }
-        </script>";
-
         add_action('wp_enqueue_scripts', function () {
             addGoogleMapsApiKey();
         }, 99);
@@ -74,14 +68,6 @@ function addGoogleMapsApiKey()
                 'locations'        => $locations,
             )
         );
-
-?>
-        <script>
-            function initMap() {
-                console.log('Google Maps loaded');
-            }
-        </script>
-<?php
 
         wp_localize_script(
             'tsjippy_locations_script',

@@ -23,7 +23,6 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
     public function settings($parent) {
         global $wpdb;
 
-        $query         = ;
         $results     = $wpdb->get_results(
                 $wpdb->prepare(
                     'SELECT * FROM %i WHERE 1',
@@ -38,7 +37,7 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
 
         ob_start();
         wp_enqueue_style('tsjippy_locations_admin_style', TSJIPPY\pathToUrl(PLUGINPATH. 'css/admin.min.css'), array(), PLUGINVERSION);
-        wp_enqueue_script('tsjippy_locations_admin_script', TSJIPPY\pathToUrl(PLUGINPATH. 'js/locations_admin.min.js'), array(), PLUGINVERSION, true);
+        wp_enqueue_script('tsjippy_locations_admin_script', TSJIPPY\pathToUrl(PLUGINPATH. 'js/admin.min.js'), array(), PLUGINVERSION, true);
 
         if (empty($this->settings['page-gallery-background-color'])) {
             $this->settings['page-gallery-background-color']    = '#FFFFFF';

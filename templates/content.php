@@ -86,13 +86,6 @@ if (is_tax() || is_archive()) {
                         echo do_shortcode("[ultimate_maps id='$customMapId' map_center='$markerId']");
                         ?>
                     </div>
-
-                    <script>
-                        document.addEventListener('DOMContentLoaded', () => {
-                            let map = document.querySelector(".location-map");
-                            document.querySelector('.widget-area.sidebar').prepend(map);
-                        });
-                    </script>
             <?php
                 }
             }

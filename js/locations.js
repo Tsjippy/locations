@@ -1,3 +1,12 @@
+function initMap() {
+    console.log('Google Maps loaded');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    let map = document.querySelector(".location-map");
+    document.querySelector('.widget-area.sidebar').prepend(map);
+});
+            
 export function getRoute(target, lat, lon) {
   //Leave the origin empty on a mobile device to use the current location
   if (isMobileDevice()) {
