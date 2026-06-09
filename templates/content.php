@@ -58,13 +58,13 @@ wp_enqueue_style('tsjippy_locations_template', TSJIPPY\pathToUrl(TSJIPPY\PLUGINP
             //only show a map on the item page and if we are logged in
             if (!$archive && is_user_logged_in()) {
                 //Show a map if one is defined
-                $customMapId = get_post_meta(get_the_ID(), 'map_id', true);
+                $customMapId = get_post_meta(get_the_ID(), 'tsjippy_map_id', true);
                 if (is_numeric($customMapId)) {
                 ?>
                     <div class='location-map' style='margin-top:15px;margin-bottom:25px;'>
                         <h4>Location</h4>
                         <?php
-                        $markers    = get_post_meta(get_the_ID(), 'marker_ids', true);
+                        $markers    = get_post_meta(get_the_ID(), 'tsjippy_marker_ids', true);
                         $markerId    = '';
                         if (is_array($markers) && isset($markers['page_marker'])) {
                             $markerId    = $markers['page_marker'];
@@ -155,7 +155,7 @@ wp_enqueue_style('tsjippy_locations_template', TSJIPPY\pathToUrl(TSJIPPY\PLUGINP
 
                 <div class='tel location meta'>
                     <?php
-                    $tel        = get_post_meta(get_the_ID(), 'tel', true);
+                    $tel        = get_post_meta(get_the_ID(), 'tsjippy_tel', true);
                     if (!empty($tel)) {
                         $imageUrl = TSJIPPY\pathToUrl(PLUGINPATH . 'pictures/tel.png');
                         $icon = "<img src='$imageUrl' alt='telephone' loading='lazy' class='book-icon'>";
@@ -166,7 +166,7 @@ wp_enqueue_style('tsjippy_locations_template', TSJIPPY\pathToUrl(TSJIPPY\PLUGINP
 
                 <div class='url location meta'>
                     <?php
-                    $url        = get_post_meta(get_the_ID(), 'url', true);
+                    $url        = get_post_meta(get_the_ID(), 'tsjippy_url', true);
                     if (!empty($url) && filter_var($url, FILTER_VALIDATE_URL) && $url != "https://www. ") {
                         $imageUrl     = TSJIPPY\pathToUrl(PLUGINPATH . 'pictures/url.png');
                         $icon         = "<img src='$imageUrl' alt='location' loading='lazy' class='book-icon'>";
@@ -176,7 +176,7 @@ wp_enqueue_style('tsjippy_locations_template', TSJIPPY\pathToUrl(TSJIPPY\PLUGINP
                 </div>
 
                 <?php
-                $location    = json_decode(get_post_meta(get_the_ID(), 'location', true));
+                $location    = json_decode(get_post_meta(get_the_ID(), 'tsjippy_location', true));
                 if (!empty($location->latitude) && !empty($location->longitude)) {
                     $url    = TSJIPPY\pathToUrl(PLUGINPATH . 'pictures/location.png');
                     echo "<a onclick='Locations.getRoute(this, {$location->latitude},$location->longitude)' style='cursor: pointer;'>

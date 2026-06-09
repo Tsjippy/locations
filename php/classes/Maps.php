@@ -364,7 +364,7 @@ class Maps
             return;
         }
 
-        $query             = $wpdb->prepare("SELECT icon FROM {$this->markerTable} WHERE id = %d ", $markerId);
+        $query            = $wpdb->prepare("SELECT icon FROM {$this->markerTable} WHERE id = %d ", $markerId);
         $markerIconId     = $wpdb->get_var($query);
 
         if (!is_numeric($markerIconId)) {

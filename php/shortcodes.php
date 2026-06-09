@@ -8,7 +8,7 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-add_shortcode("markerdescription", __NAMESPACE__ . '\markerDescription');
+add_shortcode("tsjippy_markerdescription", __NAMESPACE__ . '\markerDescription');
 function markerDescription($atts)
 {
     $a = shortcode_atts(array(
@@ -35,7 +35,7 @@ function markerDescription($atts)
     }
 }
 
-add_shortcode('ministry_description', __NAMESPACE__ . '\ministryDescriptionShortcode');
+add_shortcode('tsjippy_ministry_description', __NAMESPACE__ . '\ministryDescriptionShortcode');
 function ministryDescriptionShortcode($atts)
 {
     // check double posting
@@ -59,7 +59,7 @@ function ministryDescriptionShortcode($atts)
     return getLocationEmployees($posts[0]);
 }
 
-add_shortcode("location_description", __NAMESPACE__ . '\locationDescription');
+add_shortcode("tsjippy_location_description", __NAMESPACE__ . '\locationDescription');
 function locationDescription($atts)
 {
     $postId     = $atts['id'];
@@ -67,7 +67,7 @@ function locationDescription($atts)
         return '';
     }
 
-    $location   = get_post_meta($postId, 'location', true);
+    $location   = get_post_meta($postId, 'tsjippy_location', true);
     if (!is_array($location) && !empty($location)) {
         $location  = json_decode($location, true);
     }

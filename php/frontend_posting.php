@@ -32,20 +32,20 @@ function afterPostSave($post, $frontEndPost)
     //tel
     if (isset($_POST['tel'])) {
         if (empty($_POST['tel'])) {
-            delete_post_meta($post->ID, 'tel');
+            delete_post_meta($post->ID, 'tsjippy_tel');
         } else {
             //Store serves
-            update_metadata('post', $post->ID, 'tel', TSJIPPY\sanitize($_POST['tel']));
+            update_metadata('post', $post->ID, 'tsjippy_tel', TSJIPPY\sanitize($_POST['tel']));
         }
     }
 
     //url
     if (isset($_POST['url'])) {
         if (empty($_POST['url'])) {
-            delete_post_meta($post->ID, 'url');
+            delete_post_meta($post->ID, 'tsjippy_url');
         } else {
             //Store serves
-            update_metadata('post', $post->ID, 'url', TSJIPPY\sanitize($_POST['url'], 'url'));
+            update_metadata('post', $post->ID, 'tsjippy_url', TSJIPPY\sanitize($_POST['url'], 'url'));
         }
     }
 
@@ -66,12 +66,12 @@ function setLocationAddress($postId)
         !empty($_POST['location']['latitude'])  &&
         !empty($_POST['location']['longitude'])
     ) {
-        update_metadata('post', $postId, 'location', json_encode(TSJIPPY\sanitize($_POST['location'])));
+        update_metadata('post', $postId, 'tsjippy_location', json_encode(TSJIPPY\sanitize($_POST['location'])));
     }
 
     if (empty($_POST['location']['latitude']) && empty($_POST['location']['longitude']) && empty($_POST['location']['address'])) {
         //Delete the custom map for this post
-        delete_metadata('post', $postId, 'location');
+        delete_metadata('post', $postId, 'tsjippy_location');
     }
 }
 
@@ -109,7 +109,7 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
     }
 
     //Get marker array
-    $markerIds = get_post_meta($postId, "marker_ids", true);
+    $markerIds = get_post_meta($postId, "tsjippy_marker_ids", true);
     if (!is_array($markerIds)) {
         $markerIds = [];
     }
@@ -178,7 +178,7 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
     /*
         Location map
     */
-    $mapId = get_post_meta($postId, 'map_id', true);
+    $mapId = get_post_meta($postId, 'tsjippy_map_id', true);
 
     // map no longer exists create a new one
     if (is_numeric($mapId) && empty($maps->getMap($mapId))) {
@@ -186,7 +186,7 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
         $mapId = $maps->addMap($title, $latitude, $longitude, $address, '300', 10);
 
         //Save the map id in db
-        update_metadata('post', $postId, 'map_id', $mapId);
+        update_metadata('post', $postId, 'tsjippy_map_id', $mapId);
     }
 
     //Update existing
@@ -212,7 +212,7 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
             $mapId = $maps->addMap($title, $latitude, $longitude, $address, '300', 10);
 
             //Save the map id in db
-            update_metadata('post', $postId, 'map_id', $mapId);
+            update_metadata('post', $postId, 'tsjippy_map_id', $mapId);
         }
 
         //Create an icon for this marker
@@ -281,7 +281,7 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
     }
 
     //Store marker ids in db
-    update_metadata('post', $postId, "marker_ids", $markerIds);
+    update_metadata('post', $postId, "tsjippy_marker_ids", $markerIds);
 }
 
 // Removes a map when post data is deleted
@@ -292,11 +292,11 @@ function postMetaDelete($metaIds, $postId, $metaKey, $metaValue)
         return;
     }
 
-    $markerIds  = get_metadata('post', $postId, "marker_ids", true);
-    $mapId      = get_metadata('post', $postId, 'map_id', true);
+    $markerIds  = get_metadata('post', $postId, "tsjippy_marker_ids", true);
+    $mapId      = get_metadata('post', $postId, 'tsjippy_map_id', true);
 
-    delete_metadata('post', $postId, 'map_id');
-    delete_metadata('post', $postId, 'marker_ids');
+    delete_metadata('post', $postId, 'tsjippy_map_id');
+    delete_metadata('post', $postId, 'tsjippy_marker_ids');
 
     $maps   = new Maps();
 
@@ -323,7 +323,7 @@ function afterPostContent($frontendcontend)
 
     $postId     = $frontendcontend->postId;
     $postName   = $frontendcontend->postName;
-    $location   = get_post_meta($postId, 'location', true);
+    $location   = get_post_meta($postId, 'tsjippy_location', true);
     if (!is_array($location) && !empty($location)) {
         $location  = json_decode($location, true);
     }
@@ -331,25 +331,25 @@ function afterPostContent($frontendcontend)
     $address = '';
     if (isset($location['address'])) {
         $address = $location['address'];
-    } elseif (get_post_meta($postId, 'geo_address', true) != '') {
-        $address = get_post_meta($postId, 'geo_address', true);
+    } elseif (get_post_meta($postId, 'tsjippy_geo_address', true) != '') {
+        $address = get_post_meta($postId, 'tsjippy_geo_address', true);
     }
 
     $latitude = '';
     if (isset($location['latitude'])) {
         $latitude = $location['latitude'];
-    } elseif (get_post_meta($postId, 'geo_latitude', true) != '') {
-        $latitude = get_post_meta($postId, 'geo_latitude', true);
+    } elseif (get_post_meta($postId, 'tsjippy_geo_latitude', true) != '') {
+        $latitude = get_post_meta($postId, 'tsjippy_geo_latitude', true);
     }
 
     $longitude  = '';
     if (isset($location['longitude'])) {
         $longitude = $location['longitude'];
-    } elseif (get_post_meta($postId, 'geo_longitude', true) != '') {
-        $longitude = get_post_meta($postId, 'geo_longitude', true);
+    } elseif (get_post_meta($postId, 'tsjippy_geo_longitude', true) != '') {
+        $longitude = get_post_meta($postId, 'tsjippy_geo_longitude', true);
     }
 
-    $url = get_post_meta($postId, 'url', true);
+    $url = get_post_meta($postId, 'tsjippy_url', true);
 ?>
     <div id="location-attributes" class="property location<?php if ($postName != 'location') {
                                                                 echo ' hidden';
@@ -363,7 +363,7 @@ function afterPostContent($frontendcontend)
         <div class="frontend-form">
             <h4>Update warnings</h4>
             <label>
-                <input type='checkbox' name='static-content' value='static-content' <?php if (get_post_meta($postId, 'static_content', true)) {
+                <input type='checkbox' name='static-content' value='static-content' <?php if (get_post_meta($postId, 'tsjippy_static_content', true)) {
                                                                                         echo 'checked';
                                                                                     } ?>>
                 Do not send update warnings for this location
@@ -379,7 +379,7 @@ function afterPostContent($frontendcontend)
                 <tr>
                     <th><label for="tel">Phone number</label></th>
                     <td>
-                        <input type='tel' class='formbuilder' name='tel' value='<?php echo get_post_meta($postId, 'tel', true); ?>'>
+                        <input type='tel' class='formbuilder' name='tel' value='<?php echo get_post_meta($postId, 'tsjippy_tel', true); ?>'>
                     </td>
                 </tr>
                 <tr>
@@ -429,7 +429,7 @@ function afterInsertPost($postId, $post, $update)
     }
 
     $url        = get_the_post_thumbnail_url($postId);
-    $markerIds  = get_post_meta($postId, "marker_ids", true);
+    $markerIds  = get_post_meta($postId, "tsjippy_marker_ids", true);
 
     if (!is_array($markerIds) || !isset($markerIds['page_marker'])) {
         return;

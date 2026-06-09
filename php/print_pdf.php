@@ -18,14 +18,14 @@ function beforePrint($post, $pdf)
     $pdf->printImage(get_the_post_thumbnail_url($post), -1, 20, -1, -1, true, true);
 
     //Address
-    $location   = get_post_meta(get_the_ID(), 'location', true);
+    $location   = get_post_meta(get_the_ID(), 'tsjippy_location', true);
     if (is_array($location) && !empty($location['address'])) {
         $url = TSJIPPY\pathToUrl(PLUGINPATH . 'pictures/location.png');
         $pdf->printImage($url, 10, -1, 10, 10);
         $pdf->write(10, $location['address']);
     }
 
-    $tel = get_post_meta(get_the_ID(), 'tel', true);
+    $tel = get_post_meta(get_the_ID(), 'tsjippy_tel', true);
 
     if (!empty($tel)) {
         // tel
@@ -37,7 +37,7 @@ function beforePrint($post, $pdf)
     //Url
     $imageUrl = TSJIPPY\pathToUrl(PLUGINPATH . 'pictures/url.png');
     $y      = $pdf->getY() + 12;
-    $url    = get_post_meta(get_the_ID(), 'url', true);
+    $url    = get_post_meta(get_the_ID(), 'tsjippy_url', true);
     if (!empty($url)) {
         $pdf->printImage($imageUrl, 10, $y, 10, 10);
         $pdf->write(10, $url);
