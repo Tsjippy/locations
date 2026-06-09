@@ -29,15 +29,10 @@ if ($skipWrapper) {
         get_header();
     }
 
+    wp_enqueue_style('tsjippy_template');
+
 ?>
     <div id="primary">
-        <style>
-            @media (min-width: 991px) {
-                #primary:not(:only-child) {
-                    width: 70%;
-                }
-            }
-        </style>
         <main id="main" class='inside-article'>
             <?php displayLocationArchive(); ?>
         </main>
