@@ -12,6 +12,7 @@
 - sanitize all posts and get vars
 - js to js file
 - moved inline style to scss file
+- moved inline style to scss file
 
 ### Fixed
 - spacing problem
