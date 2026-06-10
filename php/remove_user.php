@@ -19,7 +19,7 @@ function deleteUser($userId)
     //Only remove if there is no family
     if ($count === 0) {
         //Check if a personal marker exists for this user
-        $markerId = get_user_meta($userId, "marker_id", true);
+        $markerId = get_user_meta($userId, "tsjippy_marker_id", true);
 
         $maps->removeMarker($markerId);
         //User has family
@@ -28,7 +28,7 @@ function deleteUser($userId)
         $title = $familyMembers[0]->display_name;
 
         //Update
-        $markerId = get_user_meta($userId, "marker_id", true);
+        $markerId = get_user_meta($userId, "tsjippy_marker_id", true);
         $maps->updateMarkerTitle($markerId, $title);
     }
 }

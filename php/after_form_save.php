@@ -14,7 +14,7 @@ function familiPicture($userId, $attachmentId)
 {
     $family        = new TSJIPPY\FAMILY\Family();
     $maps       = new Maps();
-    $markerId     = get_user_meta($userId, "marker_id", true);
+    $markerId     = get_user_meta($userId, "tsjippy_marker_id", true);
     $url        = wp_get_attachment_url($attachmentId);
     $iconTitle    = $family->getFamilyName($userId);
 
@@ -29,7 +29,7 @@ function onFamilySave($userId)
     $maps       = new Maps();
 
     //Update the marker title
-    $markerId   = get_user_meta($userId, "marker_id", true);
+    $markerId   = get_user_meta($userId, "tsjippy_marker_id", true);
 
     $title      = $family->getFamilyName($userId);
 
@@ -43,7 +43,7 @@ function locationUpdate($userId, $location)
     global $wpdb;
 
     //Get any existing marker id from the db
-    $markerId = get_user_meta($userId, "marker_id", true);
+    $markerId = get_user_meta($userId, "tsjippy_marker_id", true);
     if (is_numeric($markerId)) {
         //Retrieve the marker icon id from the db
         $query = $wpdb->prepare("SELECT icon FROM {$wpdb->prefix}ums_markers WHERE id = %d ", $markerId);
@@ -73,7 +73,7 @@ function locationRemoval($userId)
     //Delete the marker as well
     $maps   = new Maps();
     $maps->removePersonalMarker($userId);
-    delete_user_meta($userId, 'marker_id');
+    delete_user_meta($userId, 'tsjippy_marker_id');
 }
 
 
@@ -82,17 +82,17 @@ add_filter('tsjippy_before_inserting_formdata', __NAMESPACE__ . '\beforeSavingFo
 function beforeSavingFormData($submission, $object)
 {
     if ($object->formData->slug == 'profile_picture') {
-        $privacyPreference  = (array)get_user_meta($object->userId, 'privacy_preference', true);
+        $privacyPreference  = (array)get_user_meta($object->userId, 'tsjippy_privacy_preference', true);
         $family                = new TSJIPPY\FAMILY\Family();
         $picture            = $family->getFamilyMeta($object->userId, 'family_picture');
         $maps               = new Maps();
 
         //update a marker icon only if privacy allows and no family picture is set
         if (empty($privacyPreference['hide_profile_picture']) && !is_numeric($picture)) {
-            $markerId = get_user_meta($object->userId, "marker_id", true);
+            $markerId = get_user_meta($object->userId, "tsjippy_marker_id", true);
 
             //New profile picture is set, update the marker icon
-            if (is_numeric(get_user_meta($object->userId, 'profile_picture', true))) {
+            if (is_numeric(get_user_meta($object->userId, 'tsjippy_profile_picture', true))) {
                 $iconUrl = TSJIPPY\USERMANAGEMENT\getProfilePictureUrl($object->userId);
 
                 //Save profile picture as icon
@@ -107,7 +107,7 @@ function beforeSavingFormData($submission, $object)
     // Update marker when privacy options are changed
     if ($object->formData->slug == 'user_generics') {
         if (is_array($submission->privacy_preference) && in_array("hide_location", $submission->privacy_preference)) {
-            $markerId = get_user_meta($object->userId, "marker_id", true);
+            $markerId = get_user_meta($object->userId, "tsjippy_marker_id", true);
 
             if (is_numeric($markerId)) {
                 $maps = new Maps();

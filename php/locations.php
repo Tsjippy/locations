@@ -32,7 +32,7 @@ function afterCategoryAdd($postType, $name, $result)
     $mapId        = $Maps->addMap($name);
 
     //Attach the map id to the term
-    update_term_meta($result['term_id'], 'map_id', $mapId);
+    update_term_meta($result['term_id'], 'tsjippy_map_id', $mapId);
 
     $settings    = SETTINGS;
 
@@ -115,14 +115,14 @@ function getLocationEmployees($post)
     $html             = "";
 
     foreach ($users as $user) {
-        $userLocations     = (array)get_user_meta($user->ID, "jobs", true);
+        $userLocations     = (array)get_user_meta($user->ID, "tsjippy_jobs", true);
 
         $intersect        = array_intersect(array_keys($userLocations), $locations);
 
         //If a user works for this ministry, echo its name and position
         if ($intersect) {
             $userPageUrl        = TSJIPPY\maybeGetUserPageUrl($user->ID);
-            $privacyPreference    = (array)get_user_meta($user->ID, 'privacy_preference', true);
+            $privacyPreference    = (array)get_user_meta($user->ID, 'tsjippy_privacy_preference', true);
             $class                = 'description';
             if (isset($privacyPreference['hide_profile_picture'])) {
                 $class            .= ' empty-picture';

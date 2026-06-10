@@ -51,7 +51,7 @@ function addGoogleMapsApiKey()
 
     if ($apiKey) {
         //Get current users location
-        $location = get_user_meta(wp_get_current_user()->ID, 'location', true);
+        $location = get_user_meta(wp_get_current_user()->ID, 'tsjippy_location', true);
         if (isset($location['address'])) {
             $address = $location['address'];
         } else {

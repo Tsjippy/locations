@@ -20,7 +20,7 @@ function markerDescription($atts)
     if (is_numeric($userId)) {
         wp_enqueue_style('tsjippy_locations_style');
 
-        $privacyPreference = (array)get_user_meta($userId, 'privacy_preference', true);
+        $privacyPreference = (array)get_user_meta($userId, 'tsjippy_privacy_preference', true);
 
         $description = "";
         if (empty($privacyPreference['hide_profile_picture'])) {

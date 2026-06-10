@@ -221,25 +221,25 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
         //Add the marker to this map
         $wpdb->insert($wpdb->prefix . 'ums_markers', array(
             'title'         => $title,
-            'description'    => "[location_description id=$postId basic=true]",
-            'coord_x'        => $latitude,
-            'coord_y'        => $longitude,
-            'icon'             => $customIconId,
+            'description'   => "[location_description id=$postId basic=true]",
+            'coord_x'       => $latitude,
+            'coord_y'       => $longitude,
+            'icon'          => $customIconId,
             'map_id'        => $mapId,
-            'address'        => $address,
+            'address'       => $address,
         ));
         $markerIds['page_marker'] = $wpdb->insert_id;
     }
 
-    /*
-        Category maps
-    */
+    /**
+     *   Category maps
+     */
     foreach ($categories as $category) {
-        $name                 = $category->slug;
+        $name               = $category->slug;
         $mapName            = $name . "_map";
-        $mapId                = SETTINGS[$mapName] ?? '';
-        $iconName            = $name . "_icon";
-        $iconId                = SETTINGS[$iconName] ?? 1;
+        $mapId              = SETTINGS[$mapName] ?? '';
+        $iconName           = $name . "_icon";
+        $iconId             = SETTINGS[$iconName] ?? 1;
 
         //Update existing
         if (is_numeric($markerIds[$name]) && $maps->markerExists($markerIds[$name])) {

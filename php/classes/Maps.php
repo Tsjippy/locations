@@ -206,7 +206,7 @@ class Maps
 
         $userdata = get_userdata($userId);
 
-        $privacyPreference = (array)get_user_meta($userId, 'privacy_preference', true);
+        $privacyPreference = (array)get_user_meta($userId, 'tsjippy_privacy_preference', true);
 
         //Do not continue if privacy dictates so
         if ($privacyPreference == "show_none") {
@@ -217,7 +217,7 @@ class Maps
         //Add the profile picture to the marker description if it is set, and allowed by privacy
         if (empty($privacyPreference['hide_profile_picture'])) {
             $loginName = $userdata->user_login;
-            if (is_numeric(get_user_meta($userId, 'profile_picture', true)) && function_exists('TSJIPPY\USERMANAGEMENT\getProfilePictureUrl')) {
+            if (is_numeric(get_user_meta($userId, 'tsjippy_profile_picture', true)) && function_exists('TSJIPPY\USERMANAGEMENT\getProfilePictureUrl')) {
                 $iconUrl = TSJIPPY\USERMANAGEMENT\getProfilePictureUrl($userId, 'thumbnail');
             } else {
                 $iconUrl = "";
@@ -243,7 +243,7 @@ class Maps
         $markerId = $wpdb->insert_id;
 
         //Add the marker id to the user database
-        update_user_meta($userId, "marker_id", $markerId);
+        update_user_meta($userId, "tsjippy_marker_id", $markerId);
     }
 
     /**
@@ -322,13 +322,13 @@ class Maps
     public function removePersonalMarker($userId)
     {
         //Check if a previous marker exists for this user_id
-        $markerId = get_user_meta($userId, "marker_id", true);
+        $markerId = get_user_meta($userId, "tsjippy_marker_id", true);
 
         //There exists a previous marker for this person, remove it
         if (is_numeric($markerId)) {
             //Delete the personal marker
             $this->removeMarker($markerId);
-            delete_user_meta($userId, 'marker_id');
+            delete_user_meta($userId, 'tsjippy_marker_id');
         }
     }
 
