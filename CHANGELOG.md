@@ -9,6 +9,7 @@
 - prefixed post metas and shortcodes
 
 ### Fixed
+- locations.js
 
 ### Updated
 
