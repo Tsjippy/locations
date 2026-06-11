@@ -10,6 +10,7 @@
 
 ### Fixed
 - locations.js
+- prefix meta_query
 
 ### Updated
 
