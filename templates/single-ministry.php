@@ -97,7 +97,7 @@ function projectList()
         'order'             => 'ASC',
         'meta_query'        => array(
             array(
-                'key'       => 'ministry',
+                'key'       => 'tsjippy_ministry',
                 'value'     => get_the_ID(),
                 'compare'   => '='
             )
