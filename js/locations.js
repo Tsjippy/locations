@@ -4,7 +4,10 @@ function initMap() {
 
 document.addEventListener('DOMContentLoaded', () => {
     let map = document.querySelector(".location-map");
-    document.querySelector('.widget-area.sidebar').prepend(map);
+
+    if(map != null){
+      document.querySelector('.widget-area.sidebar').prepend(map);
+    }
 });
             
 export function getRoute(target, lat, lon) {

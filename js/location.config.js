@@ -2,7 +2,7 @@ const path = require("path");
 
 module.exports = {
   entry: {
-    Locations: "./locations.js",
+    locations: "./locations.js",
   },
   mode: "production",
   output: {
