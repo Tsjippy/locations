@@ -24,7 +24,10 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-
+// Load shared code
+if(file_exists(__DIR__  . '/shared-functionality/loader.php')){
+    require_once(__DIR__  . '/shared-functionality/loader.php');
+}
 
 // Define constants
 define(__NAMESPACE__ . '\PLUGIN', plugin_basename(__FILE__));
@@ -35,6 +38,10 @@ define(__NAMESPACE__ . '\SETTINGS', get_option('tsjippy_locations_settings', [])
 
 // run right before activation
 register_activation_hook(__FILE__, function () {
+    if(file_exists(__DIR__  . '/shared-functionality/loader.php')){
+        require_once(__DIR__  . '/shared-functionality/loader.php');
+    }
+
     // add an extra form setting column in db
     require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
@@ -42,8 +49,3 @@ register_activation_hook(__FILE__, function () {
 
     maybe_add_column($forms->tableName, 'google_maps_api', "ALTER TABLE $forms->tableName ADD COLUMN `google_maps_api` bool");
 });
-
-// Load shared code
-if(file_exists(__DIR__  . '/shared-functionality/loader.php')){
-    require_once(__DIR__  . '/shared-functionality/loader.php');
-}
