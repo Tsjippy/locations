@@ -125,7 +125,7 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
         )
     );
 
-    $description    = "[location_description id=$postId]";
+    $description    = '[tsjippy_location_description id=$postId]';
 
     //Get url of the featured image
     $iconUrl        = get_the_post_thumbnail_url($postId);
@@ -198,7 +198,7 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
             $wpdb->prefix . 'ums_markers',
             array(
                 'title'         => $title,
-                'description'    => "[location_description id=$postId basic=true]",
+                'description'    => '[tsjippy_location_description id=$postId basic=true]',
                 'coord_x'        => $latitude,
                 'coord_y'        => $longitude,
                 'address'        => $address,
@@ -221,7 +221,7 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
         //Add the marker to this map
         $wpdb->insert($wpdb->prefix . 'ums_markers', array(
             'title'         => $title,
-            'description'   => "[location_description id=$postId basic=true]",
+            'description'   => '[tsjippy_location_description id=$postId basic=true]',
             'coord_x'       => $latitude,
             'coord_y'       => $longitude,
             'icon'          => $customIconId,

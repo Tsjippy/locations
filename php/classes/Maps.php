@@ -66,40 +66,40 @@ class Maps
         global $wpdb;
 
         //Add a map
-        $params                                     = [];
-        $params['width_units']                        = '%';
-        $params['membershipEnable']                    = 0;
+        $params                                      = [];
+        $params['width_units']                       = '%';
+        $params['membershipEnable']                  = 0;
         $params['adapt_map_to_screen_height']        = 0;
-        $params['map_type']                            = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}';
-        $params['map_center']                         = array(
+        $params['map_type']                          = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}';
+        $params['map_center']                        = array(
             'address' => $address,
             'coord_x' => $lattitude,
             'coord_y' => $longitude
         );
-        $params['mouse_wheel_zoom']                    = 1;
-        $params['zoom']                                = $zoom;
-        $params['zoom_mobile']                        = $zoom + 2;
-        $params['zoom_min']                            = 1;
-        $params['zoom_max']                            = 21;
-        $params['navigation_bar_mode']                = 'full';
+        $params['mouse_wheel_zoom']                  = 1;
+        $params['zoom']                              = $zoom;
+        $params['zoom_mobile']                       = $zoom + 2;
+        $params['zoom_min']                          = 1;
+        $params['zoom_max']                          = 21;
+        $params['navigation_bar_mode']               = 'full';
         $params['dbl_click_zoom']                    = 1;
-        $params['draggable']                        = 'enable';
+        $params['draggable']                         = 'enable';
         $params['marker_title_color']                = '#000000';
-        $params['marker_title_size']                = 19;
-        $params['marker_title_size_units']            = 'px';
-        $params['marker_desc_size']                    = 13;
+        $params['marker_title_size']                 = 19;
+        $params['marker_title_size_units']           = 'px';
+        $params['marker_desc_size']                  = 13;
         $params['marker_desc_size_units']            = 'px';
-        $params['marker_infownd_width']                = 200;
+        $params['marker_infownd_width']              = 200;
         $params['marker_infownd_width_units']        = 'px';
-        $params['marker_infownd_height']            = 400;
-        $params['marker_infownd_height_units']        = 'auto';
-        $params['marker_infownd_bg_color']            = '#FFFFFF';
-        $params['marker_clasterer']                    = 'MarkerClusterer';
+        $params['marker_infownd_height']             = 400;
+        $params['marker_infownd_height_units']       = 'auto';
+        $params['marker_infownd_bg_color']           = '#FFFFFF';
+        $params['marker_clasterer']                  = 'MarkerClusterer';
         $params['marker_clasterer_grid_size']        = 10;
         $params['marker_clasterer_background_color'] = '#bd2919';
-        $params['marker_clasterer_border_color']    = '#bc1907';
-        $params['marker_clasterer_text_color']        = 'white';
-        $params['marker_hover']                        = 0;
+        $params['marker_clasterer_border_color']     = '#bc1907';
+        $params['marker_clasterer_text_color']       = 'white';
+        $params['marker_hover']                      = 0;
         $params['markers_list_color']                = '#55BA68';
 
         $htmlOptions = [
@@ -231,12 +231,12 @@ class Maps
 
         //Insert it all in the database
         $wpdb->insert($this->markerTable, array(
-            'title'            => $title,
-            'description'    => "[markerdescription userid='$userId']",
-            'coord_x'        => $location['latitude'],
-            'coord_y'        => $location['longitude'],
-            'icon'            => $iconId,
-            'map_id'        => SETTINGS['users_map_id'] ?? '',
+            'title'       => $title,
+            'description' => "[tsjippy_markerdescription userid='$userId']",
+            'coord_x'     => $location['latitude'],
+            'coord_y'     => $location['longitude'],
+            'icon'        => $iconId,
+            'map_id'      => SETTINGS['users_map_id'] ?? '',
         ));
 
         //Get the marker id
