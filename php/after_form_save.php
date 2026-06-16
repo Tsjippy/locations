@@ -84,7 +84,7 @@ function beforeSavingFormData($submission, $object)
     if ($object->formData->slug == 'profile_picture') {
         $privacyPreference  = (array)get_user_meta($object->userId, 'tsjippy_privacy_preference', true);
         $family                = new TSJIPPY\FAMILY\Family();
-        $picture            = $family->getFamilyMeta($object->userId, 'family_picture');
+        $picture            = $family->getFamilyMeta($object->userId, 'family_picture', true);
         $maps               = new Maps();
 
         //update a marker icon only if privacy allows and no family picture is set
