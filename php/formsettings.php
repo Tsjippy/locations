@@ -42,7 +42,7 @@ function beforeSavingSettings($settings, $object, $formId)
     return $settings;
 }
 
-add_filter('forms-form-table-formats', __NAMESPACE__ . '\addFormFormat', 10, 2);
+add_filter('tsjippy-forms-form-table-formats', __NAMESPACE__ . '\addFormFormat', 10, 2);
 function addFormFormat($formats, $object)
 {
     $formats['google_maps_api']  = '%d';

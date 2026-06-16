@@ -9,7 +9,7 @@ if (! defined('ABSPATH')) {
 }
 
 // Update marker icon when family picture is updated
-add_action('tsjippy_update_family_picture', __NAMESPACE__ . '\familiPicture', 10, 2);
+add_action('tsjippy-update-family-picture', __NAMESPACE__ . '\familiPicture', 10, 2);
 function familiPicture($userId, $attachmentId)
 {
     $family        = new TSJIPPY\FAMILY\Family();
@@ -22,7 +22,7 @@ function familiPicture($userId, $attachmentId)
 }
 
 // Update marker title whenever there are changes to the family
-add_action('tsjippy_family_safe', __NAMESPACE__ . '\onFamilySave');
+add_action('tsjippy-family-safe', __NAMESPACE__ . '\onFamilySave');
 function onFamilySave($userId)
 {
     $family        = new TSJIPPY\FAMILY\Family();
@@ -37,7 +37,7 @@ function onFamilySave($userId)
 }
 
 //Update marker whenever the location changes
-add_action('tsjippy_location_update', __NAMESPACE__ . '\locationUpdate', 10, 2);
+add_action('tsjippy-location-update', __NAMESPACE__ . '\locationUpdate', 10, 2);
 function locationUpdate($userId, $location)
 {
     global $wpdb;
@@ -67,7 +67,7 @@ function locationUpdate($userId, $location)
 }
 
 // Remove marker when location is removed
-add_action('tsjippy_location_removal', __NAMESPACE__ . '\locationRemoval');
+add_action('tsjippy-location-removal', __NAMESPACE__ . '\locationRemoval');
 function locationRemoval($userId)
 {
     //Delete the marker as well
@@ -78,7 +78,7 @@ function locationRemoval($userId)
 
 
 // Update marker icon when family picture is changed
-add_filter('tsjippy_before_inserting_formdata', __NAMESPACE__ . '\beforeSavingFormData', 10, 2);
+add_filter('tsjippy-before-inserting-formdata', __NAMESPACE__ . '\beforeSavingFormData', 10, 2);
 function beforeSavingFormData($submission, $object)
 {
     if ($object->formData->slug == 'profile_picture') {

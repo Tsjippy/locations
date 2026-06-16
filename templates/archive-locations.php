@@ -60,7 +60,7 @@ function displayLocationArchive()
     );
 
     if ($locationsQuery->have_posts()) {
-        do_action('tsjippy_before_archive', 'location');
+        do_action('tsjippy-before-archive', 'location');
 
         if (is_user_logged_in()) {
             $mapId = SETTINGS['directions_map_id'] ?? '';

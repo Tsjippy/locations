@@ -48,7 +48,7 @@ function displayLocationTax()
 {
     $name                 = get_queried_object()->slug;
     if (have_posts()) {
-        do_action('tsjippy_before_archive', 'location');
+        do_action('tsjippy-before-archive', 'location');
 
         //only show the map if logged in
         if (is_user_logged_in()) {
