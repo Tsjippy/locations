@@ -10,7 +10,7 @@ if (! defined('ABSPATH')) {
 
 /* HELPER FUNCTIONS */
 //add special js to the dynamic form js
-add_filter('tsjippy-form-extra-js', __NAMESPACE__ . '\addJs', 10, 3);
+add_filter('tsjippy-forms-extra-js', __NAMESPACE__ . '\addJs', 10, 3);
 
 /**
  * Add extra JavaScript for the user location form

@@ -184,7 +184,7 @@ wp_enqueue_style('tsjippy_locations_template', TSJIPPY\pathToUrl(TSJIPPY\PLUGINP
                     </a>";
                 }
 
-                do_action('tsjippy-inside-location-metas');
+                do_action('tsjippy-locations-inside-location-metas');
                 ?>
             </div>
         </div>

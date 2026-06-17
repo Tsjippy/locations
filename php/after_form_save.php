@@ -37,7 +37,7 @@ function onFamilySave($userId)
 }
 
 //Update marker whenever the location changes
-add_action('tsjippy-location-update', __NAMESPACE__ . '\locationUpdate', 10, 2);
+add_action('tsjippy-user-management-location-update', __NAMESPACE__ . '\locationUpdate', 10, 2);
 function locationUpdate($userId, $location)
 {
     global $wpdb;
@@ -67,7 +67,7 @@ function locationUpdate($userId, $location)
 }
 
 // Remove marker when location is removed
-add_action('tsjippy-location-removal', __NAMESPACE__ . '\locationRemoval');
+add_action('tsjippy-user-management-location-removal', __NAMESPACE__ . '\locationRemoval');
 function locationRemoval($userId)
 {
     //Delete the marker as well

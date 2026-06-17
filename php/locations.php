@@ -21,7 +21,7 @@ add_filter('tsjippy-family-meta-keys', function ($metaKeys) {
 });
 
 //Add a map when a location category is added
-add_action('tsjippy-after-category-add', __NAMESPACE__ . '\afterCategoryAdd', 10, 3);
+add_action('tsjippy-frontend-content-after-category-add', __NAMESPACE__ . '\afterCategoryAdd', 10, 3);
 function afterCategoryAdd($postType, $name, $result)
 {
     if ($postType != 'location') {
