@@ -96,7 +96,7 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
                 <br>
                 <div class="dropdown">
                     <?php
-                    if (is_numeric($this->settings[$iconName])) {
+                    if (is_numeric($this->settings[$iconName] ?? '')) {
                         $url        = $icons[$this->settings[$iconName] ?? '']->path;
 
                         if (!str_contains($url, '://')) {
