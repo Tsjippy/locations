@@ -4,12 +4,19 @@
 ### Added
 
 ### Changed
+
+### Fixed
+
+### Updated
+
+## [10.2.4] - 2026-06-18
+
+
+### Changed
 - hook and filter name update
 
 ### Fixed
 - empty index bug
-
-### Updated
 
 ## [10.2.3] - 2026-06-15
 
