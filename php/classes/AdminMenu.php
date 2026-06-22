@@ -23,12 +23,12 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
     public function settings($parent) {
         global $wpdb;
 
-        $results     = $wpdb->get_results(
-                $wpdb->prepare(
-                    'SELECT * FROM %i WHERE 1',
-                    $wpdb->prefix . 'ums_icons'
-               )
-       );
+        $results     = TSJIPPY\getFromDb(
+            "get_marker_icons",
+            "locations",
+            'SELECT * FROM %i WHERE 1',
+            $wpdb->prefix . 'ums_icons'
+        );
         $icons        = [];
 
         foreach ($results as $icon) {

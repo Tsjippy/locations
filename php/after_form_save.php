@@ -46,8 +46,13 @@ function locationUpdate($userId, $location)
     $markerId = get_user_meta($userId, "tsjippy_marker_id", true);
     if (is_numeric($markerId)) {
         //Retrieve the marker icon id from the db
-        $query = $wpdb->prepare("SELECT icon FROM {$wpdb->prefix}ums_markers WHERE id = %d ", $markerId);
-        $markerIconId = $wpdb->get_var($query);
+        $markerIconId = TSJIPPY\getFromDb(
+            "get_marker_icon_$markerId",
+            "locations",
+            "SELECT icon FROM %i WHERE id = %d LIMIT 1",
+            "{$wpdb->prefix}ums_markers",
+            $markerId
+        );
 
         //Set the marker_id to null if not found in the db
         if ($markerIconId == null) {

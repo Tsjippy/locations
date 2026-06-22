@@ -137,14 +137,13 @@ class Maps
         $wpdb->delete($this->mapTable, array('id' => $mapId));
 
         //Remove all markers on this map
-        $query         =
-            $markers     = $wpdb->get_results(
-                $wpdb->prepare(
-                    "SELECT id FROM %i WHERE map_id = %d ",
-                    $this->markerTable,
-                    $mapId
-                )
-            );
+        $markers     = TSJIPPY\getFromDb(
+            "get_marker_id_from_$mapId",
+            "locations",
+            "SELECT id FROM %i WHERE map_id = %d ",
+            $this->markerTable,
+            $mapId
+        );
 
         foreach ($markers as $marker) {
             //Delete the marker
@@ -163,8 +162,12 @@ class Maps
     {
         global $wpdb;
 
-        $query    = $wpdb->prepare("SELECT id FROM {$this->markerTable} WHERE id = %d ", $markerId);
-        $result = $wpdb->get_var($query);
+        $result = TSJIPPY\getFromDb(
+            "check_if_marker_exists_$markerId",
+            "locations",
+            "SELECT id FROM {$this->markerTable} WHERE id = %d LIMIT 1",
+            $markerId
+        );
 
         if ($result == null) {
             return false;
@@ -364,8 +367,13 @@ class Maps
             return;
         }
 
-        $query            = $wpdb->prepare("SELECT icon FROM {$this->markerTable} WHERE id = %d ", $markerId);
-        $markerIconId     = $wpdb->get_var($query);
+        $markerIconId     = TSJIPPY\getFromDb(
+            "get_marker_{$markerId}_icon",
+            "locations",
+            "SELECT icon FROM %i WHERE id = %d LIMIT 1",
+            $this->markerTable,
+            $markerId
+        );
 
         if (!is_numeric($markerIconId)) {
             if (!empty($markerIconId)) {
@@ -405,25 +413,45 @@ class Maps
     {
         global $wpdb;
 
-        $currentMarkerIconId     = $defaultId;
-        $iconQuery                 = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}ums_icons WHERE title = %s ", $title);
+        $currentMarkerIconId = $defaultId;
+        $icon                = '';
+
         //Check if marker id is given
         if (is_numeric($markerId)) {
 
             //Get the icon id of this marker
-            $query                     = $wpdb->prepare("SELECT icon FROM {$this->markerTable} WHERE id = %d ", $markerId);
-            $currentMarkerIconId     = $wpdb->get_var($query);
+            $currentMarkerIconId     = TSJIPPY\getFromDb(
+                "get_marker_{$markerId}_icon",
+                "locations",
+                "SELECT icon FROM %i WHERE id = %d LIMIT 1",
+                $this->markerTable,
+                $markerId
+            );
 
             //check if marker icon id exists
             if (is_numeric($currentMarkerIconId)) {
-                $iconQuery     = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}ums_icons WHERE id = %d ", $currentMarkerIconId);
+                $icon     = TSJIPPY\getFromDb(
+                    "get_marker_icon_$currentMarkerIconId",
+                    "locations",
+                    "SELECT * FROM %i WHERE id = %d LIMIT 1", 
+                    "{$wpdb->prefix}ums_icons",
+                    $currentMarkerIconId
+                );
             } else {
                 $currentMarkerIconId     = $defaultId;
             }
         }
 
         //check if an icon exists
-        $icon         = $wpdb->get_results($iconQuery);
+        if(empty($icon)){
+            $icon     = TSJIPPY\getFromDb(
+                "get_marker_icon_$title",
+                "locations",
+                "SELECT * FROM %i WHERE title = %s LIMIT 1", 
+                "{$wpdb->prefix}ums_icons",
+                $title
+            );
+        }
 
         if (!empty($icon)) {
             $icon    = $icon[0];
