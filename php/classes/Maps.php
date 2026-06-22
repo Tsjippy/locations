@@ -108,18 +108,17 @@ class Maps
         ];
 
         //Insert the map in the db
-        $wpdb->insert(
+        return TSJIPPY\insertInDb(
             $this->mapTable,
             array(
-                'title'            => $name,
-                'params'        => serialize($params),
-                'html_options'    => serialize($htmlOptions),
-                'create_date'    => gmdate("Y-m-d G:i:s")
-            )
+                'title'        => $name,
+                'params'       => serialize($params),
+                'html_options' => serialize($htmlOptions),
+                'create_date'  => gmdate("Y-m-d G:i:s")
+            ),
+            [],
+            'locations'
         );
-
-        //return the new map ID
-        return $wpdb->insert_id;
     }
 
     /**
@@ -134,7 +133,12 @@ class Maps
         global $wpdb;
 
         //remove the map
-        $wpdb->delete($this->mapTable, array('id' => $mapId));
+        TSJIPPY\removeFromDb(
+            $this->mapTable, 
+            array('id' => $mapId),
+            ['%d'],
+            'locations'
+        );
 
         //Remove all markers on this map
         $markers     = TSJIPPY\getFromDb(
@@ -233,17 +237,26 @@ class Maps
         }
 
         //Insert it all in the database
-        $wpdb->insert($this->markerTable, array(
-            'title'       => $title,
-            'description' => "[tsjippy_markerdescription userid='$userId']",
-            'coord_x'     => $location['latitude'],
-            'coord_y'     => $location['longitude'],
-            'icon'        => $iconId,
-            'map_id'      => SETTINGS['users_map_id'] ?? '',
-        ));
-
-        //Get the marker id
-        $markerId = $wpdb->insert_id;
+        $markerId = TSJIPPY\insertInDb(
+            $this->markerTable, 
+            array(
+                'title'       => $title,
+                'description' => "[tsjippy_markerdescription userid='$userId']",
+                'coord_x'     => $location['latitude'],
+                'coord_y'     => $location['longitude'],
+                'icon'        => $iconId,
+                'map_id'      => SETTINGS['users_map_id'] ?? '',
+            ),
+            [
+                '%s',
+                '%s',
+                '%s',
+                '%s',
+                '%d',
+                '%d'
+            ],
+            'locations'
+        );
 
         //Add the marker id to the user database
         update_user_meta($userId, "tsjippy_marker_id", $markerId);
@@ -274,6 +287,15 @@ class Maps
                 ),
                 array('ID' => $markerId)
             );
+
+            /**
+             * Flush db cache
+             */
+            if(wp_cache_supports( 'flush_group' )){
+                wp_cache_flush_group('locations');
+            }else{
+                wp_cache_flush();
+            }
         }
     }
 
@@ -296,6 +318,15 @@ class Maps
                 ),
                 array('ID' => $markerId),
             );
+
+            /**
+             * Flush db cache
+             */
+            if(wp_cache_supports( 'flush_group' )){
+                wp_cache_flush_group('locations');
+            }else{
+                wp_cache_flush();
+            }
         }
     }
 
@@ -311,10 +342,14 @@ class Maps
         //First delete any custom icon
         $this->removeIcon($markerId);
 
-        $result = $wpdb->delete($this->markerTable, array('id' => $markerId));
-        if ($result) {
-            TSJIPPY\printArray("Removed the marker with id $markerId");
-        }
+        TSJIPPY\removeFromDb(
+            $this->markerTable, 
+            array('id' => $markerId),
+            ['%d'],
+            'locations'
+        );
+        TSJIPPY\printArray("Removed the marker with id $markerId");
+        
     }
 
     /**
@@ -394,6 +429,16 @@ class Maps
                 array('icon' => 1,),
                 array('id' => $markerId),
             );
+
+            /**
+             * Flush db cache
+             */
+            if(wp_cache_supports( 'flush_group' )){
+                wp_cache_flush_group('locations');
+            }else{
+                wp_cache_flush();
+            }
+
         } else {
             TSJIPPY\printArray("Icon is already the default");
         }
@@ -468,17 +513,26 @@ class Maps
             //Create new icon if there is an icon url
             if (!empty($url)) {
                 //Insert picture as icon in the database
-                $wpdb->insert($wpdb->prefix . 'ums_icons', array(
-                    'title'            => $title,
-                    'description'    => 'custom icon',
-                    'path'             => $url,
-                    'width'         => '44',
-                    'height'         => '44',
-                    'is_def'         => '0'
-                ));
-
-                //Get the new icon ID
-                $iconId = $wpdb->insert_id;
+                $iconId = TSJIPPY\insertInDb(
+                    $wpdb->prefix . 'ums_icons', 
+                    array(
+                        'title'       => $title,
+                        'description' => 'custom icon',
+                        'path'        => $url,
+                        'width'       => '44',
+                        'height'      => '44',
+                        'is_def'      => '0'
+                    ),
+                    [
+                        '%s',
+                        '%s',
+                        '%s',
+                        '%d',
+                        '%d',
+                        '%d'
+                    ],
+                    'locations'
+                );
 
                 //Update the marker to use the new icon
                 $wpdb->update(
@@ -486,6 +540,15 @@ class Maps
                     array('icon'     => $iconId,),
                     array('id'     => $markerId),
                 );
+
+                /**
+                 * Flush db cache
+                 */
+                if(wp_cache_supports( 'flush_group' )){
+                    wp_cache_flush_group('locations');
+                }else{
+                    wp_cache_flush();
+                }
             } else {
                 //No icon url, use default icon
                 $iconId = $defaultId;
@@ -509,6 +572,15 @@ class Maps
                     array('icon'     => $icon->id,),
                     array('id'     => $markerId),
                 );
+            }
+
+            /**
+             * Flush db cache
+             */
+            if(wp_cache_supports( 'flush_group' )){
+                wp_cache_flush_group('locations');
+            }else{
+                wp_cache_flush();
             }
 
             $iconId    = $icon->id;

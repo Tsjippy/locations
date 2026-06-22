@@ -156,23 +156,42 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
             ),
             array('ID'            => $markerIds['generic']),
         );
-        //Marker does not exist, create it
+
+        /**
+         * Flush db cache
+         */
+        if(wp_cache_supports( 'flush_group' )){
+            wp_cache_flush_group('locations');
+        }else{
+            wp_cache_flush();
+        }
     } else {
         $mapId    =  SETTINGS['directions_map_id'] ?? false;
 
         //First create the marker on the generic map
-        $wpdb->insert($wpdb->prefix . 'ums_markers', array(
-            'title'         => $title,
-            'description'    => $description,
-            'coord_x'        => $latitude,
-            'coord_y'        => $longitude,
-            'icon'            => $iconId,
-            'map_id'        => $mapId,        //Generic map with all places
-            'address'        => $address,
-        ));
-
         //Get the marker id
-        $markerIds['generic'] = $wpdb->insert_id;
+        $markerIds['generic'] = TSJIPPY\insertInDb(
+            $wpdb->prefix . 'ums_markers', 
+            array(
+                'title'       => $title,
+                'description' => $description,
+                'coord_x'     => $latitude,
+                'coord_y'     => $longitude,
+                'icon'        => $iconId,
+                'map_id'      => $mapId,        //Generic map with all places
+                'address'     => $address,
+            ),
+            [
+                '%s',
+                '%s',
+                '%s',
+                '%s',
+                '%d',
+                '%d',
+                '%s',
+            ],
+            'locations'
+        );
     }
 
     /*
@@ -205,8 +224,18 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
             ),
             array('ID'            => $markerIds['page_marker']),
         );
-        // Create new
-    } else {
+        
+        /**
+         * Flush db cache
+         */
+        if(wp_cache_supports( 'flush_group' )){
+            wp_cache_flush_group('locations');
+        }else{
+            wp_cache_flush();
+        }
+    } 
+    // Create new
+    else {
         if (!is_numeric($mapId)) {
             //Create a map for this location
             $mapId = $maps->addMap($title, $latitude, $longitude, $address, '300', 10);
@@ -219,16 +248,28 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
         $customIconId = $maps->createIcon(null, $title, $iconUrl, $iconId);
 
         //Add the marker to this map
-        $wpdb->insert($wpdb->prefix . 'ums_markers', array(
-            'title'         => $title,
-            'description'   => '[tsjippy_location_description id=$postId basic=true]',
-            'coord_x'       => $latitude,
-            'coord_y'       => $longitude,
-            'icon'          => $customIconId,
-            'map_id'        => $mapId,
-            'address'       => $address,
-        ));
-        $markerIds['page_marker'] = $wpdb->insert_id;
+        $markerIds['page_marker'] = TSJIPPY\insertInDb(
+            $wpdb->prefix . 'ums_markers', 
+            array(
+                'title'         => $title,
+                'description'   => '[tsjippy_location_description id=$postId basic=true]',
+                'coord_x'       => $latitude,
+                'coord_y'       => $longitude,
+                'icon'          => $customIconId,
+                'map_id'        => $mapId,
+                'address'       => $address,
+            ),
+            [
+                '%s',
+                '%s',
+                '%s',
+                '%s',
+                '%d',
+                '%d',
+                '%s',
+            ],
+            'locations'
+        );
     }
 
     /**
@@ -258,25 +299,44 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
                 ),
                 array('ID' => $markerIds[$name]),
             );
+
+            /**
+             * Flush db cache
+             */
+            if(wp_cache_supports( 'flush_group' )){
+                wp_cache_flush_group('locations');
+            }else{
+                wp_cache_flush();
+            }
         } else {
             //Create an icon for this marker
             $customIconId = $maps->createIcon(null, $title, $iconUrl, $iconId);
 
             //Add marker for this map
-            $wpdb->insert($wpdb->prefix . 'ums_markers', array(
-                'title'         => $title,
-                'description'    => $description,
-                'coord_x'        => $latitude,
-                'coord_y'        => $longitude,
-                'icon'             => $customIconId,
-                'map_id'        => $mapId,
-                'address'        => $address,
-            ));
+            $markerIds[$name] = TSJIPPY\insertInDb(
+                $wpdb->prefix . 'ums_markers', 
+                array(
+                    'title'       => $title,
+                    'description' => $description,
+                    'coord_x'     => $latitude,
+                    'coord_y'     => $longitude,
+                    'icon'        => $customIconId,
+                    'map_id'      => $mapId,
+                    'address'     => $address,
+                ),
+                [
+                    '%s',
+                    '%s',
+                    '%s',
+                    '%s',
+                    '%d',
+                    '%d',
+                    '%s',
+                ],
+                'locations'
+            );
 
-            //Get the marker id
-            $markerIds[$name] = $wpdb->insert_id;
-
-            TSJIPPY\printArray("Created marker with id {$wpdb->insert_id} and title $title on map with id $mapId");
+            TSJIPPY\printArray("Created marker with id {$markerIds[$name]} and title $title on map with id $mapId");
         }
     }
 
