@@ -146,7 +146,7 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
     //Update existing marker
     if (isset($markerIds['generic']) && $maps->markerExists($markerIds['generic'])) {
         //Generic map, always update
-        $wpdb->update(
+        $result = TSJIPPY\updateDbValue(
             $wpdb->prefix . 'ums_markers',
             array(
                 'description'    => $description,
@@ -154,17 +154,16 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
                 'coord_y'        => $longitude,
                 'address'        => $address,
             ),
-            array('ID'            => $markerIds['generic']),
+            array('ID'           => $markerIds['generic']),
+            [
+                '%s',
+                '%s',
+                '%s',
+                '%s',
+            ],
+            ['%d'],
+            'locations'
         );
-
-        /**
-         * Flush db cache
-         */
-        if(wp_cache_supports( 'flush_group' )){
-            wp_cache_flush_group('locations');
-        }else{
-            wp_cache_flush();
-        }
     } else {
         $mapId    =  SETTINGS['directions_map_id'] ?? false;
 
@@ -213,26 +212,26 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
         //Create an icon for this marker
         $maps->createIcon($markerIds['page_marker'], $title, $iconUrl, $iconId);
 
-        $wpdb->update(
+        $result = TSJIPPY\updateDbValue(
             $wpdb->prefix . 'ums_markers',
             array(
-                'title'         => $title,
-                'description'    => '[tsjippy_location_description id=$postId basic=true]',
-                'coord_x'        => $latitude,
-                'coord_y'        => $longitude,
-                'address'        => $address,
+                'title'       => $title,
+                'description' => '[tsjippy_location_description id=$postId basic=true]',
+                'coord_x'     => $latitude,
+                'coord_y'     => $longitude,
+                'address'     => $address,
             ),
-            array('ID'            => $markerIds['page_marker']),
+            array('ID'        => $markerIds['page_marker']),
+            [
+                '%s',
+                '%s',
+                '%s',
+                '%s',
+                '%s',
+            ],
+            ['%d'],
+            'locations'
         );
-        
-        /**
-         * Flush db cache
-         */
-        if(wp_cache_supports( 'flush_group' )){
-            wp_cache_flush_group('locations');
-        }else{
-            wp_cache_flush();
-        }
     } 
     // Create new
     else {
@@ -288,26 +287,26 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
             $maps->createIcon($markerIds[$name], $title, $iconUrl, $iconId);
 
             //Update the marker in db
-            $wpdb->update(
+            $result = TSJIPPY\updateDbValue(
                 $wpdb->prefix . 'ums_markers',
                 array(
-                    'description'    => $description,
-                    'coord_x'        => $latitude,
-                    'coord_y'        => $longitude,
-                    'map_id'        => $mapId,
-                    'address'        => $address,
+                    'description' => $description,
+                    'coord_x'     => $latitude,
+                    'coord_y'     => $longitude,
+                    'map_id'      => $mapId,
+                    'address'     => $address,
                 ),
                 array('ID' => $markerIds[$name]),
+                [
+                    '%s',
+                    '%s',
+                    '%s',
+                    '%d',
+                    '%s',
+                ],
+                ['%d'],
+                'locations'
             );
-
-            /**
-             * Flush db cache
-             */
-            if(wp_cache_supports( 'flush_group' )){
-                wp_cache_flush_group('locations');
-            }else{
-                wp_cache_flush();
-            }
         } else {
             //Create an icon for this marker
             $customIconId = $maps->createIcon(null, $title, $iconUrl, $iconId);

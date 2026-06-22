@@ -279,23 +279,20 @@ class Maps
             }
 
             //Update the marker
-            $wpdb->update(
+            $result = TSJIPPY\updateDbValue(
                 $this->markerTable,
                 array(
                     'coord_x' => $location['latitude'],
                     'coord_y' => $location['longitude'],
                 ),
-                array('ID' => $markerId)
+                array('ID' => $markerId),
+                [
+                    '%s',
+                    '%s',
+                ],
+                ['%d'],
+                'locations'
             );
-
-            /**
-             * Flush db cache
-             */
-            if(wp_cache_supports( 'flush_group' )){
-                wp_cache_flush_group('locations');
-            }else{
-                wp_cache_flush();
-            }
         }
     }
 
@@ -311,12 +308,15 @@ class Maps
 
         if (is_numeric($markerId)) {
             //Update the marker
-            $wpdb->update(
+            $result = TSJIPPY\updateDbValue(
                 $this->markerTable,
                 array(
                     'title' => $title,
                 ),
                 array('ID' => $markerId),
+                ['%s'],
+                ['%d'],
+                'locations'
             );
 
             /**
@@ -424,21 +424,14 @@ class Maps
             $wpdb->delete($wpdb->prefix . 'ums_icons', array('id' => $markerIconId));
 
             //Reset the marker id to the default icon
-            $wpdb->update(
+            $result = TSJIPPY\updateDbValue(
                 $this->markerTable,
                 array('icon' => 1,),
                 array('id' => $markerId),
+                ['%d'],
+                ['%d'],
+                'locations'
             );
-
-            /**
-             * Flush db cache
-             */
-            if(wp_cache_supports( 'flush_group' )){
-                wp_cache_flush_group('locations');
-            }else{
-                wp_cache_flush();
-            }
-
         } else {
             TSJIPPY\printArray("Icon is already the default");
         }
@@ -535,20 +528,14 @@ class Maps
                 );
 
                 //Update the marker to use the new icon
-                $wpdb->update(
+                $result = TSJIPPY\updateDbValue(
                     $this->markerTable,
-                    array('icon'     => $iconId,),
-                    array('id'     => $markerId),
+                    array('icon' => $iconId,),
+                    array('id'   => $markerId),
+                    ['%d'],
+                    ['%d'],
+                    'locations'
                 );
-
-                /**
-                 * Flush db cache
-                 */
-                if(wp_cache_supports( 'flush_group' )){
-                    wp_cache_flush_group('locations');
-                }else{
-                    wp_cache_flush();
-                }
             } else {
                 //No icon url, use default icon
                 $iconId = $defaultId;
@@ -556,33 +543,29 @@ class Maps
             //Only update if there is an icon url
         } elseif (!empty($url)) {
             //Update marker icon
-            $wpdb->update(
+            $result = TSJIPPY\updateDbValue(
                 $wpdb->prefix . 'ums_icons',
                 array(
                     'path'     => $url,
                     'title' => $title,
                 ),
                 array('id' => $icon->id),
+                ['%s','%s'],
+                ['%d'],
+                'locations'
             );
 
             //Reset the marker id to the custom icon
             if (is_numeric($markerId)) {
-                $wpdb->update(
+                $result = TSJIPPY\updateDbValue(
                     $this->markerTable,
-                    array('icon'     => $icon->id,),
-                    array('id'     => $markerId),
+                    array('icon' => $icon->id,),
+                    array('id'   => $markerId),
+                    ['%d'],
+                    ['%d'],
+                    'locations'
                 );
             }
-
-            /**
-             * Flush db cache
-             */
-            if(wp_cache_supports( 'flush_group' )){
-                wp_cache_flush_group('locations');
-            }else{
-                wp_cache_flush();
-            }
-
             $iconId    = $icon->id;
         } else {
             $iconId = $currentMarkerIconId;
