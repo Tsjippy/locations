@@ -4,13 +4,18 @@
 ### Added
 
 ### Changed
-- implemented db caching
-- implemented db caching
-- replaced wpdb->update with updateDbFunction
 
 ### Fixed
 
 ### Updated
+
+## [10.2.8] - 2026-06-23
+
+
+### Changed
+- implemented db caching
+- implemented db caching
+- replaced wpdb->update with updateDbFunction
 
 ## [10.2.7] - 2026-06-21
 
