@@ -9,7 +9,7 @@ if (! defined('ABSPATH')) {
 }
 
 // Update marker icon when family picture is updated
-add_action('tsjippy-update-family-picture', __NAMESPACE__ . '\familiPicture', 10, 2);
+add_action('tsjippy-user-management-update-family-picture', __NAMESPACE__ . '\familiPicture', 10, 2);
 function familiPicture($userId, $attachmentId)
 {
     $family        = new TSJIPPY\FAMILY\Family();
@@ -83,7 +83,7 @@ function locationRemoval($userId)
 
 
 // Update marker icon when family picture is changed
-add_filter('tsjippy-before-inserting-formdata', __NAMESPACE__ . '\beforeSavingFormData', 10, 2);
+add_filter('tsjippy-forms-before-inserting-formdata', __NAMESPACE__ . '\beforeSavingFormData', 10, 2);
 function beforeSavingFormData($submission, $object)
 {
     if ($object->formData->slug == 'profile_picture') {
