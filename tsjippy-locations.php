@@ -5,7 +5,7 @@ namespace TSJIPPY\LOCATIONS;
 /**
  * Plugin Name:          Tsjippy Locations
  * Description:          This plugin adds a custom post type 'locations'.Locations can be used to share shops, hotels ministries etc. They will bevisible on a map. It adds one shortcode: <code>[ministry_description name=SOMENAME]</code>
- * Version:              10.3.2
+ * Version:              10.3.3
  * Author:               Ewald Harmsen
  * AuthorURI:            harmseninnigeria.nl
  * Requires at least:    6.3
