@@ -23,23 +23,22 @@ function extraFormSettings($object)
 }
 
 add_filter('tsjippy-forms-before-saving-settings', __NAMESPACE__ . '\beforeSavingSettings', 10, 3);
-function beforeSavingSettings($settings, $object, $formId)
+function beforeSavingSettings($request, $object, $formId)
 {
-    $mapsApi                        = isset($_POST['google-maps-api'])   ? true : false;
-    $settings['google_maps_api']    = $mapsApi;
+    $request['google_maps_api'] = isset($request['google-maps-api'])   ? true : false;
 
-    if ($mapsApi) {
-        $forms  = SETTINGS['google-maps-api-forms'] ?? false;
+    if ($request['google_maps_api']) {
+        $forms   = SETTINGS['google-maps-api-forms'] ?? [];
 
         $forms[]  = $formId;
 
         $settings   = SETTINGS;
-        $settings['google-maps-api-forms'] = $forms;
+        $request['google-maps-api-forms'] = $forms;
 
         update_option('tsjippy_locations_settings', $settings);
     }
 
-    return $settings;
+    return $request;
 }
 
 add_filter('tsjippy-forms-form-table-formats', __NAMESPACE__ . '\addFormFormat', 10, 2);

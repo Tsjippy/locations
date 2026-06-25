@@ -84,11 +84,11 @@ function locationRemoval($userId)
 
 // Update marker icon when family picture is changed
 add_filter('tsjippy-forms-before-inserting-formdata', __NAMESPACE__ . '\beforeSavingFormData', 10, 2);
-function beforeSavingFormData($submission, $object)
+function beforeSavingFormData($request, $object)
 {
     if ($object->formData->slug == 'profile_picture') {
         $privacyPreference  = (array)get_user_meta($object->userId, 'tsjippy_privacy_preference', true);
-        $family                = new TSJIPPY\FAMILY\Family();
+        $family             = new TSJIPPY\FAMILY\Family();
         $picture            = $family->getFamilyMeta($object->userId, 'family_picture', true);
         $maps               = new Maps();
 
@@ -111,7 +111,7 @@ function beforeSavingFormData($submission, $object)
 
     // Update marker when privacy options are changed
     if ($object->formData->slug == 'user_generics') {
-        if (is_array($submission->privacy_preference) && in_array("hide_location", $submission->privacy_preference)) {
+        if (is_array($request->privacy_preference) && in_array("hide_location", $request->privacy_preference)) {
             $markerId = get_user_meta($object->userId, "tsjippy_marker_id", true);
 
             if (is_numeric($markerId)) {
@@ -121,5 +121,5 @@ function beforeSavingFormData($submission, $object)
         }
     }
 
-    return $submission;
+    return $request;
 }
