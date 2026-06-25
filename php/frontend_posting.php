@@ -409,32 +409,53 @@ function afterPostContent($frontendcontend)
     }
 
     $url = get_post_meta($postId, 'tsjippy_url', true);
-?>
-    <div id="location-attributes" class="property location<?php if ($postName != 'location') {
-                                                                echo ' hidden';
-                                                            } ?>">
-        <div id="parentpage" class="frontend-form">
-            <h4>Select a parent location</h4>
-            <?php
-            echo TSJIPPY\pageSelect('parent-location', $frontendcontend->postParent, '', ['location'], false);
-            ?>
+    ?>
+    <div 
+    id="location-attributes" 
+    class="property location
+    <?php if ($postName != 'location') {
+        echo ' hidden';
+    } ?>">
+        <div id="parentpage" class="frontend-form expand-wrapper">
+            <h4>
+                Select a parent location
+                <button class="button small expand" type='button'>&#9660;</button>
+            </h4>
+
+            <div class="hidden expandable">
+                <?php
+                echo TSJIPPY\pageSelect('parent-location', $frontendcontend->postParent, '', ['location'], false);
+                ?>
+            </div>
         </div>
-        <div class="frontend-form">
-            <h4>Update warnings</h4>
-            <label>
-                <input type='checkbox' name='static-content' value='static-content' <?php if (get_post_meta($postId, 'tsjippy_static_content', true)) {
-                                                                                        echo 'checked';
-                                                                                    } ?>>
+
+        <div class="frontend-form expand-wrapper">
+            <h4>
+                Update warnings
+                <button class="button small expand" type='button'>&#9660;</button>
+            </h4>
+
+            <label class="hidden expandable">
+                <input 
+                type='checkbox' 
+                name='static-content' 
+                value='static-content' 
+                <?php if (get_post_meta($postId, 'tsjippy_static_content', true)) {
+                    echo 'checked';
+                } ?>>
                 Do not send update warnings for this location
             </label>
         </div>
 
-        <fieldset id="location" class="frontend-form">
+        <fieldset id="location" class="frontend-form expand-wrapper">
             <legend>
-                <h4>Location details</h4>
+                <h4>
+                    Location details
+                    <button class="button small expand" type='button'>&#9660;</button>
+                </h4>
             </legend>
 
-            <table class="form-table no-border left">
+            <table class="form-table no-border left hidden expandable">
                 <tr>
                     <th><label for="tel">Phone number</label></th>
                     <td>
