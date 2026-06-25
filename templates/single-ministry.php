@@ -177,7 +177,7 @@ function showRelevantPages()
 
         $gradient        = SETTINGS['gallery-background-color-gradient'] ?? false;
 
-        echo TSJIPPY\PAGEGALLERY\pageGallery('Related Ministries', [get_post_type()], 3, $cats, 60, true, SETTINGS['page-gallery-background-color'] ?? false, $gradient);
+        TSJIPPY\PAGEGALLERY\pageGallery('Related Ministries', [get_post_type()], 3, $cats, 60, true, SETTINGS['page-gallery-background-color'] ?? false, $gradient, true);
     }
 }
 
