@@ -369,7 +369,7 @@ function postMetaDelete($metaIds, $postId, $metaKey, $metaValue)
 }
 
 //add meta data fields
-add_action('tsjippy-frontend-content-post-after-content', __NAMESPACE__ . '\afterPostContent', 10, 2);
+add_action('tsjippy-frontend-content-post-before-default-options-content', __NAMESPACE__ . '\afterPostContent', 1, 2);
 function afterPostContent($frontendcontend)
 {
 
@@ -416,46 +416,14 @@ function afterPostContent($frontendcontend)
     <?php if ($postName != 'location') {
         echo ' hidden';
     } ?>">
-        <div id="parentpage" class="frontend-form expand-wrapper">
-            <h4>
-                Select a parent location
-                <button class="button small expand" type='button'>&#9660;</button>
-            </h4>
-
-            <div class="hidden expandable">
-                <?php
-                echo TSJIPPY\pageSelect('parent-location', $frontendcontend->postParent, '', ['location'], false);
-                ?>
-            </div>
-        </div>
-
-        <div class="frontend-form expand-wrapper">
-            <h4>
-                Update warnings
-                <button class="button small expand" type='button'>&#9660;</button>
-            </h4>
-
-            <label class="hidden expandable">
-                <input 
-                type='checkbox' 
-                name='static-content' 
-                value='static-content' 
-                <?php if (get_post_meta($postId, 'tsjippy_static_content', true)) {
-                    echo 'checked';
-                } ?>>
-                Do not send update warnings for this location
-            </label>
-        </div>
-
-        <fieldset id="location" class="frontend-form expand-wrapper">
+        <fieldset id="location" class="frontend-form">
             <legend>
                 <h4>
                     Location details
-                    <button class="button small expand" type='button'>&#9660;</button>
                 </h4>
             </legend>
 
-            <table class="form-table no-border left hidden expandable">
+            <table class="form-table no-border left">
                 <tr>
                     <th><label for="tel">Phone number</label></th>
                     <td>
@@ -496,6 +464,37 @@ function afterPostContent($frontendcontend)
                 </tr>
             </table>
         </fieldset>
+        
+        <div id="parentpage" class="frontend-form expand-wrapper">
+            <h4>
+                Parent location
+                <button class="button small expand" type='button'>&#9660;</button>
+            </h4>
+
+            <div class="hidden expandable">
+                <?php
+                echo TSJIPPY\pageSelect('parent-location', $frontendcontend->postParent, '', ['location'], false);
+                ?>
+            </div>
+        </div>
+
+        <div class="frontend-form expand-wrapper">
+            <h4>
+                Update warnings
+                <button class="button small expand" type='button'>&#9660;</button>
+            </h4>
+
+            <label class="hidden expandable">
+                <input 
+                type='checkbox' 
+                name='static-content' 
+                value='static-content' 
+                <?php if (get_post_meta($postId, 'tsjippy_static_content', true)) {
+                    echo 'checked';
+                } ?>>
+                Do not send update warnings for this location
+            </label>
+        </div>
     </div>
 <?php
 }
