@@ -6,6 +6,7 @@
 ### Changed
 - wrapped front-end options in a collapsible
 - frontend content hook
+- echo page gallery direct
 
 ### Fixed
 
