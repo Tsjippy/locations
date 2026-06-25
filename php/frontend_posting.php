@@ -22,34 +22,41 @@ function contentTitle($postType)
     echo "</h4>";
 }
 
-add_action('tsjippy-frontend-content-after-post-save', __NAMESPACE__ . '\afterPostSave', 10, 2);
-function afterPostSave($post, $frontEndPost)
+/**
+ * Allow comments
+ * 
+ * @param   \WP_Post    $post       The new or updated post
+ * @param   object      $object     FrontEndContent Instance
+ * @param   array       $request    The sanitized request data
+ */
+add_action('tsjippy-frontend-content-after-post-save', __NAMESPACE__ . '\afterPostSave', 10, 3);
+function afterPostSave($post, $frontEndPost, $request)
 {
     if ($post->post_type != 'location') {
         return;
     }
 
     //tel
-    if (isset($_POST['tel'])) {
-        if (empty($_POST['tel'])) {
+    if (isset($request['tel'])) {
+        if (empty($request['tel'])) {
             delete_post_meta($post->ID, 'tsjippy_tel');
         } else {
             //Store serves
-            update_metadata('post', $post->ID, 'tsjippy_tel', TSJIPPY\sanitize($_POST['tel']));
+            update_metadata('post', $post->ID, 'tsjippy_tel', $request['tel']);
         }
     }
 
     //url
-    if (isset($_POST['url'])) {
-        if (empty($_POST['url'])) {
+    if (isset($request['url'])) {
+        if (empty($request['url'])) {
             delete_post_meta($post->ID, 'tsjippy_url');
         } else {
             //Store serves
-            update_metadata('post', $post->ID, 'tsjippy_url', TSJIPPY\sanitize($_POST['url'], 'url'));
+            update_metadata('post', $post->ID, 'tsjippy_url', $request['url'], 'url');
         }
     }
 
-    setLocationAddress($post->ID);
+    setLocationAddress($post->ID, $request);
 }
 
 add_action('tsjippy-sim-nigeria-ministry-added', __NAMESPACE__ . '\setLocationAddress', 10, 2);
@@ -57,19 +64,19 @@ add_action('tsjippy-sim-nigeria-ministry-added', __NAMESPACE__ . '\setLocationAd
 /**
  * Store location details in meta
  */
-function setLocationAddress($postId)
+function setLocationAddress($postId, $request)
 {
     if (
-        isset($_POST['location'])                &&
-        isset($_POST['location']['latitude'])    &&
-        isset($_POST['location']['longitude'])  &&
-        !empty($_POST['location']['latitude'])  &&
-        !empty($_POST['location']['longitude'])
+        isset($request['location'])                &&
+        isset($request['location']['latitude'])    &&
+        isset($request['location']['longitude'])  &&
+        !empty($request['location']['latitude'])  &&
+        !empty($request['location']['longitude'])
     ) {
-        update_metadata('post', $postId, 'tsjippy_location', json_encode(TSJIPPY\sanitize($_POST['location'])));
+        update_metadata('post', $postId, 'tsjippy_location', json_encode(TSJIPPY\sanitize($request['location'])));
     }
 
-    if (empty($_POST['location']['latitude']) && empty($_POST['location']['longitude']) && empty($_POST['location']['address'])) {
+    if (empty($request['location']['latitude']) && empty($request['location']['longitude']) && empty($request['location']['address'])) {
         //Delete the custom map for this post
         delete_metadata('post', $postId, 'tsjippy_location');
     }
@@ -94,9 +101,9 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
         $location   = json_decode($location, true);
     }
 
-    $address    = $location["address"]        = TSJIPPY\sanitize($location["address"]);
-    $latitude    = $location["latitude"]        = TSJIPPY\sanitize($location["latitude"]);
-    $longitude    = $location["longitude"]    = TSJIPPY\sanitize($location["longitude"]);
+    $address    = $location["address"]     = TSJIPPY\sanitize($location["address"]);
+    $latitude    = $location["latitude"]   = TSJIPPY\sanitize($location["latitude"]);
+    $longitude    = $location["longitude"] = TSJIPPY\sanitize($location["longitude"]);
 
     //Only update if needed
     if (empty($latitude) || empty($longitude)) {
