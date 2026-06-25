@@ -4,13 +4,18 @@
 ### Added
 
 ### Changed
-- wrapped front-end options in a collapsible
-- frontend content hook
-- echo page gallery direct
 
 ### Fixed
 
 ### Updated
+
+## [10.3.4] - 2026-06-25
+
+
+### Changed
+- wrapped front-end options in a collapsible
+- frontend content hook
+- echo page gallery direct
 
 ## [10.3.3] - 2026-06-24
 
