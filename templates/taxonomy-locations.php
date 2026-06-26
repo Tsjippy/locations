@@ -57,9 +57,11 @@ function displayLocationTax()
 
             if (is_numeric($mapId)) {
                 //Show the map of this category
-                echo "<div style='margin-bottom:25px;'>";
-                echo do_shortcode("[ultimate_maps id='$mapId']");
-                echo '</div>';
+                ?>
+                <div style='margin-bottom:25px;'>
+                    <?php echo wp_kses_post(do_shortcode("[ultimate_maps id='$mapId']"));
+                </div>
+                <?php
             }
         }
 
@@ -75,7 +77,7 @@ function displayLocationTax()
             <div class="no-results not-found">
                 <div class="inside-article">
                     <div class="entry-content">
-                        <?php echo apply_filters('tsjippy-empty-taxonomy', "There are no $name locations yet", 'location'); ?>
+                        <?php echo wp_kses_post(apply_filters('tsjippy-empty-taxonomy', "There are no $name locations yet", 'location')); ?>
                     </div>
                 </div>
             </div>

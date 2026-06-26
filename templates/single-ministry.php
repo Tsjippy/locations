@@ -32,12 +32,12 @@ wp_enqueue_style('tsjippy_template');
             projectList();
 
             // Show the people working here
-            echo ministryDescription();
+            ministryDescription();
 
             showRelevantPages();
         endwhile;
 
-        echo apply_filters('tsjippy-single-template-bottom', '', 'location');
+        echo wp_kses_post(apply_filters('tsjippy-single-template-bottom', '', 'location'));
         ?>
     </main>
 
@@ -58,8 +58,6 @@ if (!isset($skipFooter) || !$skipFooter) {
 function ministryDescription()
 {
     $postId     = get_the_ID();
-    $html        = "";
-
     // Show sub ministry gallery
     $ministry    = get_the_title($postId);
     $args        = array(
@@ -69,22 +67,30 @@ function ministryDescription()
         'order'       => 'ASC',
     );
     $childPages         = get_children($args, ARRAY_A);
-    $childPageHtml     = "";
     if ($childPages) {
-        $childPageHtml .= "<p><strong>Some of our $ministry are:</strong></p><ul>";
-        foreach ($childPages as $childPage) {
-            $childPageHtml .= "<li><a href='{$childPage['guid']}'>{$childPage['post_title']}</a></li>";
-        }
-        $childPageHtml .= "</ul>";
+        ?>
+        <p>
+            <strong>Some of our $ministry are:</strong>
+        </p>
+        <ul>
+            <?php
+            foreach ($childPages as $childPage) {
+                ?>
+                <li>
+                    <a href='<?php echo esc_url($childPage['guid']);?>'>
+                        <?php echo esc_html($childPage['post_title']);?>
+                    </a>
+                </li>
+                <?php
+            }
+            ?>
+        </ul>
+        <br>
+        <br>
+        <?php
     }
 
-    if (!empty($childPageHtml)) {
-        $html = $childPageHtml . "<br><br>" . $html;
-    }
-
-    $html       .= getLocationEmployees($postId);
-
-    return $html;
+    getLocationEmployees($postId, true);
 }
 
 function projectList()
@@ -115,7 +121,13 @@ function projectList()
             <?php
             foreach ($projects as $project) {
                 $url    = get_permalink($project->ID);
-                echo "<li><a href='$url'>$project->post_title</a></li>";
+                ?>
+                <li>
+                    <a href='<?php echo esc_url($url);?>'>
+                        <?php echo esc_html($project->post_title);?>
+                    </a>
+                </li>
+                <?php
             }
             ?>
         </ul>
@@ -127,35 +139,39 @@ function projectList()
 function showMedia()
 {
     // Show relevant media
-    $gradient        = SETTINGS['gallery-background-color-gradient'] ?? false;
+    $gradient   = SETTINGS['gallery-background-color-gradient'] ?? false;
 
-    $cats            = [];
-    $categories        = get_the_terms(get_the_ID(), 'locations');
+    $cats       = [];
+    $categories = get_the_terms(get_the_ID(), 'locations');
     foreach ($categories as $cat) {
         if (count($categories) > 1 && $cat->slug == 'ministry') {
             continue;
         }
 
-        $cats[]    = $cat->slug;
+        $cats[] = $cat->slug;
     }
 
-    $color            = SETTINGS['media-gallery-background-color'] ?? false;
-    $mediaGallery   = new TSJIPPY\MEDIAGALLERY\MediaGallery(['image'], 6, $cats, true, 1, '', $color, $gradient);
+    $color        = SETTINGS['media-gallery-background-color'] ?? false;
+    $mediaGallery = new TSJIPPY\MEDIAGALLERY\MediaGallery(['image'], 6, $cats, true, 1, '', $color, $gradient);
 
     if (($_POST['switch-gallery'] ?? '') == 'filter') {
-        echo $mediaGallery->filterableMediaGallery();
-        $value    = 'gallery';
-        $text    = 'View less';
+        $mediaGallery->filterableMediaGallery(true);
+        $value  = 'gallery';
+        $text   = 'View less';
     } else {
-        echo $mediaGallery->mediaGallery('', 60, false);
-        $value    = 'filter';
-        $text    = 'View more media';
+        $mediaGallery->mediaGallery(showDescription: false, echo: true );
+        $value  = 'filter';
+        $text   = 'View more media';
     }
 
     if ($mediaGallery->total > 3) {
-        echo "<form method='post' style='text-align: center; padding-bottom:10px; $mediaGallery->style'>";
-        echo "<button class='small button' name='switch-gallery' value='$value'>$text</button>";
-        echo "</form>";
+        ?>
+        <form method='post' style='text-align: center; padding-bottom:10px; <?php echo esc_attr($mediaGallery->style);?>'>
+            <button class='small button' name='switch-gallery' value='<?php echo esc_attr($value);?>'>
+                <?php echo esc_html($text);?>
+            </button>
+        </form>
+        <?php
     }
 }
 
@@ -201,5 +217,5 @@ function showRelevantPages()
         $html    .= render_block($block);
     }
 
-    echo $html;
+ echo $html;
 } */

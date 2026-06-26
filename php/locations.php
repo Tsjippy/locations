@@ -87,9 +87,10 @@ function templateFilter($templateFile)
 /**
  * Get the people that work at a certain location
  *
- * @param     int    $postId        The WP_Post id
+ * @param   int|\WP_Post    $post        WP_Post or post id 
+ * @param   bool            $echo       Whether to print to screen    
  */
-function getLocationEmployees($post)
+function getLocationEmployees($post, $echo)
 {
 
     wp_enqueue_style('tsjippy_employee_style');
@@ -104,66 +105,97 @@ function getLocationEmployees($post)
 
     $locations        = array_keys(get_children(array(
         'post_parent'    => $post->ID,
-        'post_type'       => 'location',
-        'post_status'     => 'publish',
+        'post_type'      => 'location',
+        'post_status'    => 'publish',
     )));
     $locations[]    = $post->ID;
 
     //Loop over all users to see if they work here
     $users             = get_users('orderby=display_name');
 
-    $html             = "";
+    if(!$echo){
+        ob_start();
+    }
 
-    foreach ($users as $user) {
-        $userLocations     = (array)get_user_meta($user->ID, "tsjippy_jobs", true);
+    if (empty($users)) {
+        ?>
+        No workers are currently affiliated with this ministry.<br>
+        <?php
 
-        $intersect        = array_intersect(array_keys($userLocations), $locations);
+        $url     = get_edit_profile_url($user->ID);
+        ?>
+        If you work here indicate so on your 
+        <a href='<?php echo esc_url($url); ?>/?main-tab=generic-info#ministries'>
+            Profile Page
+        </a>
+        <?php
 
-        //If a user works for this ministry, echo its name and position
-        if ($intersect) {
-            $userPageUrl        = TSJIPPY\maybeGetUserPageUrl($user->ID);
-            $privacyPreference    = (array)get_user_meta($user->ID, 'tsjippy_privacy_preference', true);
-            $class                = 'description';
-            if (isset($privacyPreference['hide_profile_picture'])) {
-                $class            .= ' empty-picture';
-            }
-
-            if (!isset($privacyPreference['hide_ministry'])) {
-                $html .=    "<div class='person-wrapper'>";
-                if (!isset($privacyPreference['hide_profile_picture'])) {
-                    $html .= TSJIPPY\displayProfilePicture($user->ID);
-                }
-
-                $pageUrl = "<a class='user-link' href='$userPageUrl'>$user->display_name</a>";
-                foreach ($intersect as $postId) {
-                    $job    = ucfirst($userLocations[$postId]);
-                    $html .= "   <div class='$class'>$pageUrl <br>($job)</div>";
-                }
-                $html .= '</div>';
-            }
+        if($echo){
+            return;
+        }else{
+            return ob_get_clean();
         }
     }
 
+    ?>
+    <div style='padding:10px;text-align: center;'>
+        <h3 style='text-align:center'>
+            People who Work at $post->post_title
+        </h3>
+        <br>
+        <br>
+        <div class='employee-gallery'>
+            <?php
 
-    if (empty($html)) {
-        $html  .= "No workers are currently affiliated with this ministry.<br>";
+            foreach ($users as $user) {
+                $userLocations = (array)get_user_meta($user->ID, "tsjippy_jobs", true);
 
-        $url            = '';
-        if (defined('TSJIPPY\USERMANAGEMENT\SETTINGS') && !empty(TSJIPPY\USERMANAGEMENT\SETTINGS['account_page'])) {
-            $url            = get_permalink(TSJIPPY\USERMANAGEMENT\SETTINGS['account_page']);
+                $intersect     = array_intersect(array_keys($userLocations), $locations);
 
-            if (!$url) {
-                $url    = '';
+                //If a user works for this ministry, echo its name and position
+                if ($intersect) {
+                    $userPageUrl       = TSJIPPY\maybeGetUserPageUrl($user->ID);
+                    $privacyPreference = (array)get_user_meta($user->ID, 'tsjippy_privacy_preference', true);
+                    $class             = 'description';
+                    if (isset($privacyPreference['hide_profile_picture'])) {
+                        $class         .= ' empty-picture';
+                    }
+
+                    if (!isset($privacyPreference['hide_ministry'])) {
+                        ?>
+                        <div class='person-wrapper'>
+                            <?php
+                            if (!isset($privacyPreference['hide_profile_picture'])) {
+                                TSJIPPY\displayProfilePicture(userId: $user->ID, echo: true);
+                            }
+
+                            $pageUrl = "";
+                            foreach ($intersect as $postId) {
+                                $job    = ucfirst($userLocations[$postId]);
+                                ?>
+                                <div class='$class'>
+                                    <a class='user-link' href='<?php echo esc_url($userPageUrl);?>'>
+                                        <?php echo esc_html($user->display_name);?>
+                                    </a>
+                                    <br>
+                                    (<?php echo esc_html(ucfirst($userLocations[$postId]));?>)
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                        <?php
+                    }
+                }
             }
-        }
-        $html  .= "If you work here indicate so on the <a href='$url/?main-tab=generic-info#ministries'>Generic Info page</a>";
-    } else {
-        $html    = "<div class='employee-gallery'>$html</div>";
+            ?>
+        </div>
+    </div>
+    <?php
+
+    if(!$echo){
+        return ob_get_clean();
     }
-
-    $html     = "<div style='padding:10px;text-align: center;'><h3 style='text-align:center'>People who Work at $post->post_title</h3><br><br>$html</div>";
-
-    return $html;
 }
 
 add_filter('tsjippy-theme-archive-page-title', __NAMESPACE__ . '\changeArchiveTitle', 10, 2);

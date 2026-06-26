@@ -19,11 +19,7 @@ function loadAssets()
     // frontend content of profile page
     if (defined('TSJIPPY\FRONTENDPOSTING\SETTINGS')) {
         $frontEndPage   = TSJIPPY\FRONTENDPOSTING\SETTINGS['front-end-post-page'] ?? '';
-        $accountPage    = '';
-
-        if (defined('TSJIPPY\USERMANAGEMENT\SETTINGS') && in_array('location', TSJIPPY\USERMANAGEMENT\SETTINGS['enabled-forms'] ?? [])) {
-            $accountPage = TSJIPPY\USERMANAGEMENT\SETTINGS['account_page'] ?? '';
-        }
+        $accountPage    = get_edit_profile_url(get_current_user_id());
 
         if (is_numeric(get_the_ID()) && in_array(get_the_ID(), [$frontEndPage, $accountPage])) {
             wp_enqueue_style('tsjippy_locations_style');

@@ -12,14 +12,11 @@ add_action('tsjippy-frontend-content-post-content-title', __NAMESPACE__ . '\cont
 function contentTitle($postType)
 {
     //Location content title
-    $class = 'property location';
-    if ($postType != 'location') {
-        $class .= ' hidden';
-    }
-
-    echo "<h4 class='$class' name='location-content-label'>";
-    echo 'Please describe the location';
-    echo "</h4>";
+    ?>
+    <h4 class='property location <?php if ($postType != 'location') echo 'hidden'; ?>' name='location-content-label'>";
+        Please describe the location
+    </h4>
+    <?php
 }
 
 /**
@@ -420,9 +417,7 @@ function afterPostContent($frontendcontend)
     <div 
     id="location-attributes" 
     class="property location
-    <?php if ($postName != 'location') {
-        echo ' hidden';
-    } ?>">
+    <?php if ($postName != 'location') echo ' hidden'; ?>">
         <fieldset id="location" class="frontend-form">
             <legend>
                 <h4>
@@ -480,7 +475,7 @@ function afterPostContent($frontendcontend)
 
             <div class="hidden expandable">
                 <?php
-                echo TSJIPPY\pageSelect('parent-location', $frontendcontend->postParent, '', ['location'], false);
+                TSJIPPY\pageSelect('parent-location', $frontendcontend->postParent, '', ['location'], false, true);
                 ?>
             </div>
         </div>
@@ -496,9 +491,7 @@ function afterPostContent($frontendcontend)
                 type='checkbox' 
                 name='static-content' 
                 value='static-content' 
-                <?php if (get_post_meta($postId, 'tsjippy_static_content', true)) {
-                    echo 'checked';
-                } ?>>
+                <?php if (get_post_meta($postId, 'tsjippy_static_content', true)) echo 'checked'; ?>>
                 Do not send update warnings for this location
             </label>
         </div>

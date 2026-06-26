@@ -56,7 +56,7 @@ function ministryDescriptionShortcode($atts)
         return '';
     }
 
-    return getLocationEmployees($posts[0]);
+    return getLocationEmployees($posts[0], false);
 }
 
 add_shortcode("tsjippy_location_description", __NAMESPACE__ . '\locationDescription');

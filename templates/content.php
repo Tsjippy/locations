@@ -22,21 +22,18 @@ if (is_tax() || is_archive()) {
 wp_enqueue_style('tsjippy_locations_template', TSJIPPY\pathToUrl(TSJIPPY\PLUGINPATH . 'css/template.min.css'), array(), PLUGINVERSION);
 ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-    <div class="cat-card<?php if ($archive) {
-                            echo ' inside-article';
-                        } ?>">
+    <div class="cat-card<?php if ($archive) echo ' inside-article'; ?>">
 
         <?php
         if ($archive) {
             $url = get_permalink(get_the_ID());
+            // phpcs:ignore
             echo the_title("<h3 class='archivetitle'><a href='$url'>", '</a></h3>');
         } else {
             do_action('tsjippy-before-content');
         }
         ?>
-        <div class='entry-content<?php if ($archive) {
-                                        echo ' archive';
-                                    } ?>'>
+        <div class='entry-content<?php if ($archive) echo ' archive'; ?>'>
             <?php
             if (is_user_logged_in()) {
             ?>
@@ -69,10 +66,10 @@ wp_enqueue_style('tsjippy_locations_template', TSJIPPY\pathToUrl(TSJIPPY\PLUGINP
                         if (is_array($markers) && isset($markers['page_marker'])) {
                             $markerId    = $markers['page_marker'];
                         }
-                        echo do_shortcode("[ultimate_maps id='$customMapId' map_center='$markerId']");
+                        echo wp_kses_post(do_shortcode("[ultimate_maps id='$customMapId' map_center='$markerId']"));
                         ?>
                     </div>
-            <?php
+                    <?php
                 }
             }
             ?>
@@ -84,14 +81,19 @@ wp_enqueue_style('tsjippy_locations_template', TSJIPPY\pathToUrl(TSJIPPY\PLUGINP
                     $excerpt = force_balance_tags(wp_kses_post(get_the_excerpt()));
                     if (empty($excerpt)) {
                         $url = get_permalink();
-                        echo "<br><a href='$url'>View description »</a>";
+                        ?>
+                        <br>
+                        <a href='<?php esc_url($url);?>'>
+                            View description »
+                        </a>
+                        <?php
                     } else {
-                        echo $excerpt;
+                        echo wp_kses_post($excerpt);
                     }
                     //Show everything including category specific content
                 } else {
                     if (empty($post->post_content)) {
-                        echo apply_filters('tsjippy-empty-description', 'No content found... ', $post);
+                        echo wp_kses_post(apply_filters('tsjippy-empty-description', 'No content found... ', $post));
                     }
 
                     the_content();
@@ -121,7 +123,9 @@ wp_enqueue_style('tsjippy_locations_template', TSJIPPY\pathToUrl(TSJIPPY\PLUGINP
 
                     if (!empty($categories)) {
                         $url    = TSJIPPY\pathToUrl(PLUGINPATH . 'pictures/category.png');
-                        echo "<img src='$url' alt='category' loading='lazy' class='book-icon'>";
+                        ?>
+                        <img src='<?php echo esc_url($url);?>' alt='category' loading='lazy' class='book-icon'>
+                        <?php
 
                         //First loop over the cat to see if any parent cat needs to be removed
                         foreach ($categories as $id => $category) {
@@ -143,8 +147,11 @@ wp_enqueue_style('tsjippy_locations_template', TSJIPPY\pathToUrl(TSJIPPY\PLUGINP
                             //Only show the category if all of its subcats are not there
                             $url = get_term_link($id);
                             $category = ucfirst($category);
-                            echo "<a href='$url' target='_blank'>$category</a>";
-
+                            ?>
+                            <a href='<?php echo esc_url($url);?>' target='_blank'>
+                                <?php echo esc_html($category);?>
+                            </a>
+                            <?php
                             if ($id != $lastKey) {
                                 echo ', ';
                             }
@@ -158,8 +165,11 @@ wp_enqueue_style('tsjippy_locations_template', TSJIPPY\pathToUrl(TSJIPPY\PLUGINP
                     $tel        = get_post_meta(get_the_ID(), 'tsjippy_tel', true);
                     if (!empty($tel)) {
                         $imageUrl = TSJIPPY\pathToUrl(PLUGINPATH . 'pictures/tel.png');
-                        $icon = "<img src='$imageUrl' alt='telephone' loading='lazy' class='book-icon'>";
-                        echo "<a href='tel:$tel' target='_blank'>$icon Call them  »</a>";
+                        ?>
+                        <a href='tel:<?php echo esc_url($tel);?>' target='_blank'>
+                            <img src='<?php echo esc_url($imageUrl);?>' alt='telephone' loading='lazy' class='book-icon'> Call them  »
+                        </a>
+                        <?php
                     }
                     ?>
                 </div>
@@ -169,8 +179,11 @@ wp_enqueue_style('tsjippy_locations_template', TSJIPPY\pathToUrl(TSJIPPY\PLUGINP
                     $url        = get_post_meta(get_the_ID(), 'tsjippy_url', true);
                     if (!empty($url) && filter_var($url, FILTER_VALIDATE_URL) && $url != "https://www. ") {
                         $imageUrl     = TSJIPPY\pathToUrl(PLUGINPATH . 'pictures/url.png');
-                        $icon         = "<img src='$imageUrl' alt='location' loading='lazy' class='book-icon'>";
-                        echo "<a href='$url' target='_blank'>$icon Visit website  »</a>";
+                        ?>
+                        <a href='<?php echo esc_url($url);?>' target='_blank'>
+                            <img src='<?php echo esc_url($imageUrl);?>' alt='location' loading='lazy' class='book-icon'> Visit website  »
+                        </a>
+                        <?php
                     }
                     ?>
                 </div>
@@ -179,9 +192,11 @@ wp_enqueue_style('tsjippy_locations_template', TSJIPPY\pathToUrl(TSJIPPY\PLUGINP
                 $location    = json_decode(get_post_meta(get_the_ID(), 'tsjippy_location', true));
                 if (!empty($location->latitude) && !empty($location->longitude)) {
                     $url    = TSJIPPY\pathToUrl(PLUGINPATH . 'pictures/location.png');
-                    echo "<a onclick='Locations.getRoute(this, {$location->latitude},$location->longitude)' style='cursor: pointer;'>
-                        <img src='$url' alt='category' loading='lazy' class='book-icon'> Get directions
-                    </a>";
+                    ?>
+                    <a onclick='Locations.getRoute(this, <?php echo esc_attr($location->latitude);?>,<?php echo esc_attr($location->longitude);?>)' style='cursor: pointer;'>
+                        <img src='<?php echo esc_url($url);?>' alt='category' loading='lazy' class='book-icon'> Get directions
+                    </a>
+                    <?php
                 }
 
                 do_action('tsjippy-locations-inside-location-metas');

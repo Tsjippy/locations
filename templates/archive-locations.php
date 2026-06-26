@@ -64,7 +64,7 @@ function displayLocationArchive()
 
         if (is_user_logged_in()) {
             $mapId = SETTINGS['directions_map_id'] ?? '';
-            echo do_shortcode("[ultimate_maps id='$mapId']");
+            echo wp_kses_post(do_shortcode("[ultimate_maps id='$mapId']"));
         }
 
         while ($locationsQuery->have_posts()) :
@@ -78,14 +78,14 @@ function displayLocationArchive()
         if ($totalPages > 1) {
             $currentPage = max(1, get_query_var('paged'));
 
-            echo paginate_links(array(
+        echo wp_kses_post(paginate_links(array(
                 'base'         => get_pagenum_link(1) . '%_%',
                 'format'     => '/page/%#%',
                 'current'     => $currentPage,
                 'total'     => $totalPages,
                 'prev_text' => __('« prev', '%TEXTDOMAIN%'),
                 'next_text' => __('next »', '%TEXTDOMAIN%'),
-            ));
+            )));
         }
     } else {
         //No locations to show yet
@@ -94,7 +94,7 @@ function displayLocationArchive()
             <div class="no-results not-found">
                 <div class="inside-article">
                     <div class="entry-content">
-                        <?php echo apply_filters('tsjippy-empty-taxonomy', 'There are no locations submitted yet. ', 'location'); ?>
+                        <?php echo wp_kses_post(apply_filters('tsjippy-empty-taxonomy', 'There are no locations submitted yet. ', 'location')); ?>
                     </div>
                 </div>
             </div>

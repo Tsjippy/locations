@@ -48,24 +48,24 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
         ?>
         <label>
             Give Google API key for location lookup. See <a href='https://developers.google.com/maps/documentation/javascript/get-api-key'>here</a><br>
-            <input type='text' name='google-maps-api-key' value='<?php echo $this->settings['google-maps-api-key'] ?? '';?>' style='width:400px;'>
+            <input type='text' name='google-maps-api-key' value='<?php echo esc_attr($this->settings['google-maps-api-key'] ?? '');?>' style='width:400px;'>
         </label>
         <br>
         <br>
         <label>
             Select a background color for any page galleries on location pages<br>
-            <input type='color' name='page-gallery-background-color' value='<?php echo $this->settings['page-gallery-background-color'] ?? '';?>'>
+            <input type='color' name='page-gallery-background-color' value='<?php echo esc_attr($this->settings['page-gallery-background-color'] ?? '');?>'>
         </label>
         <br>
         <br>
         <label>
             Select a background color for any media galleries on location pages<br>
-            <input type='color' name='media-gallery-background-color' value='<?php echo $this->settings['media-gallery-background-color'] ?? '';?>'>
+            <input type='color' name='media-gallery-background-color' value='<?php echo esc_attr($this->settings['media-gallery-background-color'] ?? '');?>'>
         </label>
         <br>
         <br>
         <label>
-            <input type='checkbox' name='gallery-background-color-gradient' value='1' <?php if (!empty($this->settings['gallery-background-color-gradient'] ?? '')) {echo 'checked';}?>>
+            <input type='checkbox' name='gallery-background-color-gradient' value='1' <?php if (!empty($this->settings['gallery-background-color-gradient'] ?? '')) echo 'checked';?>>
             Smooth the edges of the gallery background colors
         </label>
         <br>
@@ -87,33 +87,34 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
             <label for="<?php echo esc_attr($mapName);?>">Map showing <?php echo strtolower($name);?></label>
             <select name="<?php echo esc_attr($mapName);?>" id="<?php echo esc_attr($mapName);?>">
                 <option value="">---</option>
-                <?php echo $this->getMaps($this->settings[$mapName] ?? ''); ?>
+                <?php $this->getMaps($this->settings[$mapName] ?? ''); ?>
             </select>
 
             <label>Icon on the map used for <?php echo esc_attr($name);?></label>
             <div class='icon-select-wrapper'>
-                <input type='hidden' class='no-reset' class='icon-id' name='<?php echo esc_attr($iconName);?>' value='<?php echo $this->settings[$iconName] ?? '';?>'>
+                <input type='hidden' class='no-reset' class='icon-id' name='<?php echo esc_attr($iconName);?>' value='<?php echo esc_attr($this->settings[$iconName] ?? '');?>'>
                 <br>
                 <div class="dropdown">
                     <?php
-                    if (is_numeric($this->settings[$iconName] ?? '')) {
-                        $url        = $icons[$this->settings[$iconName] ?? '']->path;
-
-                        if (!str_contains($url, '://')) {
-                            $url = TSJIPPY\pathToUrl(WP_PLUGIN_DIR. "ultimate-maps-by-supsystic/modules/icons/icons_files/def_icons/$url");
-                        }
-                        $img        = "<img src='$url' class='icon' data-id='{$this->settings[$iconName]}' loading='lazy'>";
-                        $buttonText    = "Change";
-                    }else{
-                        $img    = "";
-                        $buttonText    = "Select";
-                    }
+                    $buttonText    = "Select";
                     ?>
                     <div class="icon-preview">
-                        <?php echo $img;?>
+                        <?php 
+                        if (is_numeric($this->settings[$iconName] ?? '')) {
+                            $url        = $icons[$this->settings[$iconName] ?? '']->path;
+
+                            if (!str_contains($url, '://')) {
+                                $url = TSJIPPY\pathToUrl(WP_PLUGIN_DIR. "ultimate-maps-by-supsystic/modules/icons/icons_files/def_icons/$url");
+                            }
+                            ?>
+                            <img src='<?php esc_url($url);?>' class='icon' data-id='<?php echo esc_attr($this->settings[$iconName]);?>' loading='lazy'>
+                            <?php
+                            $buttonText    = "Change";
+                        }
+                    ?>
                     </div>
 
-                    <button type='button' class='dropbtn'><?php echo $buttonText;?> Icon</button>
+                    <button type='button' class='dropbtn'><?php echo esc_attr($buttonText);?> Icon</button>
 
                     <div class="dropdown-content">
                         <?php
@@ -122,7 +123,13 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
                                 continue;
                             }
                             $url = plugins_url('ultimate-maps-by-supsystic/modules/icons/icons_files/def_icons/' .$icon->path);
-                            echo "<div class='icon'><img src='$url' class='icon' data-id='$icon->id' loading='lazy'> $icon->description</div><br>";
+                            ?>
+                            <div class='icon'>
+                                <img src='<?php echo esc_attr($url);?>' class='icon' data-id='<?php echo esc_attr($icon->id);?>' loading='lazy'>
+                                <?php esc_html($icon->description);?>
+                            </div>
+                            <br>
+                            <?php
                         }
                         ?>
                     </div>
@@ -200,13 +207,11 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
         $maps    = new Maps();
 
         foreach ( $maps->getMaps() as $map) {
-            if ($optionValue == $map->id) {
-                $selected='selected=selected';
-            }else{
-                $selected="";
-            }
-            $mapOptions .= "<option value='$map->id' $selected>$map->title</option>";
+            ?>
+            <option value='<?php echo esc_attr($map->id);?>' <?php if ($optionValue == $map->id) echo 'selected=selected'; ?> >
+                <?php esc_html($map->title);?>
+            </option>
+            <?php
         }
-        return $mapOptions;
     }
 }

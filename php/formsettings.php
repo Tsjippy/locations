@@ -18,7 +18,7 @@ function extraFormSettings($object)
 ?>
     <br>
     <h4>Google Maps Api</h4>
-    <input type='checkbox' name='google-maps-api' value='1' <?php echo $checked; ?>> Use Google Maps Api on this form
+    <input type='checkbox' name='google-maps-api' value='1' <?php echo esc_attr($checked); ?>> Use Google Maps Api on this form
 <?php
 }
 
