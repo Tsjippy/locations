@@ -4,6 +4,15 @@
 ### Added
 
 ### Changed
+
+### Fixed
+
+### Updated
+
+## [10.3.5] - 2026-06-26
+
+
+### Changed
 - pass sanitized request to tsjippy-frontend-content-after-post-save
 - sanitize post on original function
 
