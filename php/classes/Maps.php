@@ -377,7 +377,7 @@ class Maps
      */
     public function removePostMarkers($postId)
     {
-        $markerIds = get_post_meta($postId, "marker_ids", true);
+        $markerIds = get_post_meta($postId, "tsjippy_marker_ids", true);
 
         //Marker exist, remove it
         if (is_array($markerIds)) {

@@ -35,24 +35,24 @@ function blockInit()
     );
 
     // register custom meta tag field
-    register_post_meta('location', 'tel', array(
-        'show_in_rest'         => true,
-        'single'             => true,
-        'type'                 => 'string',
+    register_post_meta('location', "tsjippy_tel", array(
+        'show_in_rest'      => true,
+        'single'            => true,
+        'type'              => 'string',
         'sanitize_callback' => 'sanitize_text_field'
     ));
 
-    register_post_meta('location', 'url', array(
-        'show_in_rest'         => true,
-        'single'             => true,
-        'type'                 => 'string',
+    register_post_meta('location', "tsjippy_url", array(
+        'show_in_rest'      => true,
+        'single'            => true,
+        'type'              => 'string',
         'sanitize_callback' => 'sanitize_text_field'
     ));
 
-    register_post_meta('location', 'location', array(
-        'show_in_rest'         => true,
-        'single'             => true,
-        'type'                 => 'string',
+    register_post_meta('location', "tsjippy_location", array(
+        'show_in_rest'      => true,
+        'single'            => true,
+        'type'              => 'string',
         'sanitize_callback' => 'sanitize_text_field'
     ));
 }
