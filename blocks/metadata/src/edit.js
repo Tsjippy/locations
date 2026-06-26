@@ -72,9 +72,9 @@ const Edit = () => {
 
   const updateMetaValue = (value, key) => {
     let newMeta = { ...meta };
-    if (key.startsWith("location")) {
+    if (key.startsWith("tsjippy_location")) {
       let subkey = key.split("-")[1];
-      key = "location";
+      key = "tsjippy_location";
       let newLocation = {};
 
       if (locationDetails != "") {
@@ -104,14 +104,14 @@ const Edit = () => {
         isPressEnterToChange={true}
         label={__("Phone number")}
         value={tel}
-        onChange={(value) => updateMetaValue(value, "tel")}
+        onChange={(value) => updateMetaValue(value, "tsjippy_tel")}
       />
 
       <InputControl
         isPressEnterToChange={true}
         label={__("Website url")}
         value={url}
-        onChange={(value) => updateMetaValue(value, "url")}
+        onChange={(value) => updateMetaValue(value, "tsjippy_url")}
       />
 
       <InputControl
