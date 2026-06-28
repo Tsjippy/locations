@@ -213,7 +213,7 @@ class Maps
 
         $userdata = get_userdata($userId);
 
-        $privacyPreference = (array)get_user_meta($userId, 'tsjippy_privacy_preference', true);
+        $privacyPreference = get_user_meta($userId, 'tsjippy_privacy_preference');
 
         //Do not continue if privacy dictates so
         if ($privacyPreference == "show_none") {

@@ -21,7 +21,7 @@ function loadAssets()
         $frontEndPage   = TSJIPPY\FRONTENDPOSTING\SETTINGS['front-end-post-page'] ?? '';
         $accountPage    = get_edit_profile_url(get_current_user_id());
 
-        if (is_numeric(get_the_ID()) && in_array(get_the_ID(), [$frontEndPage, $accountPage])) {
+        if (is_numeric(get_the_ID()) && isset([$frontEndPage => 1, $accountPage => 1][get_the_ID()])) {
             wp_enqueue_style('tsjippy_locations_style');
 
             addGoogleMapsApiKey();
@@ -32,7 +32,8 @@ function loadAssets()
 add_filter('tsjippy-forms-before-showing-form', __NAMESPACE__ . '\beforeShowingForm', 10, 2);
 function beforeShowingForm($html, $object)
 {
-    if (in_array($object->formData->id, SETTINGS['google-maps-api-forms'] ?? [])) {
+    $googleApiForms = SETTINGS['google-maps-api-forms'] ?? [];
+    if (isset($googleApiForms[$object->formData->id])) {
         add_action('wp_enqueue_scripts', function () {
             addGoogleMapsApiKey();
         }, 99);

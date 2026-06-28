@@ -87,7 +87,7 @@ add_filter('tsjippy-forms-before-inserting-formdata', __NAMESPACE__ . '\beforeSa
 function beforeSavingFormData($request, $object)
 {
     if ($object->formData->slug == 'profile_picture') {
-        $privacyPreference  = (array)get_user_meta($object->userId, 'tsjippy_privacy_preference', true);
+        $privacyPreference  = get_user_meta($object->userId, 'tsjippy_privacy_preference');
         $family             = new TSJIPPY\FAMILY\Family();
         $picture            = $family->getFamilyMeta($object->userId, 'family_picture', true);
         $maps               = new Maps();

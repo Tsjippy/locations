@@ -30,7 +30,7 @@ function beforeSavingSettings($request, $object, $formId)
     if ($request['google_maps_api']) {
         $forms   = SETTINGS['google-maps-api-forms'] ?? [];
 
-        $forms[]  = $formId;
+        $forms[$formId]  = $formId;
 
         $settings   = SETTINGS;
         $request['google-maps-api-forms'] = $forms;

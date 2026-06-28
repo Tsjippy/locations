@@ -155,7 +155,7 @@ function getLocationEmployees($post, $echo)
                 //If a user works for this ministry, echo its name and position
                 if ($intersect) {
                     $userPageUrl       = TSJIPPY\maybeGetUserPageUrl($user->ID);
-                    $privacyPreference = (array)get_user_meta($user->ID, 'tsjippy_privacy_preference', true);
+                    $privacyPreference = get_user_meta($user->ID, 'tsjippy_privacy_preference');
                     $class             = 'description';
                     if (isset($privacyPreference['hide_profile_picture'])) {
                         $class         .= ' empty-picture';
