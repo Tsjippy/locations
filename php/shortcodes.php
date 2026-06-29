@@ -28,7 +28,7 @@ function markerDescription($atts)
         }
 
         //Add the post link to the marker content
-        $url             = TSJIPPY\maybeGetUserPageUrl($userId);
+        $url             = get_author_posts_url($userId);
         $description    .= "<a href='$url' style='display:block;' class='page-link'>More info</a><br>";
 
         return $description;
