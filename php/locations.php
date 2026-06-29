@@ -122,7 +122,7 @@ function getLocationEmployees($post, $echo)
         No workers are currently affiliated with this ministry.<br>
         <?php
 
-        $url     = get_edit_profile_url($user->ID);
+        $url     = get_edit_profile_url(get_current_user_id());
         ?>
         If you work here indicate so on your 
         <a href='<?php echo esc_url($url); ?>/?main-tab=generic-info#ministries'>
