@@ -107,7 +107,7 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
                                 $url = TSJIPPY\pathToUrl(WP_PLUGIN_DIR. "ultimate-maps-by-supsystic/modules/icons/icons_files/def_icons/$url");
                             }
                             ?>
-                            <img src='<?php esc_url($url);?>' class='icon' data-id='<?php echo esc_attr($this->settings[$iconName]);?>' loading='lazy'>
+                            <img src='<?php echo esc_url($url);?>' class='icon' data-id='<?php echo esc_attr($this->settings[$iconName]);?>' loading='lazy'>
                             <?php
                             $buttonText    = "Change";
                         }
@@ -126,7 +126,7 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
                             ?>
                             <div class='icon'>
                                 <img src='<?php echo esc_attr($url);?>' class='icon' data-id='<?php echo esc_attr($icon->id);?>' loading='lazy'>
-                                <?php esc_html($icon->description);?>
+                                <?php echo esc_html($icon->description);?>
                             </div>
                             <br>
                             <?php
@@ -209,7 +209,7 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
         foreach ( $maps->getMaps() as $map) {
             ?>
             <option value='<?php echo esc_attr($map->id);?>' <?php if ($optionValue == $map->id) echo 'selected=selected'; ?> >
-                <?php esc_html($map->title);?>
+                <?php echo esc_html($map->title);?>
             </option>
             <?php
         }

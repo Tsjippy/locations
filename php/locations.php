@@ -15,7 +15,7 @@ add_action('init', function () {
 
 // add the marker id to the family meta keys
 add_filter('tsjippy-family-meta-keys', function ($metaKeys) {
-    $metaKeys[]    = 'marker_id';
+    $metaKeys['marker_id'] = 1;
 
     return $metaKeys;
 });

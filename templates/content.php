@@ -86,7 +86,7 @@ wp_enqueue_style('tsjippy_locations_template', TSJIPPY\pathToUrl(TSJIPPY\PLUGINP
                         $url = get_permalink();
                         ?>
                         <br>
-                        <a href='<?php esc_url($url);?>'>
+                        <a href='<?php echo esc_url($url);?>'>
                             View description »
                         </a>
                         <?php
