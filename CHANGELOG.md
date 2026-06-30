@@ -11,6 +11,7 @@
 
 ### Fixed
 - iuser id
+- missing echo call
 
 ### Updated
 
