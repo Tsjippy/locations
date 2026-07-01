@@ -68,26 +68,26 @@ function ministryDescription()
     );
     $childPages         = get_children($args, ARRAY_A);
     if ($childPages) {
-        ?>
+?>
         <p>
             <strong>Some of our $ministry are:</strong>
         </p>
         <ul>
             <?php
             foreach ($childPages as $childPage) {
-                ?>
+            ?>
                 <li>
-                    <a href='<?php echo esc_url($childPage['guid']);?>'>
-                        <?php echo esc_html($childPage['post_title']);?>
+                    <a href='<?php echo esc_url($childPage['guid']); ?>'>
+                        <?php echo esc_html($childPage['post_title']); ?>
                     </a>
                 </li>
-                <?php
+            <?php
             }
             ?>
         </ul>
         <br>
         <br>
-        <?php
+    <?php
     }
 
     getLocationEmployees($postId, true);
@@ -114,26 +114,28 @@ function projectList()
         return '';
     }
 
-?>
+    ?>
     <div class='projects-wrapper'>
-        <h4>Projects linked to this ministry are:</h4>
+        <h4>
+            Projects linked to this ministry are:
+        </h4>
         <ul>
             <?php
             foreach ($projects as $project) {
                 $url    = get_permalink($project->ID);
-                ?>
+            ?>
                 <li>
-                    <a href='<?php echo esc_url($url);?>'>
-                        <?php echo esc_html($project->post_title);?>
+                    <a href='<?php echo esc_url($url); ?>'>
+                        <?php echo esc_html($project->post_title); ?>
                     </a>
                 </li>
-                <?php
+            <?php
             }
             ?>
         </ul>
     </div>
     <br>
-<?php
+    <?php
 }
 
 function showMedia()
@@ -159,19 +161,19 @@ function showMedia()
         $value  = 'gallery';
         $text   = 'View less';
     } else {
-        $mediaGallery->mediaGallery(showDescription: false, echo: true );
+        $mediaGallery->mediaGallery(showDescription: false, echo: true);
         $value  = 'filter';
         $text   = 'View more media';
     }
 
     if ($mediaGallery->total > 3) {
-        ?>
-        <form method='post' style='text-align: center; padding-bottom:10px; <?php echo esc_attr($mediaGallery->style);?>'>
-            <button class='small button' name='switch-gallery' value='<?php echo esc_attr($value);?>'>
-                <?php echo esc_html($text);?>
+    ?>
+        <form method='post' style='text-align: center; padding-bottom:10px; <?php echo esc_attr($mediaGallery->style); ?>'>
+            <button class='small button' name='switch-gallery' value='<?php echo esc_attr($value); ?>'>
+                <?php echo esc_html($text); ?>
             </button>
         </form>
-        <?php
+<?php
     }
 }
 
