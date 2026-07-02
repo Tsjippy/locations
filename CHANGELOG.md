@@ -4,6 +4,7 @@
 ### Added
 
 ### Changed
+- wrapped frontend posting options in rbody
 
 ### Fixed
 
