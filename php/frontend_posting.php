@@ -12,11 +12,11 @@ add_action('tsjippy-frontend-content-post-content-title', __NAMESPACE__ . '\cont
 function contentTitle($postType)
 {
     //Location content title
-    ?>
+?>
     <h4 class='property location <?php if ($postType != 'location') echo 'hidden'; ?>' name='location-content-label'>";
         Please describe the location
     </h4>
-    <?php
+<?php
 }
 
 /**
@@ -174,7 +174,7 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
         //First create the marker on the generic map
         //Get the marker id
         $markerIds['generic'] = TSJIPPY\insertInDb(
-            $wpdb->prefix . 'ums_markers', 
+            $wpdb->prefix . 'ums_markers',
             array(
                 'title'       => $title,
                 'description' => $description,
@@ -236,7 +236,7 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
             ['%d'],
             'locations'
         );
-    } 
+    }
     // Create new
     else {
         if (!is_numeric($mapId)) {
@@ -252,7 +252,7 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
 
         //Add the marker to this map
         $markerIds['page_marker'] = TSJIPPY\insertInDb(
-            $wpdb->prefix . 'ums_markers', 
+            $wpdb->prefix . 'ums_markers',
             array(
                 'title'         => $title,
                 'description'   => '[tsjippy_location_description id=$postId basic=true]',
@@ -317,7 +317,7 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
 
             //Add marker for this map
             $markerIds[$name] = TSJIPPY\insertInDb(
-                $wpdb->prefix . 'ums_markers', 
+                $wpdb->prefix . 'ums_markers',
                 array(
                     'title'       => $title,
                     'description' => $description,
@@ -374,18 +374,18 @@ function postMetaDelete($metaIds, $postId, $metaKey, $metaValue)
 
 //add meta data fields
 add_action('tsjippy-frontend-content-post-before-default-options-content', __NAMESPACE__ . '\afterPostContent', 1, 2);
-function afterPostContent($frontendcontend)
+function afterPostContent($object)
 {
 
-    if (!empty($frontendcontend->post) && $frontendcontend->post->post_type != 'location') {
+    if (!empty($object->post) && $object->post->post_type != 'location') {
         return;
     }
 
     //Load js
     wp_enqueue_script('tsjippy_location_script');
 
-    $postId     = $frontendcontend->postId;
-    $postName   = $frontendcontend->postName;
+    $postId     = $object->postId;
+    $postName   = $object->postName;
     $location   = get_post_meta($postId, 'tsjippy_location', true);
     if (!is_array($location) && !empty($location)) {
         $location  = json_decode($location, true);
@@ -414,10 +414,10 @@ function afterPostContent($frontendcontend)
 
     $url = get_post_meta($postId, 'tsjippy_url', true);
     ?>
-    <div 
-    id="location-attributes" 
-    class="property location
-    <?php if ($postName != 'location') echo ' hidden'; ?>">
+    <div
+        id="location-attributes"
+        class="property location
+        <?php if ($postName != 'location') echo ' hidden'; ?>">
         <fieldset id="location" class="frontend-form">
             <legend>
                 <h4>
@@ -466,36 +466,62 @@ function afterPostContent($frontendcontend)
                 </tr>
             </table>
         </fieldset>
-        
-        <div id="parentpage" class="frontend-form expand-wrapper">
-            <h4>
-                Parent location
-                <button class="button small expand" type='button'>&#9660;</button>
-            </h4>
+    <?php
+}
 
-            <div class="hidden expandable">
+add_action('tsjippy-frontend-content-post-after-content', __NAMESPACE__ . '\addPostMeta', 20);
+/**
+ * Add the comments section to the frontend post content
+ * 
+ * @param   object    $object    The FrontEndContent instance
+ */
+function addPostMeta($object)
+{
+    ?>
+    <tbody id="parentpage" class="frontend-form expand-wrapper">
+        <tr>
+            <td>
+                <h4>
+                    Parent location
+                </h4>
+            </td>
+            <td>
+                <button class="button small expand" type='button'>&#9660;</button>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="hidden expandable" collspan=2>
                 <?php
-                TSJIPPY\pageSelect('parent-location', $frontendcontend->postParent, '', ['location'], false, true);
+                TSJIPPY\pageSelect('parent-location', $object->postParent, '', ['location'], false, true);
                 ?>
-            </div>
-        </div>
+            </td>
+        </tr>
+    </tbody>
 
-        <div class="frontend-form expand-wrapper">
-            <h4>
-                Update warnings
+    <tbody class="frontend-form expand-wrapper">
+        <tr>
+            <td>
+                <h4>
+                    Update warnings
+                </h4>
+            </td>
+            <td>
                 <button class="button small expand" type='button'>&#9660;</button>
-            </h4>
+            </td>
+        </tr>
 
-            <label class="hidden expandable">
-                <input 
-                type='checkbox' 
-                name='static-content' 
-                value='static-content' 
-                <?php if (get_post_meta($postId, 'tsjippy_static_content', true)) echo 'checked'; ?>>
+        <tr>
+            <td class="hidden expandable">
+                <input
+                    type='checkbox'
+                    name='static-content'
+                    value='static-content'
+                    <?php if (get_post_meta($object->postId, 'tsjippy_static_content', true)) echo 'checked'; ?>>
                 Do not send update warnings for this location
-            </label>
-        </div>
-    </div>
+            </td>
+        </tr>
+    </tbody>
 <?php
 }
 
