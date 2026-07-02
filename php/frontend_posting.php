@@ -466,6 +466,7 @@ function afterPostContent($object)
                 </tr>
             </table>
         </fieldset>
+    </div>
     <?php
 }
 
@@ -478,7 +479,7 @@ add_action('tsjippy-frontend-content-post-after-content', __NAMESPACE__ . '\addP
 function addPostMeta($object)
 {
     ?>
-    <tbody id="parentpage" class="frontend-form expand-wrapper">
+    <tbody class="frontend-form expand-wrapper property location <?php if ($object->postName != 'location') echo ' hidden'; ?>">
         <tr>
             <td>
                 <h4>
@@ -486,7 +487,9 @@ function addPostMeta($object)
                 </h4>
             </td>
             <td>
-                <button class="button small expand" type='button'>&#9660;</button>
+                <button class="button small expand" type='button'>
+                    &#9660;
+                </button>
             </td>
         </tr>
 
@@ -499,7 +502,7 @@ function addPostMeta($object)
         </tr>
     </tbody>
 
-    <tbody class="frontend-form expand-wrapper">
+    <tbody class="frontend-form expand-wrapper property location <?php if ($object->postName != 'location') echo ' hidden'; ?>">
         <tr>
             <td>
                 <h4>
@@ -507,7 +510,9 @@ function addPostMeta($object)
                 </h4>
             </td>
             <td>
-                <button class="button small expand" type='button'>&#9660;</button>
+                <button class="button small expand" type='button'>
+                    &#9660;
+                </button>
             </td>
         </tr>
 
