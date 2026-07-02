@@ -4,12 +4,17 @@
 ### Added
 
 ### Changed
-- wrapped frontend posting options in rbody
-- dropdown layout
 
 ### Fixed
 
 ### Updated
+
+## [10.3.7] - 2026-07-02
+
+
+### Changed
+- wrapped frontend posting options in rbody
+- dropdown layout
 
 ## [10.3.6] - 2026-07-02
 
