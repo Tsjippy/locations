@@ -13,9 +13,10 @@ add_action('init', function () {
     TSJIPPY\registerPostTypeAndTax('location', 'locations');
 }, 999);
 
-// add the marker id to the family meta keys
+// add the marker id and location to the family meta keys
 add_filter('tsjippy-family-meta-keys', function ($metaKeys) {
     $metaKeys['marker_id'] = 1;
+    $metaKeys['location'] = 1;
 
     return $metaKeys;
 });
