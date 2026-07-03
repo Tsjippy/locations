@@ -12,11 +12,11 @@ add_action('tsjippy-frontend-content-post-content-title', __NAMESPACE__ . '\cont
 function contentTitle($postType)
 {
     //Location content title
-?>
+    ?>
     <h4 class='property location <?php if ($postType != 'location') echo 'hidden'; ?>' name='location-content-label'>";
         Please describe the location
     </h4>
-<?php
+    <?php
 }
 
 /**
@@ -57,7 +57,6 @@ function afterPostSave($post, $frontEndPost, $request)
 }
 
 add_action('tsjippy-sim-nigeria-ministry-added', __NAMESPACE__ . '\setLocationAddress', 10, 2);
-
 /**
  * Store location details in meta
  */
@@ -376,10 +375,13 @@ function postMetaDelete($metaIds, $postId, $metaKey, $metaValue)
 add_action('tsjippy-frontend-content-post-before-default-options-content', __NAMESPACE__ . '\afterPostContent', 1, 2);
 function afterPostContent($object)
 {
-
     if (!empty($object->post) && $object->post->post_type != 'location') {
         return;
     }
+
+    wp_enqueue_style('tsjippy_locations_style');
+
+    addGoogleMapsApiKey();
 
     //Load js
     wp_enqueue_script('tsjippy_location_script');
