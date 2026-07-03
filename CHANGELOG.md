@@ -4,11 +4,16 @@
 ### Added
 
 ### Changed
-- equeuing when needed only
 
 ### Fixed
 
 ### Updated
+
+## [10.3.9] - 2026-07-03
+
+
+### Changed
+- equeuing when needed only
 
 ## [10.3.8] - 2026-07-03
 
