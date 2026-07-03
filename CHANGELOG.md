@@ -2,13 +2,18 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
-- location as family meta key
 
 ### Changed
 
 ### Fixed
 
 ### Updated
+
+## [10.3.8] - 2026-07-03
+
+
+### Added
+- location as family meta key
 
 ## [10.3.7] - 2026-07-02
 
