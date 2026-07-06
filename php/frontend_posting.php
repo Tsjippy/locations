@@ -375,7 +375,7 @@ function postMetaDelete($metaIds, $postId, $metaKey, $metaValue)
 add_action('tsjippy-frontend-content-post-before-default-options-content', __NAMESPACE__ . '\afterPostContent', 1, 2);
 function afterPostContent($object)
 {
-    if (!empty($object->post) && $object->post->post_type != 'location') {
+    if (empty($object->post) || $object->post->post_type != 'location') {
         return;
     }
 
