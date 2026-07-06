@@ -4,11 +4,16 @@
 ### Added
 
 ### Changed
-- logic
 
 ### Fixed
 
 ### Updated
+
+## [10.4.0] - 2026-07-06
+
+
+### Changed
+- logic
 
 ## [10.3.9] - 2026-07-03
 
