@@ -7,6 +7,7 @@
 - removed some shortcodes that are blocks now
 
 ### Fixed
+- duplicate function name
 
 ### Updated
 
