@@ -4,6 +4,7 @@
 ### Added
 
 ### Changed
+- removed some shortcodes that are blocks now
 
 ### Fixed
 
