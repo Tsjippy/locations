@@ -18,7 +18,7 @@ function blockInit()
                     'default' => '',
                 ),
             ),
-            'render_callback' => __NAMESPACE__.'\locationDescription',
+            'render_callback' => __NAMESPACE__.'\locationBlock',
             'supports'        => array(
                 'autoRegister' => true,
             ),
@@ -88,7 +88,7 @@ function loadBlockAssets($tes)
  * 
  * @param   array   $atts   The block attributes
  */
-function locationDescription($atts)
+function locationBlock($atts)
 {
     // check double posting
     $posts = get_posts(
