@@ -8,6 +8,24 @@ add_action('init', __NAMESPACE__ . '\blockInit');
 function blockInit()
 {
     register_block_type(
+        'tsjippy-locations/description',
+        array(
+            'title'           => __( 'Location Description', 'tsjippy' ),
+            'attributes'      => array(
+                'name'   => array(
+                    'label'   => __( 'Location Name', 'tsjippy' ),
+                    'type'    => 'string',
+                    'default' => '',
+                ),
+            ),
+            'render_callback' => __NAMESPACE__.'\locationDescription',
+            'supports'        => array(
+                'autoRegister' => true,
+            ),
+        )
+    );
+
+    register_block_type(
         __DIR__ . '/metadata/build',
         array(
             "attributes"    =>  [
@@ -63,4 +81,32 @@ function loadBlockAssets($tes)
     if (is_admin()) {
         addGoogleMapsApiKey();
     }
+}
+
+/**
+ * Renders the description of a location
+ * 
+ * @param   array   $atts   The block attributes
+ */
+function locationDescription($atts)
+{
+    // check double posting
+    $posts = get_posts(
+        array(
+            'post_type'              => 'location',
+            'title'                  => $atts['name'],
+            'post_status'            => 'publish',
+            'numberposts'            => -1,
+            'update_post_term_cache' => false,
+            'update_post_meta_cache' => false,
+            'orderby'                => 'post_date ID',
+            'order'                  => 'ASC',
+        )
+    );
+
+    if (empty($posts)) {
+        return '';
+    }
+
+    return getLocationEmployees($posts[0], false);
 }

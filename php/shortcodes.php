@@ -8,6 +8,7 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
+// For use in markers
 add_shortcode("tsjippy_markerdescription", __NAMESPACE__ . '\markerDescription');
 function markerDescription($atts)
 {
@@ -35,30 +36,7 @@ function markerDescription($atts)
     }
 }
 
-add_shortcode('tsjippy_ministry_description', __NAMESPACE__ . '\ministryDescriptionShortcode');
-function ministryDescriptionShortcode($atts)
-{
-    // check double posting
-    $posts = get_posts(
-        array(
-            'post_type'              => 'location',
-            'title'                  => $atts['name'],
-            'post_status'            => 'publish',
-            'numberposts'            => -1,
-            'update_post_term_cache' => false,
-            'update_post_meta_cache' => false,
-            'orderby'                => 'post_date ID',
-            'order'                  => 'ASC',
-        )
-    );
-
-    if (empty($posts)) {
-        return '';
-    }
-
-    return getLocationEmployees($posts[0], false);
-}
-
+// For use in markers
 add_shortcode("tsjippy_location_description", __NAMESPACE__ . '\locationDescription');
 function locationDescription($atts)
 {
