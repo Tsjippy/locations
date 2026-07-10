@@ -2,6 +2,17 @@
 ## [Unreleased] - yyyy-mm-dd
 
 ### Added
+
+### Changed
+
+### Fixed
+
+### Updated
+
+## [10.4.2] - 2026-07-10
+
+
+### Added
 - block icon
 
 ### Changed
