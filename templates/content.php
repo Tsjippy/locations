@@ -66,12 +66,12 @@ wp_enqueue_style('tsjippy_locations_template', TSJIPPY\pathToUrl(TSJIPPY\PLUGINP
                             Location
                         </h4>
                         <?php
-                        $markers    = get_post_meta(get_the_ID(), 'tsjippy_marker_ids', true);
-                        $markerId    = '';
+                        $markers  = get_post_meta(get_the_ID(), 'tsjippy_marker_ids', true);
+                        $markerId = '';
                         if (is_array($markers) && isset($markers['page_marker'])) {
                             $markerId    = $markers['page_marker'];
                         }
-                        echo wp_kses_post(do_shortcode("[ultimate_maps id='$customMapId' map_center='$markerId']"));
+                        echo do_shortcode("[ultimate_maps id='$customMapId' map_center='$markerId']");
                         ?>
                     </div>
             <?php
