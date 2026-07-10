@@ -11,6 +11,7 @@
 - duplicate function name
 
 ### Updated
+- js
 
 ## [10.4.1] - 2026-07-06
 
