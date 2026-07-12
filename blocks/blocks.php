@@ -10,10 +10,10 @@ function blockInit()
     register_block_type(
         'tsjippy-locations/description',
         array(
-            'title'           => __( 'Location Description', 'tsjippy' ),
+            'title'           => __( 'Location Description', '%TEXTDOMAIN%' ),
             'attributes'      => array(
                 'name'   => array(
-                    'label'   => __( 'Location Name', 'tsjippy' ),
+                    'label'   => __( 'Location Name', '%TEXTDOMAIN%' ),
                     'type'    => 'string',
                     'default' => '',
                 ),
