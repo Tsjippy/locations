@@ -20,6 +20,12 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
         parent::__construct($settings, $name);
     }
 
+    /**
+     * Add the settings page to the admin menu
+     *
+     * @param string $parent The parent menu slug
+     * @return bool True if the settings page was added, false otherwise
+     */
     public function settings($parent) {
         global $wpdb;
 
@@ -145,15 +151,36 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
         return true;
     }
 
+    /**
+     * Function to display the emails page
+     *
+     * @param   string  $parent The parent menu slug
+     * 
+     * @return  bool            True if the emails page was displayed, false otherwise
+     */
     public function emails($parent) {
         return false;
     }
 
+    /**
+     * Function to display the emails page
+     *
+     * @param   string  $parent The parent menu slug
+     * 
+     * @return  bool            True if the emails page was displayed, false otherwise
+     */
     public function data($parent='') {
 
         return false;
     }
 
+    /**
+     * Add the functions page to the admin menu
+     *
+     * @param string $parent The parent menu slug
+     * 
+     * @return bool True if the functions page was added, false otherwise
+     */
     public function functions($parent) {
 
         return false;
