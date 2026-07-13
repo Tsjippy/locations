@@ -19,6 +19,8 @@ function contentTitle($postType)
     <?php
 }
 
+
+add_action('tsjippy-frontend-content-after-post-save', __NAMESPACE__ . '\afterPostSave', 10, 3);
 /**
  * Allow comments
  * 
@@ -26,8 +28,7 @@ function contentTitle($postType)
  * @param   object      $object     FrontEndContent Instance
  * @param   array       $request    The sanitized request data
  */
-add_action('tsjippy-frontend-content-after-post-save', __NAMESPACE__ . '\afterPostSave', 10, 3);
-function afterPostSave($post, $frontEndPost, $request)
+function afterPostSave($post, $object, $request)
 {
     if ($post->post_type != 'location') {
         return;
@@ -533,8 +534,14 @@ function addPostMeta($object)
 }
 
 // Update marker icon
-add_action('wp_after_insert_post', __NAMESPACE__ . '\afterInsertPost', 10, 3);
-function afterInsertPost($postId, $post, $update)
+add_action('wp_after_insert_post', __NAMESPACE__ . '\afterInsertPost', 10, 2);
+/**
+ * Set the default picture of a post after it is inserted
+ *
+ * @param    int        $postId        The WP_Post id
+ * @param    \WP_Post   $post        The WP_Post object
+ */
+function afterInsertPost($postId, $post)
 {
     if ($post->post_type != 'location') {
         return;
