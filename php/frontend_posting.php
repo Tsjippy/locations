@@ -9,6 +9,11 @@ if (! defined('ABSPATH')) {
 }
 
 add_action('tsjippy-frontend-content-post-content-title', __NAMESPACE__ . '\contentTitle');
+/**
+ * Sets the title for the booking subject content
+ *
+ * @param string $postType The post type
+ */
 function contentTitle($postType)
 {
     //Location content title
@@ -84,6 +89,9 @@ function setLocationAddress($postId, $request)
  */
 add_action('added_post_meta', __NAMESPACE__ . '\createLocationMarker', 10, 4);
 add_action('updated_postmeta', __NAMESPACE__ . '\createLocationMarker', 10, 4);
+/**
+ * Creates location marker
+ */
 function createLocationMarker($metaId, $postId,  $metaKey,  $location)
 {
     if ($metaKey != 'location' || empty($location)) {
@@ -349,6 +357,9 @@ function createLocationMarker($metaId, $postId,  $metaKey,  $location)
 
 // Removes a map when post data is deleted
 add_action('delete_post_meta', __NAMESPACE__ . '\postMetaDelete', 10, 4);
+/**
+ * Deletes post meta's
+ */
 function postMetaDelete($metaIds, $postId, $metaKey, $metaValue)
 {
     if ($metaKey != 'location') {
@@ -374,6 +385,11 @@ function postMetaDelete($metaIds, $postId, $metaKey, $metaValue)
 
 //add meta data fields
 add_action('tsjippy-frontend-content-post-before-default-options-content', __NAMESPACE__ . '\afterPostContent', 1, 2);
+/**
+ * Adds location options
+ * 
+ * @param   object $object
+ */
 function afterPostContent($object)
 {
     if (empty($object->post) || $object->post->post_type != 'location') {
