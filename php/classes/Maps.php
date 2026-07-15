@@ -112,8 +112,8 @@ class Maps
             $this->mapTable,
             array(
                 'title'        => $name,
-                'params'       => serialize($params),
-                'html_options' => serialize($htmlOptions),
+                'params'       => $params,
+                'html_options' => $htmlOptions,
                 'create_date'  => gmdate("Y-m-d G:i:s")
             ),
             [],
