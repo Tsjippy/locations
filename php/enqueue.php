@@ -12,7 +12,7 @@ add_filter('tsjippy-forms-before-showing-form', __NAMESPACE__ . '\beforeShowingF
 function beforeShowingForm($html, $object)
 {
     $googleApiForms = SETTINGS['google-maps-api-forms'] ?? [];
-    if (isset($googleApiForms[$object->formData->id])) {
+    if (isset($googleApiForms[$object->formData->blockId])) {
         add_action('wp_enqueue_scripts', function () {
             addGoogleMapsApiKey();
         }, 99);
