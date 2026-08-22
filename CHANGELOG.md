@@ -4,11 +4,16 @@
 ### Added
 
 ### Changed
-- prefixed cache group
 
 ### Fixed
 
 ### Updated
+
+## [10.5.5] - 2026-08-22
+
+
+### Changed
+- prefixed cache group
 
 ## [10.5.4] - 2026-07-15
 
