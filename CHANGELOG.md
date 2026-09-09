@@ -4,11 +4,16 @@
 ### Added
 
 ### Changed
-- ministries to jobs
 
 ### Fixed
 
 ### Updated
+
+## [10.6.3] - 2026-09-09
+
+
+### Changed
+- ministries to jobs
 
 ## [10.6.2] - 2026-09-03
 

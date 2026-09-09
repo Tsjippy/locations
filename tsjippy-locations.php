@@ -5,14 +5,14 @@ namespace TSJIPPY\LOCATIONS;
 /**
  * Plugin Name:          Tsjippy Locations
  * Description:          This plugin adds a custom post type 'locations'.Locations can be used to share shops, hotels etc. They will bevisible on a map. It adds one shortcode: <code>[ministry_description name=SOMENAME]</code>
- * Version:              10.6.2
+ * Version:              10.6.3
  * Author:               Ewald Harmsen
  * AuthorURI:            harmseninnigeria.nl
  * Requires at least:    6.3
  * Requires PHP:         8.3
- * Tested up to:         7.0
+ * Tested up to:         7.1
  * Plugin URI:            https://github.com/Tsjippy/
- * Tested:               7.0
+ * Tested:               7.1
  * TextDomain:            tsjippy
  * Requires Plugins:    , ultimate-maps-by-supsystic
  * License: GPLv2 or later
