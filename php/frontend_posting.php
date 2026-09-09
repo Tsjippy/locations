@@ -62,7 +62,7 @@ function afterPostSave($post, $object, $request)
     setLocationAddress($post->ID, $request);
 }
 
-add_action('tsjippy-sim-nigeria-ministry-added', __NAMESPACE__ . '\setLocationAddress', 10, 2);
+add_action('tsjippy-sim-nigeria-job-added', __NAMESPACE__ . '\setLocationAddress', 10, 2);
 /**
  * Store location details in meta
  */

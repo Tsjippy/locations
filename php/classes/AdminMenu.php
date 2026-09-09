@@ -190,6 +190,7 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
     /**
      * Schedules the tasks for this plugin
      *
+     * @param   object $request
     */
     public function postSettingsSave($request) {
         $maps        = new Maps();

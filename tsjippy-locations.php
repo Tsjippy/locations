@@ -4,7 +4,7 @@ namespace TSJIPPY\LOCATIONS;
 
 /**
  * Plugin Name:          Tsjippy Locations
- * Description:          This plugin adds a custom post type 'locations'.Locations can be used to share shops, hotels ministries etc. They will bevisible on a map. It adds one shortcode: <code>[ministry_description name=SOMENAME]</code>
+ * Description:          This plugin adds a custom post type 'locations'.Locations can be used to share shops, hotels etc. They will bevisible on a map. It adds one shortcode: <code>[ministry_description name=SOMENAME]</code>
  * Version:              10.6.2
  * Author:               Ewald Harmsen
  * AuthorURI:            harmseninnigeria.nl
@@ -41,13 +41,6 @@ register_activation_hook(__FILE__, function () {
     if(file_exists(__DIR__  . '/shared-functionality/loader.php')){
         require_once(__DIR__  . '/shared-functionality/loader.php');
     }
-
-    // add an extra form setting column in db
-    require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-
-    $forms    = new \TSJIPPY\FORMS\Forms();
-
-    maybe_add_column($forms->tableName, 'google_maps_api', "ALTER TABLE $forms->tableName ADD COLUMN `google_maps_api` bool");
 
     if(function_exists('TSJIPPY\activate')){
         \TSJIPPY\activate();

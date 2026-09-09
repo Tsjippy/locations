@@ -55,17 +55,6 @@ function widgetCats($catArgs)
     return $catArgs;
 }
 
-add_filter('widget_title', __NAMESPACE__ . '\widgetTitle', 999, 2);
-function widgetTitle($title, $widgetId = null)
-{
-    //Change the title of the location category widget if not logged in
-    if (is_tax('locations') && $widgetId == 'categories' && !is_user_logged_in()) {
-        $url = TSJIPPY\SITEURL . '/locations/ministry/';
-        return "<a href='$url'>Ministries</a>";
-    }
-    return $title;
-}
-
 //Remove marker when post is sent to trash
 add_action('wp_trash_post', __NAMESPACE__ . '\trashPost');
 function trashPost($postId)
@@ -126,7 +115,7 @@ function getLocationEmployees($post, $echo)
         $url     = get_edit_profile_url(get_current_user_id());
         ?>
         If you work here indicate so on your 
-        <a href='<?php echo esc_url($url); ?>/?main-tab=generic-info#ministries'>
+        <a href='<?php echo esc_url($url); ?>/?main-tab=generic-info'>
             Profile Page
         </a>
         <?php
