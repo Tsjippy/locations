@@ -398,10 +398,8 @@ function afterPostContent($object)
 
     wp_enqueue_style('tsjippy_locations_style');
 
-    addGoogleMapsApiKey();
-
     //Load js
-    wp_enqueue_script('tsjippy_location_script');
+    wp_enqueue_script_module('@tsjippy/location_script');
 
     $postId     = $object->postId;
     $postName   = $object->postName;

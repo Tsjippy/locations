@@ -11,20 +11,13 @@ if (! defined('ABSPATH')) {
 add_filter('tsjippy-forms-before-showing-form', __NAMESPACE__ . '\beforeShowingForm', 10, 2);
 function beforeShowingForm($html, $object)
 {
-    $googleApiForms = SETTINGS['google-maps-api-forms'] ?? [];
-    if (isset($googleApiForms[$object->formData->blockId])) {
-        add_action('wp_enqueue_scripts', function () {
-            addGoogleMapsApiKey();
-        }, 99);
-    }
-
     wp_enqueue_style('tsjippy_locations_style');
 
     return $html;
 }
 
-function addGoogleMapsApiKey()
-{
+
+add_filter( 'script_module_data_@tsjippy/forms_dynamic_user-locations_js', function($data){
     $apiKey = SETTINGS['google-maps-api-key'] ?? '';
 
     if ($apiKey) {
@@ -38,19 +31,13 @@ function addGoogleMapsApiKey()
 
         $locations    = apply_filters('tsjippy-locations-array', []);
 
-        wp_localize_script(
-            'tsjippy_locations_script',
-            'locations',
-            array(
-                'address'         => $address,
-                'locations'        => $locations,
-            )
+        $data['locations'] = array(
+            'address'   => $address,
+            'locations' => $locations,
         );
 
-        wp_localize_script(
-            'tsjippy_locations_script',
-            'mapsApi',
-            ['key' => $apiKey]
-        );
+        $data['mapsApi'] = ['key' => $apiKey];
     }
-}
+
+    return $data; 
+} );

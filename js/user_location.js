@@ -9,6 +9,12 @@ function fillLocationFields(event) {
   var value = option.value;
   var name = option.text;
 
+  const data   = JSON.parse(
+    document.getElementById(
+        'wp-script-module-data-@tsjippy/tsjippy/forms_dynamic_user-locations_js'
+    ).textContent
+  );
+
   //Fill the fields based on the selected compound
   if (value == "modal") {
     Main.showModal("add_location");
@@ -16,17 +22,18 @@ function fillLocationFields(event) {
     //Get the locations from the presets variable
     form.querySelector("[name='location[address]']").value = name + " State";
     form.querySelector("[name='location[latitude]']").value =
-      locations.locations[value]["lat"];
+      data.locations.locations[value]["lat"];
     form.querySelector("[name='location[longitude]']").value =
-      locations.locations[value]["lon"];
+      data.locations.locations[value]["lon"];
   }
 }
 
 //dynamically load google maps script only when needed
 function loadGoogleMapsScript() {
+
   if (
     document.getElementById("googlemaps") == null &&
-    typeof mapsApi == "object" &&
+    typeof data.mapsApi == "object" &&
     typeof initMap != "undefined"
   ) {
     const script = document.createElement("script");

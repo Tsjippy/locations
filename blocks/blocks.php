@@ -76,14 +76,6 @@ function blockInit()
     ));
 }
 
-add_action('enqueue_block_assets', __NAMESPACE__ . '\loadBlockAssets');
-function loadBlockAssets($tes)
-{
-    if (is_admin()) {
-        addGoogleMapsApiKey();
-    }
-}
-
 /**
  * Renders the description of a location
  * 
