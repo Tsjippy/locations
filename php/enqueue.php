@@ -8,14 +8,18 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-add_filter('tsjippy-forms-before-showing-form', __NAMESPACE__ . '\beforeShowingForm', 10, 2);
-function beforeShowingForm($html, $object)
+add_filter('tsjippy-forms-before-showing-form', __NAMESPACE__ . '\beforeShowingForm');
+/**
+ * Load the loacations css
+ * 
+ * @param string $html
+ */
+function beforeShowingForm($html)
 {
     wp_enqueue_style('tsjippy_locations_style');
 
     return $html;
 }
-
 
 add_filter( 'script_module_data_@tsjippy/forms_dynamic_user-locations_js', function($data){
     $apiKey = SETTINGS['google-maps-api-key'] ?? '';
