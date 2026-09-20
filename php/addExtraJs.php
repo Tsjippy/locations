@@ -14,10 +14,10 @@ add_filter('tsjippy-forms-extra-js', __NAMESPACE__ . '\addJs', 10, 3);
 
 /**
  * Add extra JavaScript for the user location form
- * @param string $js            The existing JavaScript code for the form
- * @param string $formName
- * @param bool $minimized    Whether to load the minimized version of the JavaScript file
- * @return string                The updated JavaScript code with the extra code added
+ * @param string    $js            The existing JavaScript code for the form
+ * @param string    $formName
+ * @param bool      $minimized      Whether to load the minimized version of the JavaScript file
+ * @return string                   The updated JavaScript code with the extra code added
  */
 function addJs($js, $formName, $minimized)
 {

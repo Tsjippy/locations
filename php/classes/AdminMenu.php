@@ -44,7 +44,7 @@ class AdminMenu extends \TSJIPPY\ADMIN\SubAdminMenu{
 
         ob_start();
         wp_enqueue_style('tsjippy_locations_admin_style', TSJIPPY\pathToUrl(PLUGINPATH. 'css/admin.min.css'), array(), PLUGINVERSION);
-        wp_enqueue_script_module('@tsjippy/locations_admin_script', TSJIPPY\pathToUrl(PLUGINPATH. 'js/admin.min.js'), array(), PLUGINVERSION);
+        wp_enqueue_script_module('@tsjippy/locations_admin_script', TSJIPPY\pathToUrl(PLUGINPATH. 'js/admin' . TSJIPPY\JSEXTENSION), array(), PLUGINVERSION);
 
         if (empty($this->settings['page-gallery-background-color'])) {
             $this->settings['page-gallery-background-color']    = '#FFFFFF';
