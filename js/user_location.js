@@ -1,5 +1,13 @@
 console.log("Location.js loaded");
 
+import { 
+  showModal 
+} from "../../tsjippy-shared-functionality/js/partials/modals.js";
+
+import { 
+  isMobileDevice 
+} from "../../tsjippy-shared-functionality/js/partials/mobile.js";
+
 function fillLocationFields(event) {
   event.stopImmediatePropagation();
   var target = event.target;
@@ -17,7 +25,7 @@ function fillLocationFields(event) {
 
   //Fill the fields based on the selected compound
   if (value == "modal") {
-    Main.showModal("add_location");
+    showModal("add_location");
   } else if (name != "") {
     //Get the locations from the presets variable
     form.querySelector("[name='location[address]']").value = name + " State";
@@ -125,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
   //If the current locationbutton is clicked, get the location, and fill the form
   let el = document.querySelector(".current-location");
   if (el != null) {
-    if (Main.isMobileDevice() && navigator.geolocation) {
+    if (isMobileDevice() && navigator.geolocation) {
       el.addEventListener("click", (ev) =>
         navigator.geolocation.getCurrentPosition(showPosition),
       );
