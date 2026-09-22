@@ -2,11 +2,11 @@ console.log("Location.js loaded");
 
 import { 
   showModal 
-} from "../../tsjippy-shared-functionality/js/partials/modals.js";
+} from "@tsjippy/modals";
 
 import { 
   isMobileDevice 
-} from "../../tsjippy-shared-functionality/js/partials/mobile.js";
+} from "@tsjippy/mobile";
 
 function fillLocationFields(event) {
   event.stopImmediatePropagation();

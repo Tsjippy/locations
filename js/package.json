@@ -4,11 +4,9 @@
   "description": "locations",
   "main": "./admin.js",
   "scripts": {
-    "build": "webpack --entry ./admin.js --output-path . --output-filename admin.min.js --progress --mode=production --devtool source-map",
-    "user-location": "webpack --entry ./user_location.js --output-path . --output-filename user_location.min.js --progress --mode=production",
-    "admin": "webpack --entry ./admin.js --output-path . --output-filename admin.min.js --progress --mode=production",
-    "location": "webpack --config location.config.js",
-    "all": "run-p build location user-location admin"
+    "build": "webpack --progress",
+    "watch": "webpack --watch --progress",
+    "all": "npm run build"
   },
   "author": "Ewald Harmsen",
   "license": "ISC",
