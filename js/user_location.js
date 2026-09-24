@@ -9,7 +9,7 @@ import {
 } from "@tsjippy/mobile";
 
 function fillLocationFields(event) {
-  event.stopImmediatePropagation();
+  event.stopPropagation();
   var target = event.target;
   var form = target.closest("form");
 
