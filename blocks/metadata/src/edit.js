@@ -21,7 +21,6 @@ const addressLookup = (newLocation) => {
     };
 
     geocoder.geocode({ location: latlng }, function (results, status) {
-      console.log(results);
       if (status === "OK" && results[0]) {
         newLocation["address"] = results[0].formatted_address;
       }
@@ -42,7 +41,6 @@ function coordLookup(newLocation) {
     { address: newLocation["address"] },
     function (results, status) {
       if (status === "OK") {
-        console.log(results);
         newLocation["latitude"] = results[0].geometry.location.lat().toFixed(7);
         newLocation["longitude"] = results[0].geometry.location
           .lng()
